@@ -25,7 +25,7 @@ export default template(async basic => {
 				themeColor: "#ff9b00",
 				siteName: domain,
 				title: "@e280/sly",
-				description: "Web shadow view library",
+				description: "web shadow view library",
 				image: `https://${domain}${favicon}`,
 			})}
 

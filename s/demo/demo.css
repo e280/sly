@@ -3,10 +3,10 @@
 
 @layer vars {
 	:root {
-		--prime: #ff9b00;
-		--accent: #7d5e38;
-		--bg: #23130e;
-		--link: #4bc1a5;
+		--prime: #1eff00;
+		--accent: #387d42;
+		--bg: #0e2316;
+		--link: cyan;
 	}
 }
 
@@ -58,12 +58,14 @@
 		scrollbar-gutter: stable;
 
 		font-size: 21px;
-		font-family: serif;
+		font-family: sans-serif;
 
 		color: color-mix(in lch, var(--prime), #fff8 50%);
-		background:
-			radial-gradient(circle, #0004, #000c),
-			var(--bg) url("/assets/sandleather.avif") center center / cover;
+		background: radial-gradient(
+			circle,
+			var(--bg),
+			color-mix(in lch, var(--bg), black 80%)
+		);
 	}
 
 	body {
