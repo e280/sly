@@ -1,0 +1,75 @@
+
+@layer vars, core, page;
+
+@layer vars {
+	:root {
+		--prime: #ff9b00;
+		--accent: #7d5e38;
+		--bg: #23130e;
+		--link: #4bc1a5;
+	}
+}
+
+@layer core {
+	* {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+
+		scrollbar-width: thin;
+		scrollbar-color: #444 transparent;
+	}
+
+	::selection {
+		color: white;
+		background-color: #f70;
+	}
+
+	::-webkit-scrollbar { width: 8px; }
+	::-webkit-scrollbar-track { background: transparent; }
+	::-webkit-scrollbar-thumb { background: #444; border-radius: 1em; }
+	::-webkit-scrollbar-thumb:hover { background: #666; }
+
+	a {
+		color: var(--link);
+		text-decoration: none;
+
+		&:visited {
+			color: color-mix(in srgb, purple, var(--link) 70%);
+		}
+
+		&:hover {
+			color: color-mix(in srgb, white, var(--link) 90%);
+			text-decoration: underline;
+		}
+
+		&:active {
+			color: color-mix(in srgb, white, var(--link) 50%);
+		}
+	}
+}
+
+@layer page {
+	:root {
+		color-scheme: dark;
+
+		padding: 5vw 0.5em;
+		min-height: 100%;
+		scrollbar-gutter: stable;
+
+		font-size: 21px;
+		font-family: serif;
+
+		color: color-mix(in lch, var(--prime), #fff8 50%);
+		background:
+			radial-gradient(circle, #0004, #000c),
+			var(--bg) url("/assets/sandleather.avif") center center / cover;
+	}
+
+	body {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+}
+

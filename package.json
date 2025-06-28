@@ -1,0 +1,56 @@
+{
+	"name": "@e280/sly",
+	"version": "0.0.0-0",
+	"description": "web shadow views",
+	"license": "MIT",
+	"type": "module",
+	"main": "./x/index.js",
+	"files": [
+		"x",
+		"s"
+	],
+	"dependencies": {
+		"@e280/science": "^0.0.5",
+		"@e280/stz": "^0.0.0-22",
+		"lit": "^3.3.0"
+	},
+	"devDependencies": {
+		"@benev/turtle": "^0.6.13",
+		"http-server": "^14.1.1",
+		"npm-run-all": "^4.1.5",
+		"typescript": "^5.8.3"
+	},
+	"scripts": {
+		"build": "rm -rf x && mkdir x && run-s _ln _code _ssg",
+		"test": "node x/tests.test.js",
+		"start": "run-p _http _watch _test:watch",
+		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
+		"devlinks": "run-s _dl:stz _dl:turtle",
+		"_clean": "rm -rf x",
+		"_code": "turtle build --out=x",
+		"_ssg": "turtle ssg --in=s,x --out=x",
+		"_test:watch": "node --watch x/tests.test.js",
+		"_http": "http-server x",
+		"_watch": "turtle watch --in=s,x --out=x -v",
+		"_ln": "run-s _ln:s _ln:assets",
+		"_ln:s": "ln -s \"$(realpath s)\" x/s",
+		"_ln:assets": "ln -s \"$(realpath assets)\" x/assets",
+		"_dl:stz": "rm -rf node_modules/@benev/stz && ln -s \"$(realpath ../../@benev/stz)\" node_modules/@benev/stz",
+		"_dl:turtle": "rm -rf node_modules/@benev/turtle && ln -s \"$(realpath ../../@benev/turtle)\" node_modules/@benev/turtle"
+	},
+	"author": "Chase Moskal <chasemoskal@gmail.com>",
+	"homepage": "https://github.com/e280/sly#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/e280/sly.git"
+	},
+	"bugs": {
+		"url": "https://github.com/e280/sly/issues"
+	},
+	"keywords": [
+		"shadow views",
+		"shadow dom",
+		"components",
+		"lit"
+	]
+}

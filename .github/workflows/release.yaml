@@ -1,0 +1,57 @@
+
+name: 🚀 full release deployment
+on:
+  push:
+    branches: ["release"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/configure-pages@v5
+    - uses: actions/setup-node@v4
+      with:
+        node-version: "22"
+
+    - run: npm ci
+    - run: npm run build -s
+    - run: npm test
+
+    - name: 🗑️ delete dev symlinks
+      run: |
+        rm x/node_modules
+        rm x/s
+        rm x/assets
+
+    - name: 🗃️ reconstitute node_modules for production
+      run: npm ci --omit=dev
+
+    - name: 🍞 moving files into x
+      run: |
+        mv node_modules x/node_modules
+        mv s x/s
+        mv assets x/assets
+
+    - name: 📤 upload pages artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: "x"
+
+    - name: 🚀 deploy to github pages
+      id: deployment
+      uses: actions/deploy-pages@v4
+
