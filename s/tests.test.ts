@@ -1,9 +1,8 @@
 
-import {Science, test, expect} from "@e280/science"
+import {Science} from "@e280/science"
+import signals from "./signals/signals.test.js"
 
 await Science.run({
-	"math works": test(async() => {
-		expect(2 + 2).is(4)
-	}),
+	signals,
 })
 
