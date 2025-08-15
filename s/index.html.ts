@@ -28,7 +28,7 @@ export default ssg.page(import.meta.url, async orb => ({
 		<img class=icon alt="" src="/assets/favicon.png"/>
 		<h1>sly</h1>
 		<p class=lil>v${orb.packageVersion()}</p>
-		<sly-demo></sly-demo>
+		<div class=demo></div>
 	`,
 }))
 

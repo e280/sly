@@ -79,11 +79,17 @@
 		display: block;
 		width: 100%;
 		max-width: 24em;
+		max-height: 30vh;
+		object-fit: contain;
 	}
 
 	.lil {
 		opacity: 0.6;
 		font-size: 0.8em;
+	}
+
+	:not(:defined) {
+		display: none;
 	}
 }
 
