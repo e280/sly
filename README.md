@@ -1,5 +1,5 @@
 
-<div align="center"><img alt="" width="512" src="./assets/favicon.png"/></div>
+<div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly
 
