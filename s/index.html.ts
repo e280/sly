@@ -10,7 +10,7 @@ export default ssg.page(import.meta.url, async orb => ({
 	title,
 	js: "demo/demo.bundle.min.js",
 	css: "demo/demo.css",
-	favicon,
+	// favicon,
 	dark: true,
 	socialCard: {
 		themeColor: "#ff9b00",
