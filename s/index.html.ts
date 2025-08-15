@@ -1,43 +1,32 @@
 
-import {template, html, easypage, headScripts, git_commit_hash, read_file, read_json, unsanitized, renderSocialCard} from "@benev/turtle"
+import {ssg, html} from "@e280/scute"
 
+const title = "sly"
+const description = "shadow views lit framework"
 const domain = "sly.e280.org"
 const favicon = "/assets/favicon.png"
-const version = (await read_json("package.json")).version
 
-export default template(async basic => {
-	const path = basic.path(import.meta.url)
-	const hash = await git_commit_hash()
-	// const faviconVersioned = await path.version.root(favicon)
+export default ssg.page(import.meta.url, async orb => ({
+	title,
+	js: "demo/demo.bundle.min.js",
+	css: "demo/demo.css",
+	favicon,
+	dark: true,
+	socialCard: {
+		themeColor: "#ff9b00",
+		title,
+		description,
+		siteName: domain,
+		image: domain + favicon,
+	},
 
-	// <link rel="icon" href="${faviconVersioned}"/>
+	head: html`
+		<meta name="example" value="whatever"/>
+	`,
 
-	return easypage({
-		path,
-		dark: true,
-		title: "@e280/sly",
-		head: html`
-			<style>${unsanitized(await read_file("x/demo/demo.css"))}</style>
-			<meta data-commit-hash="${hash}"/>
-			<meta data-version="${version}"/>
-
-			${renderSocialCard({
-				themeColor: "#ff9b00",
-				siteName: domain,
-				title: "@e280/sly",
-				description: "web shadow view library",
-				image: `https://${domain}${favicon}`,
-			})}
-
-			${headScripts({
-				devModulePath: await path.version.local("demo/demo.bundle.js"),
-				prodModulePath: await path.version.local("demo/demo.bundle.min.js"),
-				importmapContent: await read_file("x/importmap.json"),
-			})}
-		`,
-		body: html`
-			<h1>sly demo</h1>
-		`,
-	})
-})
+	body: html`
+		<h1>sly ${orb.packageVersion()}</h1>
+		<sly-demo></sly-demo>
+	`,
+}))
 
