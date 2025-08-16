@@ -47,10 +47,6 @@ export class Use {
 		return this.#rendered.promise
 	}
 
-	once<V>(fn: () => V) {
-		return this.#values.guarantee(this.#position++, fn) as V
-	}
-
 	styles(...styles: CSSResultGroup[]) {
 		this.once(() => applyStyles(this.shadow, styles))
 	}
@@ -59,17 +55,31 @@ export class Use {
 		this.once(() => this.element.setAttribute("view", name))
 	}
 
-	signal<V>(value: V) {
-		return this.once(() => signal<V>(value))
+	once<V>(fn: () => V) {
+		return this.#values.guarantee(this.#position++, fn) as V
 	}
 
-	mount(mount: () => () => void) {
-		return this.once(() => this.#mounts.mount(mount))
+	mount(fn: () => () => void) {
+		return this.once(() => this.#mounts.mount(fn))
+	}
+
+	life<V>(fn: () => [result: V, dispose: () => void]) {
+		let r: V | undefined
+		this.mount(() => {
+			const [result, dispose] = fn()
+			r = result
+			return dispose
+		})
+		return r as V
 	}
 
 	op = {
 		promise: <V>(p: Promise<V>) => this.once(() => Op.promise(p)),
 		fn: <V>(f: () => Promise<V>) => this.once(() => Op.fn(f)),
+	}
+
+	signal<V>(value: V) {
+		return this.once(() => signal<V>(value))
 	}
 }
 

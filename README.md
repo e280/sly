@@ -93,6 +93,16 @@ render(content, document.body)
       }
     })
     ```
+- **use.life** — mount/unmount lifecycle, but also return a value
+    ```ts
+    const v = use.life(() => {
+      console.log("mounted")
+      const value = 123
+      return [value, () => console.log("unmounted")]
+    })
+
+    v //-> 123
+    ```
 - **use.name** — set the "view" attr value, eg `<sly-view view="squarepants">`
     ```ts
     use.name("squarepants")

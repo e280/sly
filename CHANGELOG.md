@@ -8,6 +8,9 @@
 
 ## v0.0
 
-### v0.0.0-2
+### v0.0.0-4
+- 🍏 add: `use.life`
+
+### v0.0.0-3
 - 🍏 initial release
 
