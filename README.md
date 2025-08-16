@@ -23,7 +23,7 @@ npm install @e280/sly @e280/stz @e280/strata lit
 ## 🦝 VIEWS ARE LEAN
 views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics. not components.
 
-views are leaner than web components.. no dom registration, string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the building blocks for frontend app devs.
+views are leaner than web components.. no dom registration, no string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the building blocks for frontend app devs.
 
 sly views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
 
