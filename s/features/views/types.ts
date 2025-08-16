@@ -17,7 +17,7 @@ export type ViewSettings = ShadowRootInit & {
 }
 
 export type ViewWith = {
-	content: Content
-	attrs: Record<string, string>
+	children: Content
+	attrs: Record<string, AttrValue>
 }
 

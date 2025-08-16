@@ -1,38 +1,53 @@
 
 import {nap, repeat} from "@e280/stz"
 import {css, html, render} from "lit"
+
 import {$} from "../features/dom/dollar.js"
 import {view} from "../features/views/view.js"
+import {cssReset} from "../features/views/css-reset.js"
+import {loady} from "../features/kit/loady/ascii-loader.js"
 
 console.log("🦝 sly")
 
-const MyView = view
-	.settings({name: "my-view", styles: css`:host {color: green;}`})
-	.view(use => (greeting: string) => {
-		const count = use.signal(0)
+const styles = css`
+:host {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+`
 
-		use.mount(() => repeat(async() => {
-			await nap(1000)
-			count.value++
-		}))
+const MyView = view(use => (greeting: string) => {
+	use.name("my-view")
+	use.styles(cssReset, styles)
+	const count = use.signal(0)
 
-		use.once(() => use.rendered.then(() => {
-			console.log("slot!!", $("slot", use.shadow))
-		}))
+	use.mount(() => repeat(async() => {
+		await nap(1000)
+		count.value++
+	}))
 
-		const boomOp = use.op.fn(async() => {
-			await nap(2000)
-			return "boom"
-		})
+	use.once(() => use.rendered.then(() => {
+		console.log("slot!!", $("slot", use.shadow))
+	}))
 
-		const boom = boomOp.select<any>({
-			loading: () => html`loading`,
-			ready: b => b,
-			error: e => html`error! ${e}`,
-		})
-
-		return html`${greeting} <slot></slot> ${count()} ${boom}`
+	const op = use.op.fn(async() => {
+		await nap(2000)
+		// throw new Error("rofl bingus")
 	})
 
-render(MyView.content("world")("hello"), $(".demo"))
+	return html`
+		<p>${greeting} <slot></slot> ${count()}</p>
+		<p>${loady.dots(op, () => "done")}</p>
+	`
+})
+
+render(
+	MyView
+		.attr("class", "incredi")
+		.children("world")
+		.props("hello"),
+	$(".demo"),
+)
 

@@ -9,7 +9,7 @@ import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {Content, ViewFn, ViewSettings, ViewWith} from "./types.js"
+import {AttrValue, Content, ViewFn, ViewSettings, ViewWith} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
@@ -50,7 +50,7 @@ function setupView(settings: ViewSettings) {
 						)
 
 					// inject content into light dom
-					render(w.content, this.#element)
+					render(w.children, this.#element)
 				})
 			})
 
@@ -74,16 +74,17 @@ function setupView(settings: ViewSettings) {
 		function setupDirective(w: ViewWith) {
 			const r = directive(ViewDirective)
 			const rend = (...props: Props): DirectiveResult<any> => r(w, props)
-			rend.render = rend
+			rend.props = rend
 			rend.with = (w2: Partial<ViewWith>) => setupDirective({...w, ...w2})
-			rend.content = (content: Content) => setupDirective({...w, content})
-			rend.attrs = (attrs: Record<string, string>) => setupDirective({...w, attrs})
+			rend.children = (children: Content) => setupDirective({...w, children})
+			rend.attrs = (attrs: Record<string, AttrValue>) => setupDirective({...w, attrs})
+			rend.attr = (name: string, value: AttrValue) => setupDirective({...w, attrs: {...w.attrs, [name]: value}})
 			return rend
 		}
 
 		return setupDirective({
 			attrs: {},
-			content: null,
+			children: null,
 		})
 	}
 

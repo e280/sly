@@ -1,41 +1,54 @@
 
-import {defer} from "@e280/stz"
+import {pub} from "@e280/stz"
 import {signal} from "@e280/strata/signals"
 
-export type PodLoading = [status: "loading"]
-export type PodReady<V> = [status: "ready", value: V]
-export type PodError = [status: "error", error: any]
-export type Pod<V> = PodLoading | PodReady<V> | PodError
+import {pod} from "./pod.js"
+import {Pod, PodSelect} from "./types.js"
 
 export class Op<V> {
 	readonly signal = signal<Pod<V>>(["loading"])
-	#deferred = defer<V>()
+	#resolve = pub<[V]>()
+	#reject = pub<[any]>()
+
+	get wait() {
+		return new Promise((resolve, reject) => {
+			this.#resolve.next().then(resolve)
+			this.#reject.next().then(reject)
+		})
+	}
 
 	async setLoading() {
-		this.#deferred = defer()
 		await this.signal(["loading"])
 	}
 
 	async setReady(value: V) {
 		await this.signal(["ready", value])
-		this.#deferred.resolve(value)
+		await this.#resolve(value)
 	}
 
 	async setError(error: any) {
 		await this.signal(["error", error])
-		this.#deferred.reject(error)
+		await this.#reject(error)
 	}
 
 	async promise(promise: Promise<V>) {
 		await this.setLoading()
-		await promise
-			.then(value => this.setReady(value))
-			.catch(error => this.setError(error))
-		return this.value as V
+		try {
+			const value = await promise
+			await this.setReady(value)
+			return value
+		}
+		catch (error) {
+			await this.setError(error)
+		}
 	}
 
 	async fn(fn: () => Promise<V>) {
 		return this.promise(fn())
+	}
+
+	get pod() {
+		return this.signal()
 	}
 
 	get status() {
@@ -43,30 +56,17 @@ export class Op<V> {
 	}
 
 	get value() {
-		const pod = this.signal()
-		return pod[0] === "ready"
-			? pod[1]
-			: undefined
+		return pod.value(this.signal())
 	}
 
 	require() {
 		const pod = this.signal()
-		if (pod[0] !== "ready") throw new Error("required op value not ready")
+		if (pod[0] !== "ready") throw new Error("required value not ready")
 		return pod[1]
 	}
 
-	select<R>(select: {
-			loading: () => R
-			ready: (value: V) => R
-			error: (error: any) => R
-		}) {
-		const pod = this.signal()
-		switch (pod[0]) {
-			case "loading": return select.loading()
-			case "error": return select.error(pod[1])
-			case "ready": return select.ready(pod[1])
-			default: throw new Error("unknown op status")
-		}
+	select<R>(select: PodSelect<V, R>) {
+		return pod.select(this.signal(), select)
 	}
 }
 
