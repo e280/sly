@@ -29,7 +29,7 @@ const MyView = view(use => (greeting: string) => {
 	}))
 
 	use.once(() => use.rendered.then(() => {
-		console.log("slot!!", $("slot", use.shadow))
+		console.log("slot", $("slot", use.shadow))
 	}))
 
 	const op = use.op.fn(async() => {

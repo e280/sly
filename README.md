@@ -2,7 +2,7 @@
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly — mischievious frontend web framework
-- 🪒 lean frontend framework for [lit](https://lit.dev/)
+- 🪒 lean view framework for [lit](https://lit.dev/)
 - 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
 - 🏂 commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
 - ⛏️ integrates signals and state trees from [@e280/strata](https://github.com/e280/strata)
@@ -20,8 +20,12 @@ npm install @e280/sly @e280/stz @e280/strata lit
 
 <br/>
 
-## 🪟 VIEWS ARE WHERE IT'S AT
-views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
+## 🪟 VIEWS ARE LEAN
+views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics. not components.
+
+views are leaner than web components.. no dom registration, string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the building blocks for frontend app devs.
+
+sly views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
 
 ### 🍋 basic view example
 > views are hooks-based functional components. they are *not* web components nor *custom elements*, yet they are encapsulated within a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
@@ -42,8 +46,7 @@ export const CounterView = view(use => (start: number) => {
   `
 })
 ```
-- each view is wrapped in a `<sly-view view="counter">` custom host element
-- your provided `name` is set as the `view` attribute on the host
+- each view renders into a `<sly-view>` host, with the provided `name` set as its view attribute, eg `<sly-view view="counter">`
 
 #### injecting a view into the dom
 ```ts
@@ -71,7 +74,7 @@ render(content, document.body)
     // write the signal
     count(2)
     ```
-- **use.once** — run a fn one time, when view is initially injected into dom
+- **use.once** — run fn at initialization
     ```ts
     const whatever = use.once(() => {
       console.log("happens only once")
@@ -80,7 +83,7 @@ render(content, document.body)
 
     whatever //-> 123
     ```
-- **use.mount** — establish a lifecycle for when the view mounts and unmounts
+- **use.mount** — setup mount/unmount lifecycle
     ```ts
     use.mount(() => {
       console.log("view mounted")
@@ -94,7 +97,7 @@ render(content, document.body)
     ```ts
     use.name("squarepants")
     ```
-- **use.styles** — attach one or more stylesheets into the view's shadow dom
+- **use.styles** — attach stylesheets into the view's shadow dom
     ```ts
     use.styles(css1, css2, css3)
     ```
@@ -163,7 +166,7 @@ const content = html`
 render(content, document.body)
 ```
 - `attr` — set html attributes on the `<sly-view>` host element
-- `children` — nested content of the `<sly-view>` host element, thus it's getting slotted into the shadow dom `<slot>`.. confused? do some reading on [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+- `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
 - `props` — finally inject the view by providing its props
 
 <br/>
