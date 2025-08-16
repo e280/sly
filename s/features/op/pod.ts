@@ -7,6 +7,13 @@ export const pod = {
 			? pod[1]
 			: undefined
 	},
+
+	error: <V>(pod: Pod<V>) => {
+		return pod[0] === "error"
+			? pod[1]
+			: undefined
+	},
+
 	select: <V, R>(pod: Pod<V>, select: PodSelect<V, R>) => {
 		switch (pod[0]) {
 			case "loading": return select.loading()

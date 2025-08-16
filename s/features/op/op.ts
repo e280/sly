@@ -6,8 +6,8 @@ import {pod} from "./pod.js"
 import {Pod, PodSelect} from "./types.js"
 
 export class Op<V> {
-	static loading() {
-		return new this()
+	static loading<V>() {
+		return new this<V>()
 	}
 
 	static ready<V>(value: V) {
@@ -16,8 +16,8 @@ export class Op<V> {
 		return op
 	}
 
-	static error(error: any) {
-		const op = new this()
+	static error<V>(error: any) {
+		const op = new this<V>()
 		op.signal(["error", error])
 		return op
 	}
@@ -83,6 +83,22 @@ export class Op<V> {
 
 	get value() {
 		return pod.value(this.signal())
+	}
+
+	get error() {
+		return pod.error(this.signal())
+	}
+
+	get isLoading() {
+		return this.status === "loading"
+	}
+
+	get isReady() {
+		return this.status === "ready"
+	}
+
+	get isError() {
+		return this.status === "error"
 	}
 
 	require() {
