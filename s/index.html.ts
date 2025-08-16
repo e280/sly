@@ -29,6 +29,7 @@ export default ssg.page(import.meta.url, async orb => ({
 		<h1>sly</h1>
 		<p class=lil>v${orb.packageVersion()}</p>
 		<div class=demo></div>
+		<p><a href="https://github.com/e280/sly">github.com/e280/sly</a></p>
 	`,
 }))
 
