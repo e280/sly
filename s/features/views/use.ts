@@ -1,26 +1,36 @@
 
-import {defer, MapG} from "@e280/stz"
 import {CSSResultGroup} from "lit"
 import {signal} from "@e280/strata"
+import {defer, MapG} from "@e280/stz"
+
+import {Mounts} from "./utils/mounts.js"
 import {applyStyles} from "./utils/apply-styles.js"
 
-export const _before = Symbol()
-export const _after = Symbol()
+export const _wrap = Symbol()
+export const _disconnect = Symbol()
+export const _reconnect = Symbol()
 
 export class Use {
 	#runs = 0
 	#position = 0
 	#values = new MapG<number, any>()
 	#rendered = defer()
+	#mounts = new Mounts()
 
-	;[_before]() {
+	;[_wrap](fn: () => void) {
 		this.#runs++
 		this.#position = 0
 		this.#rendered = defer()
+		fn()
+		this.#rendered.resolve()
 	}
 
-	;[_after]() {
-		this.#rendered.resolve()
+	;[_disconnect]() {
+		this.#mounts.unmountAll()
+	}
+
+	;[_reconnect]() {
+		this.#mounts.remountAll()
 	}
 
 	constructor(
@@ -50,6 +60,10 @@ export class Use {
 
 	signal<V>(value: V) {
 		return this.once(() => signal<V>(value))
+	}
+
+	mount(mount: () => () => void) {
+		return this.once(() => this.#mounts.mount(mount))
 	}
 }
 

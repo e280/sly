@@ -2,12 +2,13 @@
 import {render} from "lit"
 import {tracker} from "@e280/strata"
 import {debounce, MapG} from "@e280/stz"
-import {Directive, directive, DirectiveResult} from "lit/directive.js"
+import {AsyncDirective} from "lit/async-directive.js"
+import {directive, DirectiveResult} from "lit/directive.js"
 
-import {_after, _before, Use} from "./use.js"
 import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
+import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
 import {Content, ViewFn, ViewSettings, ViewWith} from "./types.js"
 
 export const view = setupView({mode: "open"})
@@ -16,7 +17,7 @@ register({SlyView}, {soft: true, upgrade: true})
 
 function setupView(settings: ViewSettings) {
 	function view<Props extends any[]>(fn: ViewFn<Props>) {
-		class ViewDirective extends Directive {
+		class ViewDirective extends AsyncDirective {
 			#element = document.createElement(settings.tag ?? "sly-view")
 			#shadow = this.#element.attachShadow(settings)
 			#use = new Use(this.#element, this.#shadow)
@@ -30,35 +31,43 @@ function setupView(settings: ViewSettings) {
 			#tracking = new MapG<any, () => void>
 
 			#render = debounce(0, (w: ViewWith, props: Props) => {
-				// reset use hooks
-				this.#use[_before]()
+				if (!this.isConnected) return
+				this.#use[_wrap](() => {
+					// apply html attributes
+					applyAttrs(this.#element, w.attrs)
 
-				// apply html attributes
-				applyAttrs(this.#element, w.attrs)
+					// render the template, tracking strata items
+					const {result, seen} = tracker.seen(() => this.#fn(...props))
 
-				// render the template, tracking strata items
-				const {result, seen} = tracker.seen(() => this.#fn(...props))
+					// inject the template
+					render(result, this.#shadow)
 
-				// inject the template
-				render(result, this.#shadow)
+					// reacting to changes
+					for (const item of seen)
+						this.#tracking.guarantee(
+							item,
+							() => tracker.changed(item, async() => this.#render(w, props)),
+						)
 
-				// reacting to changes
-				for (const item of seen)
-					this.#tracking.guarantee(
-						item,
-						() => tracker.changed(item, async() => this.#render(w, props)),
-					)
-
-				// inject content into light dom
-				render(w.content, this.#element)
-
-				// after
-				this.#use[_after]()
+					// inject content into light dom
+					render(w.content, this.#element)
+				})
 			})
 
 			render(w: ViewWith, props: Props) {
 				this.#render(w, props)
 				return this.#element
+			}
+
+			disconnected() {
+				this.#use[_disconnect]()
+				for (const untrack of this.#tracking.values())
+					untrack()
+				this.#tracking.clear()
+			}
+
+			reconnected() {
+				this.#use[_reconnect]()
 			}
 		}
 
