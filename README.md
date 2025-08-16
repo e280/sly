@@ -58,7 +58,7 @@ const content = html`
   ${CounterView(1)}
 `
 
-render(content, document.body)
+render(content, document.querySelector(".app")!)
 ```
 
 ### 🍋 view `use`
@@ -173,7 +173,7 @@ const content = html`
     .props("hello")}
 `
 
-render(content, document.body)
+render(content, document.querySelector(".app")!)
 ```
 - `attr` — set html attributes on the `<sly-view>` host element
 - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
