@@ -10,6 +10,7 @@
 
 ### v0.0.0-4
 - 🍏 add: `use.life`
+- 🍏 add: `$.render(element, content)`
 
 ### v0.0.0-3
 - 🍏 initial release

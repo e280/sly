@@ -1,21 +1,25 @@
 
-export const $ = one
+import {render} from "lit"
+import {Content} from "../views/types.js"
 
-export type Queryable = HTMLElement | Document | ShadowRoot | Element
+export type Container = HTMLElement | ShadowRoot | DocumentFragment
+export type Queryable = HTMLElement | ShadowRoot | Element | Document | DocumentFragment
 
-function all<E extends HTMLElement = HTMLElement>(selector: string, context: Queryable = document) {
-	return Array.from(context.querySelectorAll<E>(selector))
-}
-
-function one<E extends HTMLElement = HTMLElement>(selector: string, context: Queryable = document) {
+export function $<E extends HTMLElement = HTMLElement>(selector: string, context: Queryable = document) {
 	const e = context.querySelector<E>(selector)
 	if (!e) throw new Error(`$1 ${selector} not found`)
 	return e
 }
 
-one.maybe = <E extends HTMLElement = HTMLElement>(selector: string, context: Queryable = document) => {
+function all<E extends HTMLElement = HTMLElement>(selector: string, context: Queryable = document) {
+	return Array.from(context.querySelectorAll<E>(selector))
+}
+
+$.maybe = <E extends HTMLElement = HTMLElement>(selector: string, context: Queryable = document) => {
 	return context.querySelector<E>(selector)
 }
 
-one.all = all
+$.all = all
+
+$.render = (container: Container, ...content: Content[]) => render(content, container)
 
