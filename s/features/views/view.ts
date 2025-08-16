@@ -1,23 +1,21 @@
 
 import {render} from "lit"
+import {tracker} from "@e280/strata"
+import {debounce, MapG} from "@e280/stz"
 import {Directive, directive, DirectiveResult} from "lit/directive.js"
 
-import {Use} from "./use.js"
+import {_after, _before, Use} from "./use.js"
 import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Content, ViewFn, ViewSettings, ViewWith} from "./types.js"
 
-export const shadowView = setupShadowView({
-	mode: "open",
-})
-
+export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
-
 register({SlyView}, {soft: true, upgrade: true})
 
-function setupShadowView(settings: ViewSettings) {
-	function shadowView<Props extends any[]>(fn: ViewFn<Props>) {
+function setupView(settings: ViewSettings) {
+	function view<Props extends any[]>(fn: ViewFn<Props>) {
 		class ViewDirective extends Directive {
 			#element = document.createElement(settings.tag ?? "sly-view")
 			#shadow = this.#element.attachShadow(settings)
@@ -29,20 +27,37 @@ function setupShadowView(settings: ViewSettings) {
 				return fn2
 			})()
 
-			render(w: ViewWith, props: Props) {
+			#tracking = new MapG<any, () => void>
+
+			#render = debounce(0, (w: ViewWith, props: Props) => {
+				// reset use hooks
+				this.#use[_before]()
+
 				// apply html attributes
 				applyAttrs(this.#element, w.attrs)
 
-				// render template into shadow dom
-				render(this.#fn(...props), this.#shadow)
+				// render the template, tracking strata items
+				const {result, seen} = tracker.seen(() => this.#fn(...props))
 
-				// render content into light dom
+				// inject the template
+				render(result, this.#shadow)
+
+				// reacting to changes
+				for (const item of seen)
+					this.#tracking.guarantee(
+						item,
+						() => tracker.changed(item, async() => this.#render(w, props)),
+					)
+
+				// inject content into light dom
 				render(w.content, this.#element)
 
-				// increment use run
-				Use.run(this.#use)
+				// after
+				this.#use[_after]()
+			})
 
-				// return the sly-view element
+			render(w: ViewWith, props: Props) {
+				this.#render(w, props)
 				return this.#element
 			}
 		}
@@ -63,8 +78,8 @@ function setupShadowView(settings: ViewSettings) {
 		})
 	}
 
-	shadowView.view = shadowView
-	shadowView.settings = (settings2: Partial<ViewSettings>) => setupShadowView({...settings, ...settings2})
-	return shadowView
+	view.view = view
+	view.settings = (settings2: Partial<ViewSettings>) => setupView({...settings, ...settings2})
+	return view
 }
 
