@@ -1,6 +1,6 @@
 
+import {DirectiveResult} from "lit/directive.js"
 import {CSSResultGroup, TemplateResult} from "lit"
-import {DirectiveResult} from "lit/directive"
 
 import {Use} from "./use.js"
 
