@@ -20,7 +20,18 @@ const MyView = view
 			console.log("slot!!", $("slot", use.shadow))
 		}))
 
-		return html`${greeting} <slot></slot> ${count()}`
+		const boomOp = use.op.fn(async() => {
+			await nap(2000)
+			return "boom"
+		})
+
+		const boom = boomOp.select<any>({
+			loading: () => html`loading`,
+			ready: b => b,
+			error: e => html`error! ${e}`,
+		})
+
+		return html`${greeting} <slot></slot> ${count()} ${boom}`
 	})
 
 render(MyView.content("world")("hello"), $(".demo"))

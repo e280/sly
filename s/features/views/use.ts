@@ -3,6 +3,7 @@ import {CSSResultGroup} from "lit"
 import {defer, MapG} from "@e280/stz"
 import {signal} from "@e280/strata/signals"
 
+import {Op} from "../op/op.js"
 import {Mounts} from "./utils/mounts.js"
 import {applyStyles} from "./utils/apply-styles.js"
 
@@ -64,6 +65,19 @@ export class Use {
 
 	mount(mount: () => () => void) {
 		return this.once(() => this.#mounts.mount(mount))
+	}
+
+	op = {
+		promise: <V>(p: Promise<V>) => this.once(() => {
+			const op = new Op<V>()
+			op.promise(p)
+			return op
+		}),
+		fn: <V>(f: () => Promise<V>) => this.once(() => {
+			const op = new Op<V>()
+			op.fn(f)
+			return op
+		}),
 	}
 }
 

@@ -13,7 +13,7 @@
 		"s"
 	],
 	"peerDependencies": {
-		"@e280/strata": "^0.0.0-9"
+		"@e280/strata": "^0.0.0-10"
 	},
 	"dependencies": {
 		"@e280/stz": "^0.0.0-35",
