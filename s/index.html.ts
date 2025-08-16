@@ -13,11 +13,11 @@ export default ssg.page(import.meta.url, async orb => ({
 	favicon,
 	dark: true,
 	socialCard: {
-		themeColor: "#ff9b00",
+		themeColor: "#95ff7b",
 		title,
 		description,
-		siteName: domain,
-		image: domain + favicon,
+		siteName: "@e280/sly",
+		image: "https://" + domain + favicon,
 	},
 
 	head: html`
