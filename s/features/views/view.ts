@@ -1,7 +1,7 @@
 
 import {render} from "lit"
-import {tracker} from "@e280/strata"
 import {debounce, MapG} from "@e280/stz"
+import {tracker} from "@e280/strata/tracker"
 import {AsyncDirective} from "lit/async-directive.js"
 import {directive, DirectiveResult} from "lit/directive.js"
 
