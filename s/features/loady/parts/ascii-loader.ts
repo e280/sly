@@ -1,7 +1,7 @@
 
-import {Op} from "../../../op/op.js"
+import {Op} from "../../op/op.js"
 import {AsciiAnim} from "./ascii-anim.js"
-import {Content} from "../../../views/types.js"
+import {Content} from "../../views/types.js"
 import {ErrorDisplay} from "./error-display.js"
 
 export function makeAsciiLoader(hz: number, anim: string[]) {

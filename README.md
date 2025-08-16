@@ -2,17 +2,17 @@
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly — mischievious frontend web framework
-- 🪄 magic frontend framework for [lit](https://lit.dev/)
-- 🪝 hooks syntax with `use`
-- 🪨 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
+- 🪒 lean frontend framework for [lit](https://lit.dev/)
+- 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
 - 🏂 commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
-- ⛏️ integrates signals and state trees via [@e280/strata](https://github.com/e280/strata)
-- 🐢 see [scute](https://github.com/e280/scute) if you need a buildy-bundler-buddy
-- 🧑‍💻 an [@e280](https://e280.org/) project
+- ⛏️ integrates signals and state trees from [@e280/strata](https://github.com/e280/strata)
+- 🐢 if you need a buildy-bundler-buddy, try [scute](https://github.com/e280/scute)
+- 🧑‍💻 project by [@e280](https://e280.org/)
 
 <br/>
 
-## 📦 install sly, stz, strata, lit
+## 📦 INSTALL SLY AND PEERS
+they all super work together.
 
 ```sh
 npm install @e280/sly @e280/stz @e280/strata lit
@@ -20,13 +20,13 @@ npm install @e280/sly @e280/stz @e280/strata lit
 
 <br/>
 
-## 🏞️ view
-views are the crown jewel of sly. shadow-dom'd, hooks-based, fancy ergonomics.
+## 🪟 VIEWS ARE WHERE IT'S AT
+views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
 
 ### 🍋 basic view example
 > views are hooks-based functional components. they are *not* web components nor *custom elements*, yet they are encapsulated within a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
 
-#### `counter.ts`
+#### declaring a view
 ```ts
 import {view} from "@e280/sly"
 import {html, css} from "lit"
@@ -45,7 +45,7 @@ export const CounterView = view(use => (start: number) => {
 - each view is wrapped in a `<sly-view view="counter">` custom host element
 - your provided `name` is set as the `view` attribute on the host
 
-#### `counter.bundle.ts`
+#### injecting a view into the dom
 ```ts
 import {render, html} from "lit"
 import {CounterView} from "./my-counter.js"
@@ -98,8 +98,17 @@ render(content, document.body)
     ```ts
     use.styles(css1, css2, css3)
     ```
+- **use.rendered** — promise that resolves *after* view has rendered
+    ```ts
+    use.rendered.then(() => {
+      const slot = use.shadow.querySelector("slot")!
+      console.log(slot)
+    })
+    ```
 
-### 🍋 cool tricks to impress the ladies
+### 🍋 neat tricks to impress the ladies
+> common patterns and snippets
+
 - make a ticker — mount, repeat, and nap
     ```ts
     import {repeat, nap} from "@e280/stz"
@@ -112,11 +121,16 @@ render(content, document.body)
       seconds.value++
     }))
     ```
+- once+rendered to do an action after the first render
+    ```ts
+    use.once(() => use.rendered.then(() => {
+      console.log("after first render")
+    }))
+    ```
 
-### 🍋 view.settings
-> declaring a view? optionally provide `settings`
+### 🍋 view declaration settings
+> special settings for views at declaration-time
 
-#### `cool-view.ts`
 ```ts
 import {view} from "@e280/sly"
 import {html} from "lit"
@@ -128,14 +142,12 @@ export const CoolView = view
   return html`😎 ${greeting} <slot></slot>`
 })
 ```
-- see the way the `settings` are this optional sneaky thing?
 - these `settings` like `mode` and `delegatesFocus` are [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters)
 - note the `<slot></slot>` we'll use in the next example lol
 
 ### 🍋 view injection options
-> injecting a view? optionally provide more options like `attrs` and `content`
+> options for views at the template injection site
 
-#### `cool.bundle.ts`
 ```ts
 import {render, html} from "lit"
 import {CoolView} from "./cool-view.js"
@@ -153,4 +165,20 @@ render(content, document.body)
 - `attr` — set html attributes on the `<sly-view>` host element
 - `children` — nested content of the `<sly-view>` host element, thus it's getting slotted into the shadow dom `<slot>`.. confused? do some reading on [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
 - `props` — finally inject the view by providing its props
+
+<br/>
+
+## 🛠️ OPS LOADING INDICATORS
+> ***TODO*** *implemented but not yet documented, lol*
+- `Pod` is a type for (loading/ready/error states)
+- `Op` class wraps a pod signal and has some ergonomic fns
+- `loady` has various loading indicators for dealing with ops
+
+<br/>
+
+<br/>
+
+## 💖 PROJECT BY e280
+reward us with github stars  
+build with us at https://e280.org/ but only if you're cool  
 

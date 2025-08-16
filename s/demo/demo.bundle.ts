@@ -5,7 +5,7 @@ import {css, html, render} from "lit"
 import {$} from "../features/dom/dollar.js"
 import {view} from "../features/views/view.js"
 import {cssReset} from "../features/views/css-reset.js"
-import {loady} from "../features/kit/loady/ascii-loader.js"
+import {loady} from "../features/loady/ascii-loader.js"
 
 console.log("🦝 sly")
 
@@ -33,13 +33,12 @@ const MyView = view(use => (greeting: string) => {
 	}))
 
 	const op = use.op.fn(async() => {
-		await nap(2000)
-		throw new Error("rofl bingus")
+		await nap(5000)
 	})
 
 	return html`
 		<p>${greeting} <slot></slot> ${count()}</p>
-		<p>${loady.dots(op, () => "done")}</p>
+		<p>${loady.dots(op, () => "op loaded")}</p>
 	`
 })
 

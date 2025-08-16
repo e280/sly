@@ -1,7 +1,7 @@
 
 import {css, html} from "lit"
-import {view} from "../../../views/view.js"
-import {cssReset} from "../../../views/css-reset.js"
+import {view} from "../../views/view.js"
+import {cssReset} from "../../views/css-reset.js"
 
 const style = css`
 :host {

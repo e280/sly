@@ -2,8 +2,8 @@
 import {css} from "lit"
 import {nap, repeat} from "@e280/stz"
 
-import {view} from "../../../views/view.js"
-import {cssReset} from "../../../views/css-reset.js"
+import {view} from "../../views/view.js"
+import {cssReset} from "../../views/css-reset.js"
 
 const style = css`
 :host {
