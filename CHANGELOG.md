@@ -9,6 +9,7 @@
 ## v0.0
 
 ### v0.0.0-4
+- 🍏 fix: view types, view `.children` takes rest param for multiple children
 - 🍏 add: `use.life`
 - 🍏 add: `$.render(element, content)`
 

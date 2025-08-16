@@ -9,7 +9,7 @@ import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, Content, ViewFn, ViewSettings, ViewWith} from "./types.js"
+import {AttrValue, Content, View, ViewFn, ViewSettings, ViewWith} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
@@ -71,12 +71,12 @@ function setupView(settings: ViewSettings) {
 			}
 		}
 
-		function setupDirective(w: ViewWith) {
+		function setupDirective(w: ViewWith): View<Props> {
 			const r = directive(ViewDirective)
 			const rend = (...props: Props): DirectiveResult<any> => r(w, props)
 			rend.props = rend
 			rend.with = (w2: Partial<ViewWith>) => setupDirective({...w, ...w2})
-			rend.children = (children: Content) => setupDirective({...w, children})
+			rend.children = (...children: Content[]) => setupDirective({...w, children})
 			rend.attrs = (attrs: Record<string, AttrValue>) => setupDirective({...w, attrs})
 			rend.attr = (name: string, value: AttrValue) => setupDirective({
 				...w,
