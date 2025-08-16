@@ -34,7 +34,7 @@ const MyView = view(use => (greeting: string) => {
 
 	const op = use.op.fn(async() => {
 		await nap(2000)
-		// throw new Error("rofl bingus")
+		throw new Error("rofl bingus")
 	})
 
 	return html`

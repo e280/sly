@@ -6,6 +6,32 @@ import {pod} from "./pod.js"
 import {Pod, PodSelect} from "./types.js"
 
 export class Op<V> {
+	static loading() {
+		return new this()
+	}
+
+	static ready<V>(value: V) {
+		const op = new this<V>()
+		op.signal(["ready", value])
+		return op
+	}
+
+	static error(error: any) {
+		const op = new this()
+		op.signal(["error", error])
+		return op
+	}
+
+	static promise<V>(promise: Promise<V>) {
+		const op = new this<V>()
+		op.promise(promise)
+		return op
+	}
+
+	static fn<V>(fn: () => Promise<V>) {
+		return this.promise(fn())
+	}
+
 	readonly signal = signal<Pod<V>>(["loading"])
 	#resolve = pub<[V]>()
 	#reject = pub<[any]>()

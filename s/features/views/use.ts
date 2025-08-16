@@ -68,16 +68,8 @@ export class Use {
 	}
 
 	op = {
-		promise: <V>(p: Promise<V>) => this.once(() => {
-			const op = new Op<V>()
-			op.promise(p)
-			return op
-		}),
-		fn: <V>(f: () => Promise<V>) => this.once(() => {
-			const op = new Op<V>()
-			op.fn(f)
-			return op
-		}),
+		promise: <V>(p: Promise<V>) => this.once(() => Op.promise(p)),
+		fn: <V>(f: () => Promise<V>) => this.once(() => Op.fn(f)),
 	}
 }
 

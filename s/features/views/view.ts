@@ -78,7 +78,10 @@ function setupView(settings: ViewSettings) {
 			rend.with = (w2: Partial<ViewWith>) => setupDirective({...w, ...w2})
 			rend.children = (children: Content) => setupDirective({...w, children})
 			rend.attrs = (attrs: Record<string, AttrValue>) => setupDirective({...w, attrs})
-			rend.attr = (name: string, value: AttrValue) => setupDirective({...w, attrs: {...w.attrs, [name]: value}})
+			rend.attr = (name: string, value: AttrValue) => setupDirective({
+				...w,
+				attrs: {...w.attrs, [name]: value},
+			})
 			return rend
 		}
 
