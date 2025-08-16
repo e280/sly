@@ -11,7 +11,7 @@
 
 <br/>
 
-## 📦 INSTALL SLY AND PEERS
+## 🦝 INSTALL SLY AND PEERS
 they all super work together.
 
 ```sh
@@ -20,7 +20,7 @@ npm install @e280/sly @e280/stz @e280/strata lit
 
 <br/>
 
-## 🪟 VIEWS ARE LEAN
+## 🦝 VIEWS ARE LEAN
 views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics. not components.
 
 views are leaner than web components.. no dom registration, string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the building blocks for frontend app devs.
@@ -171,7 +171,7 @@ render(content, document.body)
 
 <br/>
 
-## 🛠️ OPS LOADING INDICATORS
+## 🦝 OPS LOADING INDICATORS
 > ***TODO*** *implemented but not yet documented, lol*
 - `Pod` is a type for (loading/ready/error states)
 - `Op` class wraps a pod signal and has some ergonomic fns
@@ -179,9 +179,7 @@ render(content, document.body)
 
 <br/>
 
-<br/>
-
-## 💖 PROJECT BY e280
+## 🧑‍💻 PROJECT BY e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
 
