@@ -20,7 +20,7 @@ function setupView(settings: ViewSettings) {
 		class ViewDirective extends AsyncDirective {
 			#element = document.createElement(settings.tag ?? "sly-view")
 			#shadow = this.#element.attachShadow(settings)
-			#use = new Use(this.#element, this.#shadow)
+			#use = new Use(this.#element, this.#shadow, () => this.#render())
 			#fn = (() => {
 				const fn2 = fn(this.#use)
 				this.#element.setAttribute("view", settings.name ?? "")
@@ -29,9 +29,13 @@ function setupView(settings: ViewSettings) {
 			})()
 
 			#tracking = new MapG<any, () => void>
+			#params!: {with: ViewWith, props: Props}
 
-			#render = debounce(0, (w: ViewWith, props: Props) => {
+			#render() {
+				if (!this.#params) return
 				if (!this.isConnected) return
+				const {with: w, props} = this.#params
+
 				this.#use[_wrap](() => {
 					// apply html attributes
 					applyAttrs(this.#element, w.attrs)
@@ -46,16 +50,19 @@ function setupView(settings: ViewSettings) {
 					for (const item of seen)
 						this.#tracking.guarantee(
 							item,
-							() => tracker.changed(item, async() => this.#render(w, props)),
+							() => tracker.changed(item, async() => this.#renderDebounced()),
 						)
 
 					// inject content into light dom
 					render(w.children, this.#element)
 				})
-			})
+			}
+
+			#renderDebounced = debounce(0, () => this.#render())
 
 			render(w: ViewWith, props: Props) {
-				this.#render(w, props)
+				this.#params = {with: w, props}
+				this.#render()
 				return this.#element
 			}
 

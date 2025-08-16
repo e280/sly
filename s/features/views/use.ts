@@ -37,6 +37,7 @@ export class Use {
 	constructor(
 		public element: HTMLElement,
 		public shadow: ShadowRoot,
+		public render: () => void,
 	) {}
 
 	get renderCount() {

@@ -111,12 +111,16 @@ render(content, document.querySelector(".app")!)
     ```ts
     use.styles(css1, css2, css3)
     ```
-- **use.rendered** — promise that resolves *after* view has rendered
+- **use.rendered** — promise that resolves *after* the next render
     ```ts
     use.rendered.then(() => {
       const slot = use.shadow.querySelector("slot")!
       console.log(slot)
     })
+    ```
+- **use.render** — force a hard render (not debounced)
+    ```ts
+    use.render()
     ```
 
 ### 🍋 neat tricks to impress the ladies
