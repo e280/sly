@@ -1,8 +1,8 @@
 
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
-# 🦝 sly — mischievious frontend web framework
-- 🪒 lean view framework for [lit](https://lit.dev/)
+# 🦝 sly — mischievous shadow views
+- 🪒 lean [lit](https://lit.dev/) view framework for web devs
 - 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
 - 🏂 commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
 - ⛏️ integrates signals and state trees from [@e280/strata](https://github.com/e280/strata)

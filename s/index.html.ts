@@ -2,7 +2,7 @@
 import {ssg, html} from "@e280/scute"
 
 const title = "sly"
-const description = "shadow views lit framework"
+const description = "mischievous shadow views"
 const domain = "sly.e280.org"
 const favicon = "/assets/favicon.png"
 
