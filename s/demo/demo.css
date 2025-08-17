@@ -5,6 +5,7 @@
 	:root {
 		--prime: #1eff00;
 		--accent: #387d42;
+		--pill: #12763959;
 		--bg: #0e2316;
 		--link: cyan;
 	}
@@ -51,14 +52,11 @@
 
 @layer page {
 	:root {
-		color-scheme: dark;
-
-		padding: 5vw 0.5em;
-		min-height: 100%;
-		scrollbar-gutter: stable;
-
 		font-size: 21px;
 		font-family: sans-serif;
+
+		color-scheme: dark;
+		scrollbar-gutter: stable;
 
 		color: color-mix(in lch, var(--prime), #fff8 50%);
 		background: radial-gradient(
@@ -69,6 +67,11 @@
 	}
 
 	body {
+		width: 100%;
+		max-width: 32em;
+		margin: auto;
+		padding: 1em;
+
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -86,6 +89,10 @@
 	.lil {
 		opacity: 0.6;
 		font-size: 0.8em;
+	}
+
+	.demo {
+		width: 100%;
 	}
 
 	:not(:defined) {

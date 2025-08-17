@@ -5,6 +5,7 @@ export * from "./features/dom/register.js"
 export * from "./features/dom/types.js"
 
 export * from "./features/op/loader/make-loader.js"
+export * from "./features/op/loader/parts/ascii-anim.js"
 export * from "./features/op/loader/parts/error-display.js"
 
 export * from "./features/op/op.js"

@@ -8,11 +8,9 @@ export * as anims from "./parts/anims.js"
 
 export type Loader = <V>(op: Op<V>, ready: (value: V) => Content) => Content
 
-export const errorDisplay = (error: any) => ErrorDisplay(error)
-
 export function makeLoader(
 		loading: () => Content = braille,
-		error: (error: any) => Content = errorDisplay,
+		error: (error: any) => Content = (error: any) => ErrorDisplay(error),
 	): Loader {
 
 	return (op, ready) => op.select({loading, ready, error})

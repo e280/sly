@@ -9,6 +9,7 @@
 ## v0.0
 
 ### v0.0.0-5
+- 🍏 add: makeLoader and loader anims
 - 🍏 add: `use.render`
 - 🍏 improve: Op ergonomics
   - add type arg to `Op.loading<V>()` and `Op.error<V>(e)`
