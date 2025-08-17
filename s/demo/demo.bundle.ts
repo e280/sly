@@ -1,11 +1,11 @@
 
+import {css, html} from "lit"
 import {nap, repeat} from "@e280/stz"
-import {css, html, render} from "lit"
 
 import {$} from "../features/dom/dollar.js"
 import {view} from "../features/views/view.js"
 import {cssReset} from "../features/views/css-reset.js"
-import {loady} from "../features/loady/ascii-loader.js"
+import {anims, makeLoader} from "../features/op/loader/make-loader.js"
 
 console.log("🦝 sly")
 
@@ -17,6 +17,8 @@ const styles = css`
 	text-align: center;
 }
 `
+
+export const loader = makeLoader(anims.aesthetic3)
 
 const MyView = view(use => (greeting: string) => {
 	use.name("my-view")
@@ -38,15 +40,15 @@ const MyView = view(use => (greeting: string) => {
 
 	return html`
 		<p>${greeting} <slot></slot> ${count()}</p>
-		<p>${loady.dots(op, () => "op loaded")}</p>
+		<p>${loader(op, () => "op loaded")}</p>
 	`
 })
 
-render(
+$.render(
+	$(".demo"),
 	MyView
 		.attr("class", "incredi")
 		.children("world")
 		.props("hello"),
-	$(".demo"),
 )
 

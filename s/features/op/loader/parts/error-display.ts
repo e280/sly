@@ -1,7 +1,7 @@
 
 import {css, html} from "lit"
-import {view} from "../../views/view.js"
-import {cssReset} from "../../views/css-reset.js"
+import {view} from "../../../views/view.js"
+import {cssReset} from "../../../views/css-reset.js"
 
 const style = css`
 :host {
@@ -11,7 +11,7 @@ const style = css`
 `
 
 export const ErrorDisplay = view(use => (error: any) => {
-	use.name("loading")
+	use.name("error")
 	use.styles(cssReset, style)
 
 	if (typeof error === "string")
