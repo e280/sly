@@ -26,7 +26,7 @@
 	},
 	"scripts": {
 		"build": "run-s _clean _ln _tsc _scute",
-		"watch": "octo 'scute -vw' 'tsc -w' 'node --watch x/tests.test.js' 'http-server x'",
+		"start": "octo 'scute -vw' 'tsc -w' 'node --watch x/tests.test.js' 'http-server x'",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
 		"test": "node x/tests.test.js",
 		"test-inspect": "node inspect x/tests.test.js",
