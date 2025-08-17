@@ -42,7 +42,7 @@ sly views are wired to automatically rerender whenever they're using any state s
 
       return html`
         <p>count ${count()}</p>
-        <button @click="${() => { count.value++ }}"></button>
+        <button @click="${() => { count.value++ }}">+</button>
       `
     })
     ```
