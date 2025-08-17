@@ -2,6 +2,8 @@
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly — mischievous shadow views
+> testing page at https://sly.e280.org/
+
 - 🪒 lean [lit](https://lit.dev/) view framework for web devs
 - 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
 - 🏂 commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
@@ -12,7 +14,6 @@
 <br/>
 
 ## 🦝 INSTALL SLY AND PEERS
-they all super work together.
 
 ```sh
 npm install @e280/sly @e280/stz @e280/strata lit
@@ -185,11 +186,14 @@ render(content, document.querySelector(".app")!)
 
 <br/>
 
-## 🦝 OPS LOADING INDICATORS
+## 🦝 LOADING INDICATORS WITH OPS, PODS, AND LOADERS
 > ***TODO*** *implemented but not yet documented, lol*
-- `Pod` is a type for (loading/ready/error states)
+- `Pod` is a type for loading/ready/error states
+- `podium` is a tool with fns for working with pods
 - `Op` class wraps a pod signal and has some ergonomic fns
-- `loady` has various loading indicators for dealing with ops
+- `makeLoader(anims.bar2)` makes it easy to create a loader
+  - see the available `anims` on the testing page: https://sly.e280.org/
+  - a loader's job is to render an op, with a nice loading anim and error display view
 
 <br/>
 
