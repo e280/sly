@@ -44,12 +44,13 @@ div {
 
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
-	gap: 0.4em;
-
 	text-align: center;
 
+	gap: 0.4em;
 	padding: 0.2em 0.5em;
+	min-height: 4em;
 	background: var(--pill);
 	border-radius: 0.5em;
 
@@ -60,7 +61,6 @@ div {
 	span:nth-child(2) {
 		font-size: 1.2em;
 		min-width: 5em;
-		min-height: 1.2em;
 	}
 }
 `
