@@ -29,42 +29,74 @@ views are leaner than web components.. no dom registration, no string tag names.
 sly views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
 
 ### 🍋 basic view example
-> views are hooks-based functional components. they are *not* web components nor *custom elements*, yet they are encapsulated within a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM).
+- views are hooks-based functional components with a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
+- **declaring a view**
+    ```ts
+    import {view} from "@e280/sly"
+    import {html, css} from "lit"
 
-#### declaring a view
-```ts
-import {view} from "@e280/sly"
-import {html, css} from "lit"
+    export const CounterView = view(use => (start: number) => {
+      use.name("counter")
+      use.styles(css`p {color: green}`)
+      const count = use.signal(start)
 
-export const CounterView = view(use => (start: number) => {
-  use.name("counter")
-  use.styles(css`p {color: green}`)
-  const count = use.signal(start)
+      return html`
+        <p>count ${count()}</p>
+        <button @click="${() => { count.value++ }}"></button>
+      `
+    })
+    ```
+    - each view renders into a `<sly-view>` host, with the provided `name` set as its view attribute, eg `<sly-view view="counter">`
+- **injecting a view into the dom**
+    ```ts
+    import {render, html} from "lit"
+    import {CounterView} from "./my-counter.js"
 
-  return html`
-    <p>count ${count()}</p>
-    <button @click="${() => { count.value++ }}"></button>
-  `
-})
-```
-- each view renders into a `<sly-view>` host, with the provided `name` set as its view attribute, eg `<sly-view view="counter">`
+    const content = html`
+      <h1>my demo page</h1>
+      ${CounterView(1)}
+    `
 
-#### injecting a view into the dom
-```ts
-import {render, html} from "lit"
-import {CounterView} from "./my-counter.js"
+    render(content, document.querySelector(".app")!)
+    ```
 
-const content = html`
-  <h1>my demo page</h1>
-  ${CounterView(1)}
-`
+### 🍋 view declaration settings
+- special settings for views at declaration-time
+    ```ts
+    import {view} from "@e280/sly"
+    import {html} from "lit"
 
-render(content, document.querySelector(".app")!)
-```
+    export const CoolView = view
+      .settings({mode: "open", delegatesFocus: true})
+      .view(use => (greeting: string) => {
 
-### 🍋 view `use`
-> super special view helper, with hooks and other goodies
+      return html`😎 ${greeting} <slot></slot>`
+    })
+    ```
+    - these `settings` like `mode` and `delegatesFocus` are [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters)
+    - note the `<slot></slot>` we'll use in the next example lol
 
+### 🍋 view injection options
+- options for views at the template injection site
+    ```ts
+    import {render, html} from "lit"
+    import {CoolView} from "./cool-view.js"
+
+    const content = html`
+      <h2>super cool example</h2>
+      ${CoolView
+        .attr("class", "hero")
+        .children(html`<em>spongebob</em>`)
+        .props("hello")}
+    `
+
+    render(content, document.querySelector(".app")!)
+    ```
+    - `attr` — set html attributes on the `<sly-view>` host element
+    - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+    - `props` — finally inject the view by providing its props
+
+### 🍋 view `use` reference
 - **use.signal** — create a [strata signal](https://github.com/e280/strata)
     ```ts
     const count = use.signal(1)
@@ -125,8 +157,6 @@ render(content, document.querySelector(".app")!)
     ```
 
 ### 🍋 neat tricks to impress the ladies
-> common patterns and snippets
-
 - make a ticker — mount, repeat, and nap
     ```ts
     import {repeat, nap} from "@e280/stz"
@@ -146,47 +176,9 @@ render(content, document.querySelector(".app")!)
     }))
     ```
 
-### 🍋 view declaration settings
-> special settings for views at declaration-time
-
-```ts
-import {view} from "@e280/sly"
-import {html} from "lit"
-
-export const CoolView = view
-  .settings({mode: "open", delegatesFocus: true})
-  .view(use => (greeting: string) => {
-
-  return html`😎 ${greeting} <slot></slot>`
-})
-```
-- these `settings` like `mode` and `delegatesFocus` are [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters)
-- note the `<slot></slot>` we'll use in the next example lol
-
-### 🍋 view injection options
-> options for views at the template injection site
-
-```ts
-import {render, html} from "lit"
-import {CoolView} from "./cool-view.js"
-
-const content = html`
-  <h2>super cool example</h2>
-  ${CoolView
-    .attr("class", "hero")
-    .children(html`<em>spongebob</em>`)
-    .props("hello")}
-`
-
-render(content, document.querySelector(".app")!)
-```
-- `attr` — set html attributes on the `<sly-view>` host element
-- `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
-- `props` — finally inject the view by providing its props
-
 <br/>
 
-## 🦝 LOADING INDICATORS WITH OPS, PODS, AND LOADERS
+## 🦝 OPS, PODS, AND LOADERS
 > ***TODO*** *implemented but not yet documented, lol*
 - `Pod` is a type for loading/ready/error states
 - `podium` is a tool with fns for working with pods
