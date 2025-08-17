@@ -4,7 +4,7 @@
 # 🦝 sly — mischievous shadow views
 > testing page at https://sly.e280.org/
 
-- 🪒 lean [lit](https://lit.dev/) view framework for web devs
+- 🪒 lean view framework for [lit](https://lit.dev/) web devs
 - 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
 - 🏂 commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
 - ⛏️ integrates signals and state trees from [@e280/strata](https://github.com/e280/strata)
@@ -13,7 +13,7 @@
 
 <br/>
 
-## 🦝 INSTALL SLY AND PEERS
+## 🦝 INSTALL SLY AND PALS
 
 ```sh
 npm install @e280/sly @e280/stz @e280/strata lit
@@ -21,7 +21,7 @@ npm install @e280/sly @e280/stz @e280/strata lit
 
 <br/>
 
-## 🦝 VIEWS ARE LEAN
+## 🦝 SLY VIEWS
 views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics. not components.
 
 views are leaner than web components.. no dom registration, no string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the building blocks for frontend app devs.
@@ -97,6 +97,14 @@ sly views are wired to automatically rerender whenever they're using any state s
     - `props` — finally inject the view by providing its props
 
 ### 🍋 view `use` reference
+- **use.name** — set the "view" attr value, eg `<sly-view view="squarepants">`
+    ```ts
+    use.name("squarepants")
+    ```
+- **use.styles** — attach stylesheets into the view's shadow dom
+    ```ts
+    use.styles(css1, css2, css3)
+    ```
 - **use.signal** — create a [strata signal](https://github.com/e280/strata)
     ```ts
     const count = use.signal(1)
@@ -136,13 +144,9 @@ sly views are wired to automatically rerender whenever they're using any state s
 
     v //-> 123
     ```
-- **use.name** — set the "view" attr value, eg `<sly-view view="squarepants">`
+- **use.render** — force a hard render (not debounced)
     ```ts
-    use.name("squarepants")
-    ```
-- **use.styles** — attach stylesheets into the view's shadow dom
-    ```ts
-    use.styles(css1, css2, css3)
+    use.render()
     ```
 - **use.rendered** — promise that resolves *after* the next render
     ```ts
@@ -151,9 +155,16 @@ sly views are wired to automatically rerender whenever they're using any state s
       console.log(slot)
     })
     ```
-- **use.render** — force a hard render (not debounced)
+- **use.op.fn** — start with an op based on an async fn
     ```ts
-    use.render()
+    const op = use.op.fn(async() => {
+      await nap(5000)
+      return 123
+    })
+    ```
+- **use.op.promise** — start with an op based on a promise
+    ```ts
+    const op = use.op.promise(doAsyncWork())
     ```
 
 ### 🍋 neat tricks to impress the ladies
@@ -178,8 +189,8 @@ sly views are wired to automatically rerender whenever they're using any state s
 
 <br/>
 
-## 🦝 OPS, PODS, AND LOADERS
-> ***TODO*** *implemented but not yet documented, lol*
+## 🦝 SLY OPS, PODS, AND LOADERS
+> ***TODO*** *we need to write real docs for this, lol*
 - `Pod` is a type for loading/ready/error states
 - `podium` is a tool with fns for working with pods
 - `Op` class wraps a pod signal and has some ergonomic fns
@@ -189,7 +200,7 @@ sly views are wired to automatically rerender whenever they're using any state s
 
 <br/>
 
-## 🧑‍💻 PROJECT BY e280
+## 🧑‍💻 SLY BY E280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
 

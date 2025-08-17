@@ -48,12 +48,12 @@ export class Use {
 		return this.#rendered.promise
 	}
 
-	styles(...styles: CSSResultGroup[]) {
-		this.once(() => applyStyles(this.shadow, styles))
-	}
-
 	name(name: string) {
 		this.once(() => this.element.setAttribute("view", name))
+	}
+
+	styles(...styles: CSSResultGroup[]) {
+		this.once(() => applyStyles(this.shadow, styles))
 	}
 
 	once<V>(fn: () => V) {
@@ -75,8 +75,8 @@ export class Use {
 	}
 
 	op = {
-		promise: <V>(p: Promise<V>) => this.once(() => Op.promise(p)),
 		fn: <V>(f: () => Promise<V>) => this.once(() => Op.fn(f)),
+		promise: <V>(p: Promise<V>) => this.once(() => Op.promise(p)),
 	}
 
 	signal<V>(value: V) {
