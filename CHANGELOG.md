@@ -9,6 +9,8 @@
 ## v0.0
 
 ### v0.0.0-5
+- 🟥 rename `pod` to `podium`
+- 🍏 add: `op.morph`, `Op.all`, `podium.morph`, `podium.all`
 - 🍏 add: makeLoader and loader anims
 - 🍏 add: `use.render`
 - 🍏 improve: Op ergonomics

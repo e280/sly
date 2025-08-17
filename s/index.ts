@@ -9,7 +9,7 @@ export * from "./features/op/loader/parts/ascii-anim.js"
 export * from "./features/op/loader/parts/error-display.js"
 
 export * from "./features/op/op.js"
-export * from "./features/op/pod.js"
+export * from "./features/op/podium.js"
 export * from "./features/op/types.js"
 
 export * from "./features/views/css-reset.js"
