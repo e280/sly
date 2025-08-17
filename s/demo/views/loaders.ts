@@ -47,12 +47,21 @@ div {
 	align-items: center;
 	gap: 0.4em;
 
+	text-align: center;
+
 	padding: 0.2em 0.5em;
 	background: var(--pill);
 	border-radius: 0.5em;
 
-	span:nth-child(1) { font-size: 0.6em; }
-	span:nth-child(2) { font-size: 1.2em; }
+	span:nth-child(1) {
+		font-size: 0.6em;
+	}
+
+	span:nth-child(2) {
+		font-size: 1.2em;
+		min-width: 5em;
+		min-height: 1.2em;
+	}
 }
 `
 
