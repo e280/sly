@@ -219,6 +219,48 @@ sly views are wired to automatically rerender whenever they're using any state s
 
 <br/>
 
+## 🦝 SLY'S `$` DOLLAR DOM MULTITOOL
+- import the `$` and it has a bunch of goodies
+    ```ts
+    import {$} from "@e280/sly"
+    ```
+- query an element (throws an error if not found)
+    ```ts
+    $(".demo")
+      // HTMLElement
+    ```
+
+### queries
+- query an element (undefined if not found)
+    ```ts
+    $.maybe(".demo")
+      // HTMLElement | undefined
+    ```
+- query all elements (returns an array)
+    ```ts
+    $.maybe("ul li")
+      // HTMLElement[]
+    ```
+- query all elements (returns an array)
+    ```ts
+    $.maybe("ul li")
+      // HTMLElement[]
+    ```
+
+### dom stuff
+- register web components
+    ```ts
+    $.register({MyComponent, AnotherCoolComponent})
+      // <my-component>
+      // <another-cool-component>
+    ```
+- render content into an element
+    ```ts
+    $.render(element, html`hello world`)
+    ```
+
+<br/>
+
 ## 🦝 SLY OPS, PODS, AND LOADERS
 > ***TODO*** *we need to write real docs for this, lol*
 - `Pod` is a type for loading/ready/error states
