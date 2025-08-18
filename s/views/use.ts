@@ -1,11 +1,12 @@
 
 import {CSSResultGroup} from "lit"
-import {defer, MapG} from "@e280/stz"
+import {debounce, defer, MapG} from "@e280/stz"
 import {signal} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
 import {Mounts} from "./utils/mounts.js"
 import {applyStyles} from "./utils/apply-styles.js"
+import { attributes, AttrSpec, onAttrChange } from "./attributes.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()
@@ -55,6 +56,12 @@ export class Use {
 
 	styles(...styles: CSSResultGroup[]) {
 		this.once(() => applyStyles(this.shadow, styles))
+	}
+
+	attrs<A extends AttrSpec>(spec: A) {
+		const render = debounce(0, () => this.render())
+		this.mount(() => onAttrChange(this.element, render))
+		return this.once(() => attributes(this.element, spec))
 	}
 
 	once<V>(fn: () => V) {

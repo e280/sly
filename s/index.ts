@@ -12,6 +12,7 @@ export * from "./ops/op.js"
 export * from "./ops/podium.js"
 export * from "./ops/types.js"
 
+export * from "./views/attributes.js"
 export * from "./views/css-reset.js"
 export * from "./views/types.js"
 export * from "./views/use.js"

@@ -9,6 +9,7 @@
 ## v0.0
 
 ### v0.0.0-8
+- 🍏 add `use.attrs` and `attributes` and `onAttrChange`
 - 🍏 fix `await op.wait` and make `await op` equivalent
 - 🟥 `op.morph` now returns a pod, not an op
 - 🟥 `op.all` now returns a pod, not an op
