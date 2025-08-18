@@ -56,15 +56,14 @@ sly views are wired to automatically rerender whenever they're using any state s
     - each view renders into a `<sly-view>` host, with the provided `name` set as its view attribute, eg `<sly-view view="counter">`
 - **injecting a view into the dom**
     ```ts
+    import {$} from "@e280/sly"
     import {render, html} from "lit"
     import {CounterView} from "./my-counter.js"
 
-    const content = html`
+    $.render($(".app"), html`
       <h1>my demo page</h1>
       ${CounterView(1)}
-    `
-
-    render(content, document.querySelector(".app")!)
+    `)
     ```
 
 ### 🍋 view declaration settings
@@ -86,18 +85,17 @@ sly views are wired to automatically rerender whenever they're using any state s
 ### 🍋 view injection options
 - options for views at the template injection site
     ```ts
+    import {$} from "@e280/sly"
     import {render, html} from "lit"
     import {CoolView} from "./cool-view.js"
 
-    const content = html`
+    $.render($(".app"), html`
       <h2>super cool example</h2>
       ${CoolView
         .attr("class", "hero")
         .children(html`<em>spongebob</em>`)
         .props("hello")}
-    `
-
-    render(content, document.querySelector(".app")!)
+    `)
     ```
     - `attr` — set html attributes on the `<sly-view>` host element
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
@@ -158,7 +156,7 @@ sly views are wired to automatically rerender whenever they're using any state s
 - **use.rendered** — promise that resolves *after* the next render
     ```ts
     use.rendered.then(() => {
-      const slot = use.shadow.querySelector("slot")!
+      const slot = use.shadow.querySelector("slot")
       console.log(slot)
     })
     ```
