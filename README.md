@@ -219,35 +219,26 @@ sly views are wired to automatically rerender whenever they're using any state s
 
 <br/>
 
-## 🦝 SLY'S `$` DOLLAR DOM MULTITOOL
+## 🦝 SLY'S `$` DOM MULTITOOL
 - import the `$` and it has a bunch of goodies
     ```ts
     import {$} from "@e280/sly"
     ```
-- query an element (throws an error if not found)
+- select an element
     ```ts
     $(".demo")
-      // HTMLElement
+      // HTMLElement (or throws error)
     ```
-
-### queries
-- query an element (undefined if not found)
+- query an element
     ```ts
     $.maybe(".demo")
       // HTMLElement | undefined
     ```
-- query all elements (returns an array)
+- query all elements
     ```ts
-    $.maybe("ul li")
+    $.all("ul li")
       // HTMLElement[]
     ```
-- query all elements (returns an array)
-    ```ts
-    $.maybe("ul li")
-      // HTMLElement[]
-    ```
-
-### dom stuff
 - register web components
     ```ts
     $.register({MyComponent, AnotherCoolComponent})
