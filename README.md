@@ -44,7 +44,8 @@ web components are best for giving html authors access to your cool widgets.. an
 
 views automatically rerender whenever any state stuff from [@e280/strata](https://github.com/e280/strata) changes.
 
-🥷 views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).. views have the good parts of web components, but they aren't cumbersome.
+🥷 views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).  
+views have the good parts of web components, but they aren't cumbersome.
 
 ### 🍋 view example
 - **import some stuff**
