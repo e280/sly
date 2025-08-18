@@ -2,6 +2,8 @@
 import {DemoView} from "./views/demo.js"
 import {$} from "../features/dom/dollar.js"
 import {CounterView} from "./views/counter.js"
+import { Op } from "../features/op/op.js"
+import { nap } from "@e280/stz"
 
 $.render($(".demo"), DemoView())
 
@@ -10,4 +12,13 @@ $.register({
 })
 
 console.log("🦝 sly")
+
+const op = Op.fn(async() => {
+	await nap(1000)
+	console.log("a")
+	return 123
+})
+
+op.wait.then(() => console.log("b"))
+console.log("c", await op)
 

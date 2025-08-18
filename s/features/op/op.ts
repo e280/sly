@@ -27,6 +27,7 @@ export class Op<V> {
 	}
 
 	readonly signal: Signal<Pod<V>>
+	#count = 0
 	#resolve = pub<[V]>()
 	#reject = pub<[any]>()
 
@@ -35,11 +36,15 @@ export class Op<V> {
 	}
 
 	get wait() {
-		return new Promise((resolve, reject) => {
-			this.#resolve.next().then(resolve)
-			this.#reject.next().then(reject)
+		return new Promise<V>((resolve, reject) => {
+			this.#resolve.next().then(([v]) => resolve(v))
+			this.#reject.next().then(([e]) => reject(e))
 		})
 	}
+
+	get then() { return this.wait.then.bind(this.wait) }
+	get catch() { return this.wait.catch.bind(this.wait) }
+	get finally() { return this.wait.finally.bind(this.wait) }
 
 	async setLoading() {
 		await this.signal(["loading"])
@@ -56,14 +61,17 @@ export class Op<V> {
 	}
 
 	async promise(promise: Promise<V>) {
+		const count = ++this.#count
 		await this.setLoading()
 		try {
 			const value = await promise
-			await this.setReady(value)
+			if (count === this.#count)
+				await this.setReady(value)
 			return value
 		}
 		catch (error) {
-			await this.setError(error)
+			if (count === this.#count)
+				await this.setError(error)
 		}
 	}
 
