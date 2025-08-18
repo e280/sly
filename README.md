@@ -35,13 +35,13 @@ views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
 view(use => () => "hello world")
 ```
 
-views are not components.. they're leaner than web components.. no dom registration, no string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the true building blocks for frontend app devs..
+views are not web components.. they're leaner.. no dom registration, no string tag names.. just import 'em, and the types work.. views are the true building blocks for web app developers..
 
-you can register any view to the dom as a web component.
+web components are really about giving mere html plebeians access to your cool widgets.. and that's fine.. you can register any sly view to the dom as a web component.
 
-views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
+views automatically rerender whenever any state stuff from [@e280/strata](https://github.com/e280/strata) changes.
 
-views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).
+views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).. views have all the good parts of web components, without the stupid bullshit.
 
 ### 🍋 view example
 - **import some stuff**
