@@ -2,16 +2,18 @@
 import {makeAsciiAnim} from "./ascii-anim.js"
 import {Content} from "../../../views/types.js"
 
-const hz = 20
+const fast = 20
+const mid = 10
+const slow = 4
 
-export const spinner = makeAsciiAnim(hz, [
+export const spinner = makeAsciiAnim(fast, [
 	"|",
 	"/",
 	"-",
 	"\\",
 ])
 
-export const braille = makeAsciiAnim(hz, [
+export const braille = makeAsciiAnim(fast, [
 	"⠈",
 	"⠐",
 	"⠠",
@@ -22,18 +24,7 @@ export const braille = makeAsciiAnim(hz, [
 	"⠁",
 ])
 
-export const arrow = makeAsciiAnim(hz, [
-	"←",
-	"↖",
-	"↑",
-	"↗",
-	"→",
-	"↘",
-	"↓",
-	"↙",
-])
-
-export const arrow2 = makeAsciiAnim(hz, [
+export const arrow = makeAsciiAnim(fast, [
 	"⬆️",
 	"↗️",
 	"➡️",
@@ -44,7 +35,7 @@ export const arrow2 = makeAsciiAnim(hz, [
 	"↖️",
 ])
 
-export const bar = makeAsciiAnim(hz, [
+export const bar = makeAsciiAnim(fast, [
 	"▰▱▱▱▱",
 	"▰▱▱▱▱",
 	"▱▰▱▱▱",
@@ -57,7 +48,7 @@ export const bar = makeAsciiAnim(hz, [
 	"▱▰▱▱▱",
 ])
 
-export const bar2 = makeAsciiAnim(hz, [
+export const bar2 = makeAsciiAnim(fast, [
 	"▱▱▰▱▱",
 	"▱▱▱▰▱",
 	"▱▱▱▰▰",
@@ -80,7 +71,7 @@ export const bar2 = makeAsciiAnim(hz, [
 	"▱▰▱▱▱",
 ])
 
-export const bar3 = makeAsciiAnim(hz, [
+export const bar3 = makeAsciiAnim(fast, [
 	"▰▱▱▱▱",
 	"▰▱▱▱▱",
 	"▰▰▱▱▱",
@@ -97,7 +88,8 @@ export const bar3 = makeAsciiAnim(hz, [
 	"▰▰▱▱▱",
 ])
 
-export const bar4 = makeAsciiAnim(hz, [
+export const bar4 = makeAsciiAnim(fast, [
+	"▱▱▱▱▱",
 	"▱▱▱▱▱",
 	"▰▱▱▱▱",
 	"▰▰▱▱▱",
@@ -111,14 +103,57 @@ export const bar4 = makeAsciiAnim(hz, [
 	"▱▱▱▱▰",
 ])
 
-export const pie = makeAsciiAnim(hz, [
+export const block = makeAsciiAnim(fast, [
+	"▁▁▁▁▁",
+	"▁▁▁▁▁",
+	"█▁▁▁▁",
+	"██▁▁▁",
+	"███▁▁",
+	"████▁",
+	"█████",
+	"█████",
+	"▁████",
+	"▁▁███",
+	"▁▁▁██",
+	"▁▁▁▁█",
+])
+
+export const block2 = makeAsciiAnim(fast, [
+	"█▁▁▁▁",
+	"█▁▁▁▁",
+	"██▁▁▁",
+	"███▁▁",
+	"████▁",
+	"█████",
+	"█████",
+	"▁████",
+	"▁▁███",
+	"▁▁▁██",
+	"▁▁▁▁█",
+	"▁▁▁▁█",
+	"▁▁▁██",
+	"▁▁███",
+	"▁████",
+	"█████",
+	"█████",
+	"████▁",
+	"███▁▁",
+	"██▁▁▁",
+])
+
+export const runner = makeAsciiAnim(slow, [
+	"🚶",
+	"🏃",
+])
+
+export const pie = makeAsciiAnim(mid, [
 	"◷",
 	"◶",
 	"◵",
 	"◴",
 ])
 
-export const cylon = makeAsciiAnim(hz, [
+export const cylon = makeAsciiAnim(fast, [
 	"=----",
 	"-=---",
 	"--=--",
@@ -131,7 +166,7 @@ export const cylon = makeAsciiAnim(hz, [
 	"=----",
 ])
 
-export const slider = makeAsciiAnim(hz, [
+export const slider = makeAsciiAnim(fast, [
 	"o----",
 	"-o---",
 	"--o--",
@@ -144,7 +179,72 @@ export const slider = makeAsciiAnim(hz, [
 	"o----",
 ])
 
-export const scrubber = makeAsciiAnim(hz, [
+export const brackets = makeAsciiAnim(mid, [
+	"[   ]",
+	"[   ]",
+	"[=  ]",
+	"[== ]",
+	"[===]",
+	"[ ==]",
+	"[  =]",
+])
+
+export const brackets2 = makeAsciiAnim(mid, [
+	"[   ]",
+	"[   ]",
+	"[=  ]",
+	"[== ]",
+	"[===]",
+	"[ ==]",
+	"[  =]",
+	"[   ]",
+	"[   ]",
+	"[  =]",
+	"[ ==]",
+	"[===]",
+	"[== ]",
+	"[=  ]",
+])
+
+export const dots = makeAsciiAnim(mid, [
+	"   ",
+	"   ",
+	".  ",
+	".. ",
+	"...",
+	" ..",
+	"  .",
+])
+
+export const dots2 = makeAsciiAnim(fast, [
+	".  ",
+	".  ",
+	".. ",
+	"...",
+	" ..",
+	"  .",
+	"  .",
+	" ..",
+	"...",
+	".. ",
+])
+
+export const wave = makeAsciiAnim(fast, [
+	".....",
+	".....",
+	":....",
+	"::...",
+	":::..",
+	"::::.",
+	":::::",
+	":::::",
+	".::::",
+	"..:::",
+	"...::",
+	"....:",
+])
+
+export const wavescrub = makeAsciiAnim(fast, [
 	":....",
 	":....",
 	"::...",
@@ -159,7 +259,7 @@ export const scrubber = makeAsciiAnim(hz, [
 	"::...",
 ])
 
-export const pulse = makeAsciiAnim(hz, [
+export const wavepulse = makeAsciiAnim(fast, [
 	".....",
 	".....",
 	"..:..",
@@ -171,7 +271,28 @@ export const pulse = makeAsciiAnim(hz, [
 	":...:",
 ])
 
-export const bin = makeAsciiAnim(hz, [
+export const wavepulse2 = makeAsciiAnim(fast, [
+	".....",
+	".....",
+	"..:..",
+	".:::.",
+	".:::.",
+	":::::",
+	":::::",
+	"::.::",
+	":...:",
+	".....",
+	".....",
+	":...:",
+	"::.::",
+	":::::",
+	":::::",
+	".:::.",
+	".:::.",
+	"..:..",
+])
+
+export const bin = makeAsciiAnim(fast, [
 	"000",
 	"100",
 	"110",
@@ -180,7 +301,7 @@ export const bin = makeAsciiAnim(hz, [
 	"001",
 ])
 
-export const binary = makeAsciiAnim(hz, [
+export const binary = makeAsciiAnim(fast, [
 	"11111",
 	"01111",
 	"00111",
@@ -194,7 +315,7 @@ export const binary = makeAsciiAnim(hz, [
 	"11110",
 ])
 
-export const binary2 = makeAsciiAnim(hz, [
+export const binary2 = makeAsciiAnim(fast, [
 	"11111",
 	"01111",
 	"10111",
@@ -209,7 +330,22 @@ export const binary2 = makeAsciiAnim(hz, [
 	"01111",
 ])
 
-export const clock = makeAsciiAnim(hz, [
+export const pulseblue = makeAsciiAnim(slow, [
+	"🔹",
+	"🔵",
+])
+
+export const kiss = makeAsciiAnim(mid, [
+	"🙂",
+	"🙂",
+	"😗",
+	"😙",
+	"😘",
+	"😘",
+	"😙",
+])
+
+export const clock = makeAsciiAnim(fast, [
 	"🕐",
 	"🕑",
 	"🕒",
@@ -224,7 +360,7 @@ export const clock = makeAsciiAnim(hz, [
 	"🕛",
 ])
 
-export const fistbump = makeAsciiAnim(hz, [
+export const fistbump = makeAsciiAnim(fast, [
 	"🤜    🤛",
 	"🤜    🤛",
 	"🤜    🤛",
@@ -237,23 +373,23 @@ export const fistbump = makeAsciiAnim(hz, [
 	"🤜 ✨ 🤛",
 ])
 
-export const earth = makeAsciiAnim(4, [
+export const earth = makeAsciiAnim(slow, [
 	"🌎",
 	"🌏",
 	"🌍",
 ])
 
-export const lock = makeAsciiAnim(4, [
+export const lock = makeAsciiAnim(slow, [
 	"🔓",
 	"🔒",
 ])
 
-export const bright = makeAsciiAnim(4, [
+export const bright = makeAsciiAnim(slow, [
 	"🔅",
 	"🔆",
 ])
 
-export const speaker = makeAsciiAnim(4, [
+export const speaker = makeAsciiAnim(slow, [
 	"🔈",
 	"🔈",
 	"🔉",
@@ -262,7 +398,7 @@ export const speaker = makeAsciiAnim(4, [
 	"🔉",
 ])
 
-export const moon = makeAsciiAnim(10, [
+export const moon = makeAsciiAnim(mid, [
 	"🌑",
 	"🌑",
 	"🌑",

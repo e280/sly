@@ -8,6 +8,9 @@
 
 ## v0.0
 
+### v0.0.0-6
+- 🟥 rework some loader anims, see new loaders on the testing page
+
 ### v0.0.0-5
 - 🟥 rename `pod` to `podium`
 - 🍏 add: `op.morph`, `Op.all`, `podium.morph`, `podium.all`

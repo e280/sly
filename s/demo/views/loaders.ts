@@ -50,7 +50,6 @@ div {
 
 	gap: 0.4em;
 	padding: 0.2em 0.5em;
-	min-height: 4em;
 	background: var(--pill);
 	border-radius: 0.5em;
 
@@ -59,8 +58,13 @@ div {
 	}
 
 	span:nth-child(2) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
 		font-size: 1.2em;
-		min-width: 5em;
+		min-width: 7em;
+		min-height: 2.5em;
 	}
 }
 `

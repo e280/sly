@@ -52,6 +52,7 @@
 
 @layer page {
 	:root {
+		height: 100%;
 		font-size: 21px;
 		font-family: sans-serif;
 
@@ -68,9 +69,11 @@
 
 	body {
 		width: 100%;
+		min-height: 100%;
 		max-width: 32em;
 		margin: auto;
 		padding: 1em;
+		padding-bottom: 6em;
 
 		display: flex;
 		flex-direction: column;
