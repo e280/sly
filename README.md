@@ -253,13 +253,133 @@ sly views are wired to automatically rerender whenever they're using any state s
 <br/>
 
 ## 🦝 SLY OPS, PODS, AND LOADERS
-> ***TODO*** *we need to write real docs for this, lol*
-- `Pod` is a type for loading/ready/error states
-- `podium` is a tool with fns for working with pods
-- `Op` class wraps a pod signal and has some ergonomic fns
-- `makeLoader(anims.bar2)` makes it easy to create a loader
-  - see the available `anims` on the testing page: https://sly.e280.org/
-  - a loader's job is to render an op, with a nice loading anim and error display view
+async operations and displaying loading spinners.
+
+```ts
+import {nap} from "@e280/stz"
+import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
+```
+
+### 🍋 pods: loading/ready/error data
+- a pod represents an async operation
+- pods are simple json-serializable data
+- there are three kinds of `Pod<V>`
+    ```ts
+    // loading pod
+    ["loading"]
+
+    // ready pod contains value 123
+    ["ready", 123]
+
+    // error pod contains an error
+    ["error", new Error()]
+    ```
+
+### 🍋 podium helps you work with pods
+- get pod status
+    ```ts
+    podium.status(["ready", 123])
+      // "ready"
+    ```
+- get pod ready value (or undefined)
+    ```ts
+    podium.value(["loading"])
+      // undefined
+
+    podium.value(["ready", 123])
+      // 123
+    ```
+- see more at [podium.ts](./s/features/op/podium.ts)
+
+### 🍋 Op pod ergonomics
+- an `Op<V>` wraps a pod with a signal for reactivity
+- create an op
+    ```ts
+    const op = new Op<number>(["loading"])
+    ```
+- create an op with starting status
+    ```ts
+    Op.loading<number>()
+    Op.ready(123)
+    Op.error<number>(new Error())
+    ```
+- get pod info
+    ```ts
+    op.status
+      // "loading"
+    ```
+    ```ts
+    op.pod
+      // ["loading"]
+    ```
+    ```ts
+    op.value
+      // undefined (or value if ready)
+    ```
+    ```ts
+    op.isLoading // true
+    op.isReady // false
+    op.isError // false
+    ```
+- 🪄 call an async fn and produce an op that tracks it
+    ```ts
+    const op = Op.fn(async() => {
+      await nap(4000)
+      return 123
+    })
+    ```
+- await for the next ready value (or thrown error)
+    ```ts
+    await op
+      // 123
+    ```
+- select executes a fn based on the status
+    ```ts
+    const result = op.select({
+      loading: () => "it's loading...",
+      ready: value => `dude, it's ready! ${value}`,
+      error: err => `dude, there's an error!`,
+    })
+
+    result
+      // "dude, it's ready! 123"
+    ```
+- morph returns a new pod, transforming the value if ready
+    ```ts
+    op.morph(n => n + 1)
+      // ["ready", 124]
+    ```
+- you can combine a number of ops into a single pod like this
+    ```ts
+    Op.all(Op.ready(123), Op.loading())
+      // ["loading"]
+    ```
+    ```ts
+    Op.all(Op.ready(1), Op.ready(2), Op.ready(3))
+      // ["ready", [1, 2, 3]]
+    ```
+    - error if any ops are in error, otherwise
+    - loading if any ops are in loading, otherwise
+    - ready if all the ops are ready
+
+### 🍋 animated loading spinners
+- create a `loader` using `makeLoader`
+    ```ts
+    const loader = makeLoader(anims.bar2)
+    ```
+    - see all the anims available on the testing page https://sly.e280.org/
+- use the loader to render your op
+    ```ts
+    return html`
+      <h2>cool stuff</h2>
+      ${loader(op, value => html`
+        <div>${value}</div>
+      `)}
+    `
+    ```
+    - when the op is loading, the loading spinner will animate
+    - when the op is in error, the error will be displayed
+    - when the op is ready, your fn is called and given the value
 
 <br/>
 
