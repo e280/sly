@@ -4,10 +4,12 @@
 # 🦝 sly — mischievous shadow views
 > testing page at https://sly.e280.org/
 
-- 🍋 view library for building elegant web apps
+- 🍋 web app view library with taste
 - 🤯 register any view as a web component
-- 🖋️ `$` dom multitool
+- 🖋️ $ handy little dom multitool
 - 🫛 ops for fancy loading spinners
+- 😩 took many years of iteration and suffering
+- 🌅 sly is the successor that replaces [@benev/slate](https://github.com/benevolent-games/slate)
 - 🧑‍💻 project by [@e280](https://e280.org/)
 
 <br/>
@@ -19,9 +21,8 @@ npm install @e280/sly lit @e280/strata @e280/stz
 ```
 
 > [!NOTE]
-> - 🌅 [@benev/slate](https://github.com/benevolent-games/slate) is the old predecessor to sly
-> - 🔥 [lit](https://lit.dev/) is what we use for html rendering
-> - ⛏️ [@e280/strata](https://github.com/e280/strata) integration for state management (signals, state trees)
+> - 🔥 [lit](https://lit.dev/) for html rendering
+> - ⛏️ [@e280/strata](https://github.com/e280/strata) for state management (signals, state trees)
 > - 🏂 *(optional)* [@e280/stz](https://github.com/e280/stz) stz is our ts standard library
 > - 🐢 *(optional)* [scute](https://github.com/e280/scute) is our buildy-bundly-buddy
 
