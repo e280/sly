@@ -132,6 +132,9 @@ views have the good parts of web components, but they aren't cumbersome.
     - `$.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 
 ### 🍋 view "use" hooks reference
+- 👮 **follow the hooks rules**  
+    > just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of sly's `use` hooks actually matters..  
+    > you must not call these hooks under `if` conditionals, or `for` loops, or in callbacks, or after a conditional `return` statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
 - **use.name** — set the "view" attr value, eg `<sly-view view="squarepants">`
     ```ts
     use.name("squarepants")
