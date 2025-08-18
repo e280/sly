@@ -82,10 +82,15 @@ export class Use {
 		return r as V
 	}
 
-	op = {
-		fn: <V>(f: () => Promise<V>) => this.once(() => Op.fn(f)),
-		promise: <V>(p: Promise<V>) => this.once(() => Op.promise(p)),
-	}
+	op = (() => {
+		const that = this
+		function op<V>(f: () => Promise<V>) {
+			return that.once(() => Op.fn(f))
+		}
+		op.fn = op
+		op.promise = <V>(p: Promise<V>) => this.once(() => Op.promise(p))
+		return op
+	})()
 
 	signal<V>(value: V) {
 		return this.once(() => signal<V>(value))

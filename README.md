@@ -190,9 +190,9 @@ views are wired to automatically rerender whenever they're using any state stuff
       console.log(slot)
     })
     ```
-- **use.op.fn** — start with an op based on an async fn
+- **use.op** — start with an op based on an async fn
     ```ts
-    const op = use.op.fn(async() => {
+    const op = use.op(async() => {
       await nap(5000)
       return 123
     })

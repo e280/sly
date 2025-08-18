@@ -11,6 +11,7 @@
 ### v0.0.0-8
 - 🍏 add `use.attrs` and `attributes` and `onAttrChange`
 - 🍏 fix `await op.wait` and make `await op` equivalent
+- 🍏 add `use.op(f)` as alias to `use.op.fn(f)`
 - 🟥 `use.render()` is now debounced (and the new `use.renderNow()` is not)
 - 🟥 `op.morph` now returns a pod, not an op
 - 🟥 `op.all` now returns a pod, not an op
