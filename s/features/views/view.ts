@@ -78,8 +78,9 @@ function setupView(settings: ViewSettings) {
 			}
 		}
 
+		const r = directive(ViewDirective)
+
 		function setupDirective(w: ViewWith): View<Props> {
-			const r = directive(ViewDirective)
 			const rend = (...props: Props): DirectiveResult<any> => r(w, props)
 			rend.props = rend
 			rend.with = (w2: Partial<ViewWith>) => setupDirective({...w, ...w2})
