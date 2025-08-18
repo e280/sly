@@ -5,8 +5,9 @@
 > testing page at https://sly.e280.org/
 
 - 🍋 web app view library with taste
+- 🥷 leverage shadow-dom and slots
 - 🤯 register any view as a web component
-- 🖋️ $ handy little dom multitool
+- 💲 handy little dom multitool
 - 🫛 ops for fancy loading spinners
 - 😩 took many years of iteration and suffering
 - 🌅 sly is the successor that replaces [@benev/slate](https://github.com/benevolent-games/slate)
@@ -35,7 +36,7 @@ views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
 view(use => () => "hello world")
 ```
 
-views are not web components..
+views are not web components.
 
 where web components are html-native, views are typescript-native — with views, there's no dom registration or string tag names, you just import them and the types work.
 
@@ -43,7 +44,7 @@ web components are best for giving html authors access to your cool widgets.. an
 
 views automatically rerender whenever any state stuff from [@e280/strata](https://github.com/e280/strata) changes.
 
-views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).. views have the good parts of web components, but they aren't cumbersome.
+🥷 views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).. views have the good parts of web components, but they aren't cumbersome.
 
 ### 🍋 view example
 - **import some stuff**
@@ -143,7 +144,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
     const count = use.signal(1)
 
     // read the signal
-    count() //-> 1
+    count() // 1
 
     // write the signal
     count(2)
@@ -155,7 +156,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
       return 123
     })
 
-    whatever //-> 123
+    whatever // 123
     ```
 - **use.mount** — setup mount/unmount lifecycle
     ```ts
@@ -174,8 +175,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
       return 123
     })
 
-    whatever
-      //-> 123
+    whatever // 123
     ```
 - **use.life** — mount/unmount lifecycle, but also return a value
     ```ts
@@ -185,7 +185,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
       return [value, () => console.log("unmounted")]
     })
 
-    v //-> 123
+    v // 123
     ```
 - **use.attrs** — ergonomic typed html attribute access
     ```ts
@@ -259,27 +259,27 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
 
 ## 🦝 SLY `$` DOM MULTITOOL
 
-### 🖋️ the pen is mightier than the sword
-- import the `$` and it has a bunch of goodies
+### 💲 follow the money
+- import the dollarsign
     ```ts
     import {$} from "@e280/sly"
     ```
 
-### 🖋️ query the dom
-- select an element
+### 💲 dom queries
+- require an element
     ```ts
     $(".demo")
       // HTMLElement (or throws error)
     ```
-- query an element
+- request an element
     ```ts
     $.maybe(".demo")
       // HTMLElement | undefined
     ```
 - query all elements
     ```ts
-    $.all("ul li")
-      // HTMLElement[]
+    for (const item of $.all("ul li"))
+      console.log(item)
     ```
 - specify what element to query under
     ```ts
@@ -287,7 +287,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
       // HTMLElement
     ```
 
-### 🖋️ dom utilities
+### 💲 dom utilities
 - render content into an element
     ```ts
     $.render(element, html`hello world`)
@@ -344,7 +344,16 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 - an `Op<V>` wraps a pod with a signal for reactivity
 - create an op
     ```ts
-    const op = new Op<number>(["loading"])
+    const op = new Op<number>() // loading status by default
+    ```
+    ```ts
+    const op = Op.loading<number>()
+    ```
+    ```ts
+    const op = Op.ready<number>(123)
+    ```
+    ```ts
+    const op = Op.error<number>(new Error())
     ```
 - 🔥 create an op that calls and tracks an async fn
     ```ts
@@ -355,32 +364,18 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ```
 - await for the next ready value (or thrown error)
     ```ts
-    await op
-      // 123
+    await op // 123
     ```
 - get pod info
     ```ts
-    op.status
-      // "loading"
-    ```
-    ```ts
-    op.pod
-      // ["loading"]
-    ```
-    ```ts
-    op.value
-      // undefined (or value if ready)
+    op.status // "loading"
+    op.pod // ["loading"]
+    op.value // undefined (or value if ready)
     ```
     ```ts
     op.isLoading // true
     op.isReady // false
     op.isError // false
-    ```
-- create an op with starting status
-    ```ts
-    Op.loading<number>()
-    Op.ready(123)
-    Op.error<number>(new Error())
     ```
 - select executes a fn based on the status
     ```ts
