@@ -24,8 +24,8 @@ npm install @e280/sly lit @e280/strata @e280/stz
 > [!NOTE]
 > - 🔥 [lit](https://lit.dev/) for html rendering
 > - ⛏️ [@e280/strata](https://github.com/e280/strata) for state management (signals, state trees)
-> - 🏂 *(optional)* [@e280/stz](https://github.com/e280/stz) stz is our ts standard library
-> - 🐢 *(optional)* [scute](https://github.com/e280/scute) is our buildy-bundly-buddy
+> - 🏂 [@e280/stz](https://github.com/e280/stz) *(optional)* stz is our ts standard library
+> - 🐢 [scute](https://github.com/e280/scute) *(optional)* is our buildy-bundly-buddy
 
 <br/>
 
