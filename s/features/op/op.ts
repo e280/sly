@@ -22,8 +22,7 @@ export class Op<V> {
 
 	static all<V>(...ops: Op<V>[]) {
 		const pods = ops.map(op => op.pod)
-		const pod = podium.all(...pods)
-		return new this(pod)
+		return podium.all(...pods)
 	}
 
 	readonly signal: Signal<Pod<V>>
@@ -122,7 +121,7 @@ export class Op<V> {
 	}
 
 	morph<V2>(fn: (value: V) => V2) {
-		return new Op(podium.morph(this.pod, fn))
+		return podium.morph(this.pod, fn)
 	}
 }
 

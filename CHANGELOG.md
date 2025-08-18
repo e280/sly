@@ -8,6 +8,11 @@
 
 ## v0.0
 
+### v0.0.0-8
+- 🍏 fix `await op.wait` and make `await op` equivalent
+- 🟥 `op.morph` now returns a pod, not an op
+- 🟥 `op.all` now returns a pod, not an op
+
 ### v0.0.0-7
 - 🍏 implement web components via `view.component`
 
