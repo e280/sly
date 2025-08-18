@@ -28,7 +28,14 @@ views are leaner than web components.. no dom registration, no string tag names.
 
 sly views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
 
-### 🍋 basic view example
+- a minimal view looks like this:
+    ```ts
+    import {view} from "@e280/sly"
+
+    view(use => () => "hello world")
+    ```
+
+### 🍋 view example
 - views are hooks-based functional components with a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
 - **declaring a view**
     ```ts
@@ -166,6 +173,29 @@ sly views are wired to automatically rerender whenever they're using any state s
     ```ts
     const op = use.op.promise(doAsyncWork())
     ```
+
+### 🍋 web components
+- convert any view into a proper web component
+    ```ts
+    CounterView.component(1)
+    ```
+- or build a component directly
+    ```ts
+    const MyComponent = view(use => html`hello world`)
+    ```
+- register web components to the dom like this
+    ```ts
+    import {$} from "@e280/sly"
+
+    $.register({
+      MyCounter: CounterView.component(1),
+      MyComponent,
+    })
+
+    // <my-counter></my-counter>
+    // <my-component></my-component>
+    ```
+    - `$.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 
 ### 🍋 neat tricks to impress the ladies
 - make a ticker — mount, repeat, and nap

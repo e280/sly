@@ -8,6 +8,9 @@
 
 ## v0.0
 
+### v0.0.0-7
+- 🍏 implement web components via `view.component`
+
 ### v0.0.0-6
 - 🟥 rework some loader anims, see new loaders on the testing page
 
