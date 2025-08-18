@@ -216,23 +216,22 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
     ```
 
 ### 🍋 web components
-- convert any view into a web component
-    ```ts
-    CounterView.component(1)
-    ```
-- or build a component directly
+- **build a component directly**
     ```ts
     const MyComponent = view.component(use => html`hello world`)
     ```
-- register web components to the dom like this
+    - notice that components don't take props
+- **convert any view into a web component**
     ```ts
-    $.register({
-      MyCounter: CounterView.component(1),
-      MyComponent,
-    })
-
-    // <my-counter></my-counter>
-    // <my-component></my-component>
+    const MyCounter = CounterView.component(1)
+    ```
+    - to convert a view to a component, you provide props
+    - note that the component instance has a render method like `element.render(2)` which can take new props
+- **register web components to the dom**
+    ```ts
+    $.register({MyComponent, MyCounter})
+      // <my-component></my-component>
+      // <my-counter></my-counter>
     ```
     - `$.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 
