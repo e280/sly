@@ -369,8 +369,8 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ```
 - get pod info
     ```ts
-    op.status // "loading"
     op.pod // ["loading"]
+    op.status // "loading"
     op.value // undefined (or value if ready)
     ```
     ```ts
