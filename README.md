@@ -313,9 +313,8 @@ import {nap} from "@e280/stz"
 import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 ```
 
-### 🫛 pods: loading/ready/error data
-- a pod represents an async operation
-- pods are simple json-serializable data
+### 🫛 pods: loading/ready/error
+- a pod represents an async operation in terms of json-serializable data
 - there are three kinds of `Pod<V>`
     ```ts
     // loading pod
