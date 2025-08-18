@@ -21,6 +21,7 @@ export const CounterView = view(use => (initial: number) => {
 	const increment = () => count(count() + 1)
 
 	return html`
+		<slot></slot>
 		<div>
 			<span>${seconds()}</span>
 		</div>
@@ -34,9 +35,12 @@ export const CounterView = view(use => (initial: number) => {
 const styles = css`
 :host {
 	display: flex;
-	flex-direction: column;
 	justify-content: center;
-	text-align: center;
+	gap: 1em;
+}
+
+button {
+	padding: 0.2em 0.5em;
 }
 `
 

@@ -6,7 +6,7 @@ import {CounterView} from "./views/counter.js"
 $.render($(".demo"), DemoView())
 
 $.register({
-	DemoCounter: CounterView.component(100),
+	DemoCounter: CounterView.component(1),
 })
 
 console.log("🦝 sly")
