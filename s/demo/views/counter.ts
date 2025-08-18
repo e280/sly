@@ -5,7 +5,7 @@ import {repeat} from "@e280/stz"
 import {view} from "../../features/views/view.js"
 import {cssReset} from "../../features/views/css-reset.js"
 
-export const CounterView = view(use => () => {
+export const CounterView = view(use => (initial: number) => {
 	use.name("counter")
 	use.styles(cssReset, styles)
 
@@ -17,7 +17,7 @@ export const CounterView = view(use => () => {
 		seconds(Math.floor(since / 1000))
 	}))
 
-	const count = use.signal(0)
+	const count = use.signal(initial)
 	const increment = () => count(count() + 1)
 
 	return html`

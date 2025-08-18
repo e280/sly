@@ -18,12 +18,13 @@ export class Use {
 	#rendered = defer()
 	#mounts = new Mounts()
 
-	;[_wrap](fn: () => void) {
+	;[_wrap]<R>(fn: () => R) {
 		this.#runs++
 		this.#position = 0
 		this.#rendered = defer()
-		fn()
+		const result = fn()
 		this.#rendered.resolve()
+		return result
 	}
 
 	;[_disconnect]() {

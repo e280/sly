@@ -1,5 +1,6 @@
 
 import {render} from "lit"
+import {register} from "./register.js"
 import {Content} from "../views/types.js"
 
 export type Container = HTMLElement | ShadowRoot | DocumentFragment
@@ -22,4 +23,5 @@ $.maybe = <E extends HTMLElement = HTMLElement>(selector: string, context: Query
 $.all = all
 
 $.render = (container: Container, ...content: Content[]) => render(content, container)
+$.register = register
 

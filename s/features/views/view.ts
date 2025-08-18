@@ -1,6 +1,6 @@
 
 import {render} from "lit"
-import {debounce, MapG} from "@e280/stz"
+import {Constructor, debounce, MapG} from "@e280/stz"
 import {tracker} from "@e280/strata/tracker"
 import {AsyncDirective} from "lit/async-directive.js"
 import {directive, DirectiveResult} from "lit/directive.js"
@@ -9,7 +9,7 @@ import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, Content, View, ViewFn, ViewSettings, ViewWith} from "./types.js"
+import {AttrValue, ComponentFn, Content, View, ViewFn, ViewSettings, ViewWith} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
@@ -17,8 +17,13 @@ register({SlyView}, {soft: true, upgrade: true})
 
 function setupView(settings: ViewSettings) {
 	function view<Props extends any[]>(fn: ViewFn<Props>) {
-		class ViewDirective extends AsyncDirective {
-			#element = document.createElement(settings.tag ?? "sly-view")
+		type Situation = {
+			getElement: () => HTMLElement
+			isComponent: boolean
+		}
+
+		const make = (situation: Situation) => class ViewDirective extends AsyncDirective {
+			#element = situation.getElement()
 			#shadow = this.#element.attachShadow(settings)
 			#use = new Use(this.#element, this.#shadow, () => this.#render())
 			#fn = (() => {
@@ -54,7 +59,8 @@ function setupView(settings: ViewSettings) {
 						)
 
 					// inject content into light dom
-					render(w.children, this.#element)
+					if (!situation.isComponent)
+						render(w.children, this.#element)
 				})
 			}
 
@@ -63,7 +69,7 @@ function setupView(settings: ViewSettings) {
 			render(w: ViewWith, props: Props) {
 				this.#params = {with: w, props}
 				this.#render()
-				return this.#element
+				return situation.isComponent ? null : this.#element
 			}
 
 			disconnected() {
@@ -78,10 +84,13 @@ function setupView(settings: ViewSettings) {
 			}
 		}
 
-		const r = directive(ViewDirective)
+		const d = directive(make({
+			getElement: () => document.createElement(settings.tag ?? "sly-view"),
+			isComponent: false,
+		}))
 
 		function setupDirective(w: ViewWith): View<Props> {
-			const rend = (...props: Props): DirectiveResult<any> => r(w, props)
+			const rend = (...props: Props): DirectiveResult<any> => d(w, props)
 			rend.props = rend
 			rend.with = (w2: Partial<ViewWith>) => setupDirective({...w, ...w2})
 			rend.children = (...children: Content[]) => setupDirective({...w, children})
@@ -90,6 +99,24 @@ function setupView(settings: ViewSettings) {
 				...w,
 				attrs: {...w.attrs, [name]: value},
 			})
+			rend.component = <E extends HTMLElement>(...props: Props) => {
+				return class Component extends HTMLElement {
+					#directive = directive(make({
+						getElement: () => this,
+						isComponent: true,
+					}))
+
+					constructor() {
+						super()
+						this.render(...props)
+					}
+
+					render(...props: Props) {
+						if (this.isConnected)
+							render(this.#directive(w, props), this)
+					}
+				} as any as Constructor<E>
+			}
 			return rend
 		}
 
@@ -101,6 +128,7 @@ function setupView(settings: ViewSettings) {
 
 	view.view = view
 	view.settings = (settings2: Partial<ViewSettings>) => setupView({...settings, ...settings2})
+	view.component = (fn: ComponentFn) => view(use => () => fn(use)).component()
 	return view
 }
 
