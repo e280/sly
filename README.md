@@ -173,9 +173,13 @@ views are wired to automatically rerender whenever they're using any state stuff
     ```ts
     attrs.name = undefined // removes the attr
     ```
-- **use.render** — force a hard render (not debounced)
+- **use.render** — rerender the view (debounced)
     ```ts
     use.render()
+    ```
+- **use.renderNow** — rerender the view instantly (not debounced)
+    ```ts
+    use.renderNow()
     ```
 - **use.rendered** — promise that resolves *after* the next render
     ```ts

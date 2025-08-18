@@ -25,7 +25,17 @@ function setupView(settings: ViewSettings) {
 		const make = (situation: Situation) => class ViewDirective extends AsyncDirective {
 			#element = situation.getElement()
 			#shadow = this.#element.attachShadow(settings)
-			#use = new Use(this.#element, this.#shadow, () => this.#render())
+			#renderDebounced = debounce(0, () => this.#renderNow())
+			#tracking = new MapG<any, () => void>
+			#params!: {with: ViewWith, props: Props}
+
+			#use = new Use(
+				this.#element,
+				this.#shadow,
+				() => this.#renderNow(),
+				this.#renderDebounced,
+			)
+
 			#fn = (() => {
 				const fn2 = fn(this.#use)
 				this.#element.setAttribute("view", settings.name ?? "")
@@ -33,10 +43,7 @@ function setupView(settings: ViewSettings) {
 				return fn2
 			})()
 
-			#tracking = new MapG<any, () => void>
-			#params!: {with: ViewWith, props: Props}
-
-			#render() {
+			#renderNow() {
 				if (!this.#params) return
 				if (!this.isConnected) return
 				const {with: w, props} = this.#params
@@ -64,11 +71,9 @@ function setupView(settings: ViewSettings) {
 				})
 			}
 
-			#renderDebounced = debounce(0, () => this.#render())
-
 			render(w: ViewWith, props: Props) {
 				this.#params = {with: w, props}
-				this.#render()
+				this.#renderNow()
 				return situation.isComponent ? null : this.#element
 			}
 
