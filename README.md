@@ -181,7 +181,7 @@ sly views are wired to automatically rerender whenever they're using any state s
     ```
 - or build a component directly
     ```ts
-    const MyComponent = view(use => html`hello world`)
+    const MyComponent = view.component(use => html`hello world`)
     ```
 - register web components to the dom like this
     ```ts
