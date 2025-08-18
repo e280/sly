@@ -131,7 +131,7 @@ views have the good parts of web components, but they aren't cumbersome.
     ```
     - `$.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 
-### 🍋 view "use" reference
+### 🍋 view "use" hooks reference
 - **use.name** — set the "view" attr value, eg `<sly-view view="squarepants">`
     ```ts
     use.name("squarepants")
