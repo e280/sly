@@ -1,19 +1,19 @@
 
-export * from "./features/dom/dashify.js"
-export * from "./features/dom/dollar.js"
-export * from "./features/dom/register.js"
-export * from "./features/dom/types.js"
+export * from "./dom/dashify.js"
+export * from "./dom/dollar.js"
+export * from "./dom/register.js"
+export * from "./dom/types.js"
 
-export * from "./features/op/loaders/make-loader.js"
-export * from "./features/op/loaders/parts/ascii-anim.js"
-export * from "./features/op/loaders/parts/error-display.js"
+export * from "./ops/loaders/make-loader.js"
+export * from "./ops/loaders/parts/ascii-anim.js"
+export * from "./ops/loaders/parts/error-display.js"
 
-export * from "./features/op/op.js"
-export * from "./features/op/podium.js"
-export * from "./features/op/types.js"
+export * from "./ops/op.js"
+export * from "./ops/podium.js"
+export * from "./ops/types.js"
 
-export * from "./features/views/css-reset.js"
-export * from "./features/views/types.js"
-export * from "./features/views/use.js"
-export * from "./features/views/view.js"
+export * from "./views/css-reset.js"
+export * from "./views/types.js"
+export * from "./views/use.js"
+export * from "./views/view.js"
 

@@ -1,7 +1,7 @@
 
 import {render} from "lit"
+import {debounce, MapG} from "@e280/stz"
 import {tracker} from "@e280/strata/tracker"
-import {Constructor, debounce, MapG} from "@e280/stz"
 import {AsyncDirective} from "lit/async-directive.js"
 import {directive, DirectiveResult} from "lit/directive.js"
 
@@ -9,7 +9,7 @@ import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, Component, ComponentFn, Content, View, ViewFn, ViewSettings, ViewWith} from "./types.js"
+import {AttrValue, ComponentFn, Content, View, ViewFn, ViewSettings, ViewWith} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}

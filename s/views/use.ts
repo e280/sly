@@ -3,7 +3,7 @@ import {CSSResultGroup} from "lit"
 import {defer, MapG} from "@e280/stz"
 import {signal} from "@e280/strata/signals"
 
-import {Op} from "../op/op.js"
+import {Op} from "../ops/op.js"
 import {Mounts} from "./utils/mounts.js"
 import {applyStyles} from "./utils/apply-styles.js"
 

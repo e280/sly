@@ -289,7 +289,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     podium.value(["ready", 123])
       // 123
     ```
-- see more at [podium.ts](./s/features/op/podium.ts)
+- see more at [podium.ts](./s/ops/podium.ts)
 
 ### 🍋 Op pod ergonomics
 - an `Op<V>` wraps a pod with a signal for reactivity

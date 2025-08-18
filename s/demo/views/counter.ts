@@ -2,8 +2,8 @@
 import {css, html} from "lit"
 import {repeat} from "@e280/stz"
 
-import {view} from "../../features/views/view.js"
-import {cssReset} from "../../features/views/css-reset.js"
+import {view} from "../../views/view.js"
+import {cssReset} from "../../views/css-reset.js"
 
 export const CounterView = view(use => (initial: number) => {
 	use.name("counter")

@@ -1,8 +1,8 @@
 
 import {DemoView} from "./views/demo.js"
-import {$} from "../features/dom/dollar.js"
+import {$} from "../dom/dollar.js"
 import {CounterView} from "./views/counter.js"
-import { Op } from "../features/op/op.js"
+import { Op } from "../ops/op.js"
 import { nap } from "@e280/stz"
 
 $.render($(".demo"), DemoView())
