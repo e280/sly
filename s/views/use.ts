@@ -82,6 +82,10 @@ export class Use {
 		return r as V
 	}
 
+	wake<V>(fn: () => V) {
+		return this.life(() => [fn(), () => {}])
+	}
+
 	op = (() => {
 		const that = this
 		function op<V>(f: () => Promise<V>) {

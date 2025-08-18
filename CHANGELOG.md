@@ -9,6 +9,7 @@
 ## v0.0
 
 ### v0.0.0-8
+- 🍏 add `use.wake`
 - 🍏 add `use.attrs` and `attributes` and `onAttrChange`
 - 🍏 fix `await op.wait` and make `await op` equivalent
 - 🍏 add `use.op(f)` as alias to `use.op.fn(f)`

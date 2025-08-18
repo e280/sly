@@ -35,13 +35,15 @@ views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
 view(use => () => "hello world")
 ```
 
-views are not web components.. they're leaner.. no dom registration, no string tag names.. just import 'em, and the types work.. views are the true building blocks for web app developers..
+views are not web components..
 
-web components are really about giving mere html plebeians access to your cool widgets.. and that's fine.. you can register any sly view to the dom as a web component.
+where web components are html-native, views are typescript-native — with views, there's no dom registration or string tag names, you just import them and the types work.
+
+web components are best for giving html authors access to your cool widgets.. and that's cool, because any sly view can be registered as a web component.
 
 views automatically rerender whenever any state stuff from [@e280/strata](https://github.com/e280/strata) changes.
 
-views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).. views have all the good parts of web components, without the stupid bullshit.
+views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).. views have the good parts of web components, but they aren't cumbersome.
 
 ### 🍋 view example
 - **import some stuff**
@@ -126,7 +128,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
     // write the signal
     count(2)
     ```
-- **use.once** — run fn at initialization
+- **use.once** — run fn at initialization, and return a value
     ```ts
     const whatever = use.once(() => {
       console.log("happens only once")
@@ -144,6 +146,16 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
         console.log("view unmounted")
       }
     })
+    ```
+- **use.wake** — run fn each time mounted, and return value
+    ```ts
+    const whatever = use.wake(() => {
+      console.log("view mounted")
+      return 123
+    })
+
+    whatever
+      //-> 123
     ```
 - **use.life** — mount/unmount lifecycle, but also return a value
     ```ts
@@ -237,9 +249,9 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
       seconds.value++
     }))
     ```
-- once+rendered to do an action after the first render
+- wake + rendered, to do something after each mount's first render
     ```ts
-    use.once(() => use.rendered.then(() => {
+    use.wake(() => use.rendered.then(() => {
       console.log("after first render")
     }))
     ```
