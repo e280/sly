@@ -41,7 +41,7 @@ you can register any view to the dom as a web component.
 
 views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
 
-### 🍋 practical example
+### 🍋 view example
 - views are hooks-based functional components with a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
 - **import some stuff you'll need**
     ```ts
@@ -53,15 +53,17 @@ views are wired to automatically rerender whenever they're using any state stuff
     export const CounterView = view(use => (start: number) => {
       use.name("counter")
       use.styles(css`p {color: green}`)
+
       const count = use.signal(start)
+      const increment = () => { count.value++ }
 
       return html`
         <p>count ${count()}</p>
-        <button @click="${() => { count.value++ }}">+</button>
+        <button @click="${increment}">+</button>
       `
     })
     ```
-    - each view renders into a `<sly-view>` host, with the provided `name` set as its view attribute, eg `<sly-view view="counter">`
+    - each view renders into a `<sly-view view="counter">` host (where "counter" is the `use.name` you provided)
 - **inject a view into the dom**
     ```ts
     $.render($(".app"), html`
@@ -73,7 +75,7 @@ views are wired to automatically rerender whenever they're using any state stuff
 - 🤯 **register view as a web component**
     ```ts
     $.register({MyCounter: CounterView.component(1)})
-      // <my-counter></my-counter> is available in html
+      // <my-counter></my-counter> now available in html
     ```
 
 ### 🍋 view declaration settings
@@ -104,7 +106,7 @@ views are wired to automatically rerender whenever they're using any state stuff
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
     - `props` — finally inject the view by providing its props
 
-### 🍋 view `use` reference
+### 🍋 view "use" reference
 - **use.name** — set the "view" attr value, eg `<sly-view view="squarepants">`
     ```ts
     use.name("squarepants")
@@ -201,7 +203,7 @@ views are wired to automatically rerender whenever they're using any state stuff
     ```
 
 ### 🍋 web components
-- convert any view into a proper web component
+- convert any view into a web component
     ```ts
     CounterView.component(1)
     ```
