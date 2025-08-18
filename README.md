@@ -41,9 +41,10 @@ you can register any view to the dom as a web component.
 
 views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
 
+views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).
+
 ### 🍋 view example
-- views are hooks-based functional components with a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
-- **import some stuff you'll need**
+- **import some stuff**
     ```ts
     import {$, view} from "@e280/sly"
     import {html, css} from "lit"
