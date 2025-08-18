@@ -4,8 +4,7 @@
 # 🦝 sly — mischievous shadow views
 > testing page at https://sly.e280.org/
 
-- 🪒 lean view framework for [lit](https://lit.dev/) web devs
-- 🍋 views are the building blocks of web apps
+- 🍋 view library for building elegant web apps
 - 🤯 register any view as a web component
 - 🖋️ `$` dom multitool
 - 🫛 ops for fancy loading spinners
@@ -16,15 +15,15 @@
 ## 🦝 INSTALL SLY AND PALS
 
 ```sh
-npm install @e280/sly lit @e280/stz @e280/strata
+npm install @e280/sly lit @e280/strata @e280/stz
 ```
 
 > [!NOTE]
-> - 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
-> - 🐢 if you need a buildy-bundly-buddy, try [scute](https://github.com/e280/scute)
-> - 🔥 sly integrates with and uses rendering from [lit](https://lit.dev/)
-> - 🏂 sly is commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
-> - ⛏️ integrates signals and state trees from [@e280/strata](https://github.com/e280/strata)
+> - 🌅 [@benev/slate](https://github.com/benevolent-games/slate) is the old predecessor to sly
+> - 🔥 [lit](https://lit.dev/) is what we use for html rendering
+> - ⛏️ [@e280/strata](https://github.com/e280/strata) integration for state management (signals, state trees)
+> - 🏂 *(optional)* [@e280/stz](https://github.com/e280/stz) stz is our ts standard library
+> - 🐢 *(optional)* [scute](https://github.com/e280/scute) is our buildy-bundly-buddy
 
 <br/>
 
@@ -78,7 +77,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
 - 🤯 **register view as a web component**
     ```ts
     $.register({MyCounter: CounterView.component(1)})
-      // <my-counter></my-counter> now available in html
+      // <my-counter></my-counter>
     ```
 
 ### 🍋 view declaration settings
@@ -101,13 +100,33 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
       <h2>super cool example</h2>
       ${CoolView
         .attr("class", "hero")
-        .children(html`<em>world</em>`)
+        .children(html`<em>spongebob</em>`)
         .props("hello")}
     `)
     ```
     - `attr` — set html attributes on the `<sly-view>` host element
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
     - `props` — finally inject the view by providing its props
+
+### 🍋 web components
+- **build a component directly**
+    ```ts
+    const MyComponent = view.component(use => html`hello world`)
+    ```
+    - notice that components don't take props
+- **convert any view into a web component**
+    ```ts
+    const MyCounter = CounterView.component(1)
+    ```
+    - to convert a view to a component, you provide props
+    - note that the component instance has a render method like `element.render(2)` which can take new props
+- **register web components to the dom**
+    ```ts
+    $.register({MyComponent, MyCounter})
+      // <my-component></my-component>
+      // <my-counter></my-counter>
+    ```
+    - `$.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 
 ### 🍋 view "use" reference
 - **use.name** — set the "view" attr value, eg `<sly-view view="squarepants">`
@@ -215,27 +234,7 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
     const op = use.op.promise(doAsyncWork())
     ```
 
-### 🍋 web components
-- **build a component directly**
-    ```ts
-    const MyComponent = view.component(use => html`hello world`)
-    ```
-    - notice that components don't take props
-- **convert any view into a web component**
-    ```ts
-    const MyCounter = CounterView.component(1)
-    ```
-    - to convert a view to a component, you provide props
-    - note that the component instance has a render method like `element.render(2)` which can take new props
-- **register web components to the dom**
-    ```ts
-    $.register({MyComponent, MyCounter})
-      // <my-component></my-component>
-      // <my-counter></my-counter>
-    ```
-    - `$.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
-
-### 🍋 neat tricks to impress the ladies
+### 🍋 view "use" recipes
 - make a ticker — mount, repeat, and nap
     ```ts
     import {repeat, nap} from "@e280/stz"
@@ -414,7 +413,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 ### 🫛 loaders: animated loading spinners
 - create a `loader` using `makeLoader`
     ```ts
-    const loader = makeLoader(anims.bar2)
+    const loader = makeLoader(anims.dots)
     ```
     - see all the anims available on the testing page https://sly.e280.org/
 - use the loader to render your op
