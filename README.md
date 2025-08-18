@@ -152,6 +152,27 @@ views are wired to automatically rerender whenever they're using any state stuff
 
     v //-> 123
     ```
+- **use.attrs** — ergonomic typed html attribute access
+    ```ts
+    const attrs = use.attrs({
+      name: String,
+      count: Number,
+      active: Boolean,
+    })
+    ```
+    ```ts
+    attrs.name // "chase"
+    attrs.count // 123
+    attrs.active // true
+    ```
+    ```ts
+    attrs.name = "zenky"
+    attrs.count = 124
+    attrs.active = false // removes html attr
+    ```
+    ```ts
+    attrs.name = undefined // removes the attr
+    ```
 - **use.render** — force a hard render (not debounced)
     ```ts
     use.render()
