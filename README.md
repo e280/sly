@@ -275,7 +275,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ["error", new Error()]
     ```
 
-### 🍋 podium helps you work with pods
+### 🍋 podium: helps you work with pods
 - get pod status
     ```ts
     podium.status(["ready", 123])
@@ -291,7 +291,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ```
 - see more at [podium.ts](./s/ops/podium.ts)
 
-### 🍋 Op pod ergonomics
+### 🍋 Op: nice pod ergonomics
 - an `Op<V>` wraps a pod with a signal for reactivity
 - create an op
     ```ts
@@ -362,7 +362,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     - loading if any ops are in loading, otherwise
     - ready if all the ops are ready
 
-### 🍋 animated loading spinners
+### 🍋 loaders: animated loading spinners
 - create a `loader` using `makeLoader`
     ```ts
     const loader = makeLoader(anims.bar2)
@@ -372,6 +372,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ```ts
     return html`
       <h2>cool stuff</h2>
+
       ${loader(op, value => html`
         <div>${value}</div>
       `)}
