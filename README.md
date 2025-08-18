@@ -5,10 +5,10 @@
 > testing page at https://sly.e280.org/
 
 - 🪒 lean view framework for [lit](https://lit.dev/) web devs
-- 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
-- 🏂 commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
-- ⛏️ integrates signals and state trees from [@e280/strata](https://github.com/e280/strata)
-- 🐢 if you need a buildy-bundler-buddy, try [scute](https://github.com/e280/scute)
+- 🍋 views are the building blocks of web apps
+- 🤯 register any view as a web component
+- 🖋️ `$` dom multitool
+- 🫛 ops for fancy loading spinners
 - 🧑‍💻 project by [@e280](https://e280.org/)
 
 <br/>
@@ -16,32 +16,40 @@
 ## 🦝 INSTALL SLY AND PALS
 
 ```sh
-npm install @e280/sly @e280/stz @e280/strata lit
+npm install @e280/sly lit @e280/stz @e280/strata
 ```
+
+> [!NOTE]
+> - 🌅 sly is the successor to [@benev/slate](https://github.com/benevolent-games/slate)
+> - 🐢 if you need a buildy-bundly-buddy, try [scute](https://github.com/e280/scute)
+> - 🔥 sly integrates with and uses rendering from [lit](https://lit.dev/)
+> - 🏂 sly is commonly used with stz standard library [@e280/stz](https://github.com/e280/stz)
+> - ⛏️ integrates signals and state trees from [@e280/strata](https://github.com/e280/strata)
 
 <br/>
 
 ## 🦝 SLY VIEWS
-views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics. not components.
+views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
 
-views are leaner than web components.. no dom registration, no string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the building blocks for frontend app devs.
+```ts
+view(use => () => "hello world")
+```
 
-sly views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
+views are not components.. they're leaner than web components.. no dom registration, no string tag names.. just import 'em, and the types work.. web components are fine, but they're for providing html authors with entrypoints to your cool widgets.. whereas views are the true building blocks for frontend app devs..
 
-- a minimal view looks like this:
-    ```ts
-    import {view} from "@e280/sly"
+you can register any view to the dom as a web component.
 
-    view(use => () => "hello world")
-    ```
+views are wired to automatically rerender whenever they're using any state stuff from [@e280/strata](https://github.com/e280/strata).
 
-### 🍋 view example
+### 🍋 practical example
 - views are hooks-based functional components with a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM)
+- **import some stuff you'll need**
+    ```ts
+    import {$, view} from "@e280/sly"
+    import {html, css} from "lit"
+    ```
 - **declaring a view**
     ```ts
-    import {view} from "@e280/sly"
-    import {html, css} from "lit"
-
     export const CounterView = view(use => (start: number) => {
       use.name("counter")
       use.styles(css`p {color: green}`)
@@ -54,24 +62,23 @@ sly views are wired to automatically rerender whenever they're using any state s
     })
     ```
     - each view renders into a `<sly-view>` host, with the provided `name` set as its view attribute, eg `<sly-view view="counter">`
-- **injecting a view into the dom**
+- **inject a view into the dom**
     ```ts
-    import {$} from "@e280/sly"
-    import {render, html} from "lit"
-    import {CounterView} from "./my-counter.js"
-
     $.render($(".app"), html`
-      <h1>my demo page</h1>
+      <h1>my cool counter demo</h1>
+
       ${CounterView(1)}
     `)
+    ```
+- 🤯 **register view as a web component**
+    ```ts
+    $.register({MyCounter: CounterView.component(1)})
+      // <my-counter></my-counter> is available in html
     ```
 
 ### 🍋 view declaration settings
 - special settings for views at declaration-time
     ```ts
-    import {view} from "@e280/sly"
-    import {html} from "lit"
-
     export const CoolView = view
       .settings({mode: "open", delegatesFocus: true})
       .view(use => (greeting: string) => {
@@ -85,15 +92,11 @@ sly views are wired to automatically rerender whenever they're using any state s
 ### 🍋 view injection options
 - options for views at the template injection site
     ```ts
-    import {$} from "@e280/sly"
-    import {render, html} from "lit"
-    import {CoolView} from "./cool-view.js"
-
     $.render($(".app"), html`
       <h2>super cool example</h2>
       ${CoolView
         .attr("class", "hero")
-        .children(html`<em>spongebob</em>`)
+        .children(html`<em>world</em>`)
         .props("hello")}
     `)
     ```
@@ -183,8 +186,6 @@ sly views are wired to automatically rerender whenever they're using any state s
     ```
 - register web components to the dom like this
     ```ts
-    import {$} from "@e280/sly"
-
     $.register({
       MyCounter: CounterView.component(1),
       MyComponent,
@@ -217,11 +218,15 @@ sly views are wired to automatically rerender whenever they're using any state s
 
 <br/>
 
-## 🦝 SLY'S `$` DOM MULTITOOL
+## 🦝 SLY `$` DOM MULTITOOL
+
+### 🖋️ the pen is mightier than the sword
 - import the `$` and it has a bunch of goodies
     ```ts
     import {$} from "@e280/sly"
     ```
+
+### 🖋️ query the dom
 - select an element
     ```ts
     $(".demo")
@@ -237,6 +242,13 @@ sly views are wired to automatically rerender whenever they're using any state s
     $.all("ul li")
       // HTMLElement[]
     ```
+- specify what element to query under
+    ```ts
+    $("li", listElement)
+      // HTMLElement
+    ```
+
+### 🖋️ dom utilities
 - register web components
     ```ts
     $.register({MyComponent, AnotherCoolComponent})
@@ -258,7 +270,7 @@ import {nap} from "@e280/stz"
 import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 ```
 
-### 🍋 pods: loading/ready/error data
+### 🫛 pods: loading/ready/error data
 - a pod represents an async operation
 - pods are simple json-serializable data
 - there are three kinds of `Pod<V>`
@@ -273,7 +285,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ["error", new Error()]
     ```
 
-### 🍋 podium: helps you work with pods
+### 🫛 podium: helps you work with pods
 - get pod status
     ```ts
     podium.status(["ready", 123])
@@ -289,17 +301,23 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ```
 - see more at [podium.ts](./s/ops/podium.ts)
 
-### 🍋 Op: nice pod ergonomics
+### 🫛 ops: nice pod ergonomics
 - an `Op<V>` wraps a pod with a signal for reactivity
 - create an op
     ```ts
     const op = new Op<number>(["loading"])
     ```
-- create an op with starting status
+- 🔥 create an op that calls and tracks an async fn
     ```ts
-    Op.loading<number>()
-    Op.ready(123)
-    Op.error<number>(new Error())
+    const op = Op.fn(async() => {
+      await nap(4000)
+      return 123
+    })
+    ```
+- await for the next ready value (or thrown error)
+    ```ts
+    await op
+      // 123
     ```
 - get pod info
     ```ts
@@ -319,17 +337,11 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     op.isReady // false
     op.isError // false
     ```
-- 🪄 call an async fn and produce an op that tracks it
+- create an op with starting status
     ```ts
-    const op = Op.fn(async() => {
-      await nap(4000)
-      return 123
-    })
-    ```
-- await for the next ready value (or thrown error)
-    ```ts
-    await op
-      // 123
+    Op.loading<number>()
+    Op.ready(123)
+    Op.error<number>(new Error())
     ```
 - select executes a fn based on the status
     ```ts
@@ -360,7 +372,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     - loading if any ops are in loading, otherwise
     - ready if all the ops are ready
 
-### 🍋 loaders: animated loading spinners
+### 🫛 loaders: animated loading spinners
 - create a `loader` using `makeLoader`
     ```ts
     const loader = makeLoader(anims.bar2)
