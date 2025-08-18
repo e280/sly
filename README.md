@@ -289,15 +289,15 @@ views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_
     ```
 
 ### 🖋️ dom utilities
+- render content into an element
+    ```ts
+    $.render(element, html`hello world`)
+    ```
 - register web components
     ```ts
     $.register({MyComponent, AnotherCoolComponent})
       // <my-component>
       // <another-cool-component>
-    ```
-- render content into an element
-    ```ts
-    $.render(element, html`hello world`)
     ```
 
 <br/>
