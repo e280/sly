@@ -8,6 +8,9 @@
 
 ## v0.0
 
+### v0.0.0-9
+- 🍏 fix `use.op.fn` type
+
 ### v0.0.0-8
 - 🍏 add `use.wake`
 - 🍏 add `use.attrs` and `attributes` and `onAttrChange`

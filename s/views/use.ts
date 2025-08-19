@@ -91,7 +91,7 @@ export class Use {
 		function op<V>(f: () => Promise<V>) {
 			return that.once(() => Op.fn(f))
 		}
-		op.fn = op
+		op.fn = op as (<V>(f: () => Promise<V>) => Op<V>)
 		op.promise = <V>(p: Promise<V>) => this.once(() => Op.promise(p))
 		return op
 	})()
