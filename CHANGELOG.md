@@ -10,6 +10,7 @@
 
 ### v0.0.0-9
 - 🍏 fix `use.op.fn` type
+- 🍏 improve readme
 
 ### v0.0.0-8
 - 🍏 add `use.wake`
