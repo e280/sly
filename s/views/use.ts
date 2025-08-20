@@ -58,6 +58,11 @@ export class Use {
 	styles(...styles: CSSResultGroup[]) {
 		this.once(() => applyStyles(this.shadow, styles))
 	}
+	
+	/** alias for 'styles' */
+	css(...styles: CSSResultGroup[]) {
+		return this.styles(...styles)
+	}
 
 	attrs<A extends AttrSpec>(spec: A) {
 		this.mount(() => onAttrChange(this.element, this.render))

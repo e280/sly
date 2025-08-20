@@ -8,6 +8,9 @@
 
 ## v0.0
 
+### v0.0.1
+- 🍏 add alias `use.css` for `use.styles`
+
 ### v0.0.0
 - 🍏 update dependencies
 - 🔶 adapt to new strata tracker which is incompatible with the old one
