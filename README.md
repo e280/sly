@@ -2,7 +2,7 @@
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly — mischievous shadow views
-> testing page at https://sly.e280.org/
+> testing page https://sly.e280.org/
 
 - 🍋 web app view library with taste
 - 🥷 leverage shadow-dom and slots
@@ -410,6 +410,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     const loader = makeLoader(anims.dots)
     ```
     - see all the anims available on the testing page https://sly.e280.org/
+    - ngl, i made too many.. *i was having fun, okay?*
 - use the loader to render your op
     ```ts
     return html`
