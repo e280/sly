@@ -8,6 +8,10 @@
 
 ## v0.0
 
+### v0.0.0
+- 🍏 update dependencies
+- 🔶 adapt to new strata tracker which is incompatible with the old one
+
 ### v0.0.0-9
 - 🍏 fix `use.op.fn` type
 - 🍏 improve readme
