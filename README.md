@@ -9,13 +9,13 @@
 - 🤯 register any view as a web component
 - 💲 handy little dom multitool
 - 🫛 ops for fancy loading spinners
-- 😩 took many years of iteration and suffering
+- 🧙‍♂️ took many years to get it right
 - 🌅 sly is the successor that replaces [@benev/slate](https://github.com/benevolent-games/slate)
 - 🧑‍💻 project by [@e280](https://e280.org/)
 
 <br/>
 
-## 🦝 INSTALL SLY AND PALS
+## 🦝 sly and friends
 
 ```sh
 npm install @e280/sly lit @e280/strata @e280/stz
@@ -29,7 +29,7 @@ npm install @e280/sly lit @e280/strata @e280/stz
 
 <br/>
 
-## 🦝 SLY VIEWS
+## 🦝 sly views
 views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
 
 ```ts
@@ -261,7 +261,7 @@ views have the good parts of web components, but they aren't cumbersome.
 
 <br/>
 
-## 🦝 SLY `$` DOM MULTITOOL
+## 🦝 sly dom multitool
 
 ### 💲 follow the money
 - import the dollarsign
@@ -305,7 +305,7 @@ views have the good parts of web components, but they aren't cumbersome.
 
 <br/>
 
-## 🦝 SLY OPS, PODS, AND LOADERS
+## 🦝 sly ops, pods, and loaders
 async operations and displaying loading spinners.
 
 ```ts
@@ -431,7 +431,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 
 <br/>
 
-## 🧑‍💻 SLY BY E280
+## 🧑‍💻 sly by e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
 
