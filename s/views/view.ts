@@ -53,7 +53,7 @@ function setupView(settings: ViewSettings) {
 					applyAttrs(this.#element, w.attrs)
 
 					// render the template, tracking strata items
-					const {result, seen} = tracker.seen(() => this.#fn(...props))
+					const {result, seen} = tracker.observe(() => this.#fn(...props))
 
 					// inject the template
 					render(result, this.#shadow)
@@ -62,7 +62,7 @@ function setupView(settings: ViewSettings) {
 					for (const item of seen)
 						this.#tracking.guarantee(
 							item,
-							() => tracker.changed(item, async() => this.#renderDebounced()),
+							() => tracker.subscribe(item, async() => this.#renderDebounced()),
 						)
 
 					// inject content into light dom
