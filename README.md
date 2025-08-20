@@ -24,36 +24,30 @@ npm install @e280/sly lit @e280/strata @e280/stz
 > [!NOTE]
 > - 🔥 [lit](https://lit.dev/) for html rendering
 > - ⛏️ [@e280/strata](https://github.com/e280/strata) for state management (signals, state trees)
-> - 🏂 [@e280/stz](https://github.com/e280/stz) *(optional)* stz is our ts standard library
-> - 🐢 [scute](https://github.com/e280/scute) *(optional)* is our buildy-bundly-buddy
+> - 🏂 [@e280/stz](https://github.com/e280/stz) ***(optional)*** stz is our ts standard library
+> - 🐢 [scute](https://github.com/e280/scute) ***(optional)*** is our buildy-bundly-buddy
 
 <br/>
 
 ## 🦝 sly views
-views are the crown jewel of sly. shadow-dom'd. hooks-based. fancy ergonomics.
+> *views are the crown jewel of sly.. shadow-dom'd.. hooks-based.. "ergonomics"..*
 
 ```ts
-view(use => () => "hello world")
+view(use => () => html`<p>hello world</p>`)
 ```
 
-views are not web components.
-
-where web components are html-native, views are typescript-native — with views, there's no dom registration or string tag names, you just import them and the types work.
-
-web components are best for giving html authors access to your cool widgets.. and that's cool, because any sly view can be registered as a web component.
-
-views automatically rerender whenever any state stuff from [@e280/strata](https://github.com/e280/strata) changes.
-
-🥷 views have a [shadow root](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).  
-views have the good parts of web components, but they aren't cumbersome.
+- views are not [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components), but they do have [shadow roots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+- any view can be registered as a web component, perfect for entrypoints or sharing widgets with html authors
+- views are typescript-native and comfy for webdevs building apps
+- views automatically rerender whenever any [strata-compatible](https://github.com/e280/strata) state changes
 
 ### 🍋 view example
-- **import some stuff**
+- **import stuff**
     ```ts
     import {$, view} from "@e280/sly"
     import {html, css} from "lit"
     ```
-- **declaring a view**
+- **declare a view**
     ```ts
     export const CounterView = view(use => (start: number) => {
       use.name("counter")
@@ -77,24 +71,11 @@ views have the good parts of web components, but they aren't cumbersome.
       ${CounterView(1)}
     `)
     ```
-- 🤯 **register view as a web component**
+- 🤯 **register a view as a web component**
     ```ts
     $.register({MyCounter: CounterView.component(1)})
       // <my-counter></my-counter>
     ```
-
-### 🍋 view declaration settings
-- special settings for views at declaration-time
-    ```ts
-    export const CoolView = view
-      .settings({mode: "open", delegatesFocus: true})
-      .view(use => (greeting: string) => {
-
-      return html`😎 ${greeting} <slot></slot>`
-    })
-    ```
-    - these `settings` like `mode` and `delegatesFocus` are [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters)
-    - note the `<slot></slot>` we'll use in the next example lol
 
 ### 🍋 view injection options
 - options for views at the template injection site
@@ -111,18 +92,31 @@ views have the good parts of web components, but they aren't cumbersome.
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
     - `props` — finally inject the view by providing its props
 
+### 🍋 view declaration settings
+- special settings for views at declaration-time
+    ```ts
+    export const CoolView = view
+      .settings({mode: "open", delegatesFocus: true})
+      .view(use => (greeting: string) => {
+
+      return html`😎 ${greeting} <slot></slot>`
+    })
+    ```
+    - all [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters) (like `mode` and `delegatesFocus`) are valid `settings`
+    - note the `<slot></slot>` we'll use in the next example lol
+
 ### 🍋 web components
 - **build a component directly**
     ```ts
-    const MyComponent = view.component(use => html`hello world`)
+    const MyComponent = view.component(use => html`<p>hello world</p>`)
     ```
-    - notice that components don't take props
+    - notice that direct components don't take props (do `use.attrs` instead)
 - **convert any view into a web component**
     ```ts
     const MyCounter = CounterView.component(1)
     ```
     - to convert a view to a component, you provide props
-    - note that the component instance has a render method like `element.render(2)` which can take new props
+    - note that the component instance has a render method like `element.render(2)` which can take new props at runtime
 - **register web components to the dom**
     ```ts
     $.register({MyComponent, MyCounter})
@@ -262,6 +256,7 @@ views have the good parts of web components, but they aren't cumbersome.
 <br/>
 
 ## 🦝 sly dom multitool
+> *"it's not jquery!"*
 
 ### 💲 follow the money
 - import the dollarsign
@@ -294,7 +289,7 @@ views have the good parts of web components, but they aren't cumbersome.
 ### 💲 dom utilities
 - render content into an element
     ```ts
-    $.render(element, html`hello world`)
+    $.render(element, html`<p>hello world</p>`)
     ```
 - register web components
     ```ts
@@ -306,7 +301,7 @@ views have the good parts of web components, but they aren't cumbersome.
 <br/>
 
 ## 🦝 sly ops, pods, and loaders
-async operations and displaying loading spinners.
+> *async operations and displaying loading spinners.*
 
 ```ts
 import {nap} from "@e280/stz"
