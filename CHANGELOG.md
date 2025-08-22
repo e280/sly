@@ -6,6 +6,12 @@
 
 <br/>
 
+## v0.1
+
+### v0.1.0
+- 🍏 moving to version range that allows non-breaking patches
+- 🍏 update dependencies
+
 ## v0.0
 
 ### v0.0.1
