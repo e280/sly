@@ -77,11 +77,24 @@ view(use => () => html`<p>hello world</p>`)
       // <my-counter></my-counter>
     ```
 
+### 🍋 view declaration settings
+- special settings for views at declaration-time
+    ```ts
+    export const CoolView = view
+      .settings({mode: "open", delegatesFocus: true})
+      .view(use => (greeting: string) => {
+        return html`😎 ${greeting} <slot></slot>`
+      })
+    ```
+    - all [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters) (like `mode` and `delegatesFocus`) are valid `settings`
+    - note the `<slot></slot>` we'll use in the next example lol
+
 ### 🍋 view injection options
 - options for views at the template injection site
     ```ts
     $.render($(".app"), html`
       <h2>super cool example</h2>
+
       ${CoolView
         .attr("class", "hero")
         .children(html`<em>spongebob</em>`)
@@ -91,19 +104,6 @@ view(use => () => html`<p>hello world</p>`)
     - `attr` — set html attributes on the `<sly-view>` host element
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
     - `props` — finally inject the view by providing its props
-
-### 🍋 view declaration settings
-- special settings for views at declaration-time
-    ```ts
-    export const CoolView = view
-      .settings({mode: "open", delegatesFocus: true})
-      .view(use => (greeting: string) => {
-
-      return html`😎 ${greeting} <slot></slot>`
-    })
-    ```
-    - all [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters) (like `mode` and `delegatesFocus`) are valid `settings`
-    - note the `<slot></slot>` we'll use in the next example lol
 
 ### 🍋 web components
 - **build a component directly**
