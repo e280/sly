@@ -8,9 +8,15 @@
 
 ## v0.1
 
+### v0.1.1
+- 🍏 make stz and strata regular `dependencies` (they used to be peer dependencies), because those packages can tolerate your runtime having multiple version of those libraries.. however `lit` is still a *peer dependency*, because it apparently cannot tolerate mixing among multiple copies of the library
+- 🍏 update dependencies
+
 ### v0.1.0
 - 🍏 moving to version range that allows non-breaking patches
 - 🍏 update dependencies
+
+<br/>
 
 ## v0.0
 
