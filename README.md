@@ -18,10 +18,11 @@
 ## 🦝 sly and friends
 
 ```sh
-npm install @e280/sly lit @e280/strata @e280/stz
+npm install @e280/sly lit
 ```
 
 > [!NOTE]
+> ecosystem buddies:
 > - 🔥 [lit](https://lit.dev/) for html rendering
 > - ⛏️ [@e280/strata](https://github.com/e280/strata) for state management (signals, state trees)
 > - 🏂 [@e280/stz](https://github.com/e280/stz) ***(optional)*** stz is our ts standard library
