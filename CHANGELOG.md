@@ -9,15 +9,8 @@
 <br/>
 
 ## v0.2
-- 🟥 rename view.view to view.declare
-    - 😡 old bad
-        ```ts
-        view.settings(s).view(fn)
-        ```
-    - 🤗 new good
-        ```ts
-        view.settings(s).declare(fn)
-        ```
+
+### v0.2.0
 - 🟥 rework view rendering syntax
     - 😡 old bad
         ```ts
@@ -32,6 +25,15 @@
           .attr("class", "hero")
           .children(html`<em>spongebob</em>`)
           .render()
+        ```
+- 🟥 rename view.view to view.declare
+    - 😡 old bad
+        ```ts
+        view.settings(s).view(fn)
+        ```
+    - 🤗 new good
+        ```ts
+        view.settings(s).declare(fn)
         ```
 
 
