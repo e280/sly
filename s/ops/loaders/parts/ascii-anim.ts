@@ -21,11 +21,11 @@ export const AsciiAnim = view(use => ({hz, frames}: {
 
 	use.mount(() => repeat(async() => {
 		await nap(1000 / hz)
-		const next = frame() + 1
-		frame(next >= frames.length ? 0 : next)
+		const next = frame.get() + 1
+		frame.set(next >= frames.length ? 0 : next)
 	}))
 
-	return frames.at(frame())
+	return frames.at(frame.get())
 })
 
 const style = css`

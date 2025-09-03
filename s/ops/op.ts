@@ -46,16 +46,16 @@ export class Op<V> {
 	get finally() { return this.wait.finally.bind(this.wait) }
 
 	async setLoading() {
-		await this.signal(["loading"])
+		await this.signal.set(["loading"])
 	}
 
 	async setReady(value: V) {
-		await this.signal(["ready", value])
+		await this.signal.set(["ready", value])
 		await this.#resolve(value)
 	}
 
 	async setError(error: any) {
-		await this.signal(["error", error])
+		await this.signal.set(["error", error])
 		await this.#reject(error)
 	}
 
@@ -79,23 +79,23 @@ export class Op<V> {
 	}
 
 	get pod() {
-		return this.signal()
+		return this.signal.get()
 	}
 
 	set pod(p: Pod<V>) {
-		this.signal(p)
+		this.signal.set(p)
 	}
 
 	get status() {
-		return this.signal()[0]
+		return this.signal.get()[0]
 	}
 
 	get value() {
-		return podium.value(this.signal())
+		return podium.value(this.signal.get())
 	}
 
 	get error() {
-		return podium.error(this.signal())
+		return podium.error(this.signal.get())
 	}
 
 	get isLoading() {
@@ -111,13 +111,13 @@ export class Op<V> {
 	}
 
 	require() {
-		const pod = this.signal()
+		const pod = this.signal.get()
 		if (pod[0] !== "ready") throw new Error("required value not ready")
 		return pod[1]
 	}
 
 	select<R>(select: PodSelect<V, R>) {
-		return podium.select(this.signal(), select)
+		return podium.select(this.signal.get(), select)
 	}
 
 	morph<V2>(fn: (value: V) => V2) {

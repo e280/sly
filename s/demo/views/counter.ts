@@ -14,19 +14,19 @@ export const CounterView = view(use => (initial: number) => {
 
 	use.mount(() => repeat(async() => {
 		const since = Date.now() - start
-		seconds(Math.floor(since / 1000))
+		seconds.set(Math.floor(since / 1000))
 	}))
 
 	const count = use.signal(initial)
-	const increment = () => count(count() + 1)
+	const increment = () => count.value++
 
 	return html`
 		<slot></slot>
 		<div>
-			<span>${seconds()}</span>
+			<span>${seconds.get()}</span>
 		</div>
 		<div>
-			<span>${count()}</span>
+			<span>${count.get()}</span>
 			<button @click="${increment}">+</button>
 		</div>
 	`
