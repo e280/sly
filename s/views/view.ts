@@ -142,7 +142,7 @@ function setupView(settings: ViewSettings) {
 		return rendy
 	}
 
-	view.view = view
+	view.declare = view
 	view.settings = (settings2: Partial<ViewSettings>) => setupView({...settings, ...settings2})
 	view.component = (fn: ComponentFn) => view(use => () => fn(use)).component()
 	return view

@@ -82,7 +82,7 @@ view(use => () => html`<p>hello world</p>`)
     ```ts
     export const CoolView = view
       .settings({mode: "open", delegatesFocus: true})
-      .view(use => (greeting: string) => {
+      .declare(use => (greeting: string) => {
         return html`😎 ${greeting} <slot></slot>`
       })
     ```
