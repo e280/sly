@@ -95,15 +95,16 @@ view(use => () => html`<p>hello world</p>`)
     $.render($(".app"), html`
       <h2>super cool example</h2>
 
-      ${CoolView
+      ${CoolView.props("hello")
         .attr("class", "hero")
         .children(html`<em>spongebob</em>`)
-        .props("hello")}
+        .render()}
     `)
     ```
+    - `props` — provide props and start a view chain
     - `attr` — set html attributes on the `<sly-view>` host element
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
-    - `props` — finally inject the view by providing its props
+    - `render` — end the view chain and render the lit directive
 
 ### 🍋 web components
 - **build a component directly**

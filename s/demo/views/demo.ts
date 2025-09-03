@@ -10,7 +10,7 @@ export const DemoView = view(use => () => {
 	use.styles(cssReset, styles)
 
 	return html`
-		${CounterView.children("view")(2)}
+		${CounterView.props(2).children("view").render()}
 		${LoadersView()}
 	`
 })

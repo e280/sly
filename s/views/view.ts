@@ -1,22 +1,22 @@
 
 import {render} from "lit"
 import {debounce, MapG} from "@e280/stz"
+import {directive} from "lit/directive.js"
 import {tracker} from "@e280/strata/tracker"
 import {AsyncDirective} from "lit/async-directive.js"
-import {directive, DirectiveResult} from "lit/directive.js"
 
 import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, ComponentFn, Content, View, ViewFn, ViewSettings, ViewWith} from "./types.js"
+import {AttrValue, ComponentFn, Content, View, ViewFn, ViewSettings, ViewContext} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
 register({SlyView}, {soft: true, upgrade: true})
 
 function setupView(settings: ViewSettings) {
-	function view<Props extends any[]>(fn: ViewFn<Props>) {
+	function view<Props extends any[]>(fn: ViewFn<Props>): View<Props> {
 		type Situation = {
 			getElement: () => HTMLElement
 			isComponent: boolean
@@ -27,7 +27,7 @@ function setupView(settings: ViewSettings) {
 			#shadow = this.#element.attachShadow(settings)
 			#renderDebounced = debounce(0, () => this.#renderNow())
 			#tracking = new MapG<any, () => void>
-			#params!: {with: ViewWith, props: Props}
+			#params!: {context: ViewContext, props: Props}
 
 			#use = new Use(
 				this.#element,
@@ -46,7 +46,7 @@ function setupView(settings: ViewSettings) {
 			#renderNow() {
 				if (!this.#params) return
 				if (!this.isConnected) return
-				const {with: w, props} = this.#params
+				const {context: w, props} = this.#params
 
 				this.#use[_wrap](() => {
 					// apply html attributes
@@ -71,8 +71,8 @@ function setupView(settings: ViewSettings) {
 				})
 			}
 
-			render(w: ViewWith, props: Props) {
-				this.#params = {with: w, props}
+			render(context: ViewContext, props: Props) {
+				this.#params = {context: context, props}
 				this.#renderNow()
 				return situation.isComponent ? null : this.#element
 			}
@@ -94,37 +94,52 @@ function setupView(settings: ViewSettings) {
 			isComponent: false,
 		}))
 
-		function setupDirective(w: ViewWith): View<Props> {
-			const rend = (...props: Props): DirectiveResult<any> => d(w, props)
-			rend.props = rend
-			rend.with = (w2: Partial<ViewWith>) => setupDirective({...w, ...w2})
-			rend.children = (...children: Content[]) => setupDirective({...w, children})
-			rend.attrs = (attrs: Record<string, AttrValue>) => setupDirective({...w, attrs})
-			rend.attr = (name: string, value: AttrValue) => setupDirective({
-				...w,
-				attrs: {...w.attrs, [name]: value},
-			})
-			rend.component = (...props: Props) => class extends HTMLElement {
-				#directive = directive(make({
-					getElement: () => this,
-					isComponent: true,
-				}))
-				constructor() {
-					super()
-					this.render(...props)
-				}
-				render(...props: Props) {
-					if (this.isConnected)
-						render(this.#directive(w, props), this)
-				}
-			}
-			return rend
+		const freshViewContext = (): ViewContext => ({attrs: {}, children: []})
+	
+		function rendy(...props: Props) {
+			return d(freshViewContext(), props)
 		}
 
-		return setupDirective({
-			attrs: {},
-			children: null,
-		})
+		rendy.props = (...props: Props) => {
+			let ctx = freshViewContext()
+			const chain = {
+				children(...children: Content[]) {
+					ctx = {...ctx, children: [...ctx.children, ...children]}
+					return chain
+				},
+				attrs(attrs: Record<string, AttrValue>) {
+					ctx = {...ctx, attrs: {...ctx.attrs, ...attrs}}
+					return chain
+				},
+				attr(name: string, value: AttrValue) {
+					ctx = {...ctx, attrs: {...ctx.attrs, [name]: value}}
+					return chain
+				},
+				render() {
+					return d(ctx, props)
+				},
+			}
+			return chain
+		}
+
+		rendy.component = (...props: Props) => class extends HTMLElement {
+			#directive = directive(
+				make({
+					getElement: () => this,
+					isComponent: true,
+				})
+			)
+			constructor() {
+				super()
+				this.render(...props)
+			}
+			render(...props: Props) {
+				if (this.isConnected)
+					render(this.#directive(freshViewContext(), props), this)
+			}
+		}
+
+		return rendy
 	}
 
 	view.view = view

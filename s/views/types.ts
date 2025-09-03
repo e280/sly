@@ -16,11 +16,7 @@ export type ComponentFn = (use: Use) => Content
 export type ViewFn<Props extends any[]> = (use: Use) => (...props: Props) => Content
 export type BasicView<Props extends any[]> = (...props: Props) => DirectiveResult<any>
 export type View<Props extends any[]> = BasicView<Props> & {
-	props: View<Props>
-	with: (w: Partial<ViewWith>) => View<Props>
-	children: (...children: Content[]) => View<Props>
-	attrs: (attrs: Record<string, AttrValue>) => View<Props>
-	attr: (name: string, value: AttrValue) => View<Props>
+	props: (...props: Props) => ViewChain
 	component: (...props: Props) => Constructor<Component>
 }
 
@@ -30,8 +26,15 @@ export type ViewSettings = ShadowRootInit & {
 	styles?: CSSResultGroup
 }
 
-export type ViewWith = {
-	children: Content
+export type ViewChain = {
+	children(...c: Content[]): ViewChain
+	attrs(a: Record<string, AttrValue>): ViewChain
+	attr(n: string, v: AttrValue): ViewChain
+	render(): DirectiveResult<any>
+}
+
+export type ViewContext = {
+	children: Content[]
 	attrs: Record<string, AttrValue>
 }
 
