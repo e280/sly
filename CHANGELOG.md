@@ -4,6 +4,38 @@
 - 🔶 deprecation or possible breaking change
 - 🍏 harmless addition, fix, or enhancement
 
+
+
+<br/>
+
+## v0.2
+- 🟥 rename view.view to view.declare
+    - 😡 old bad
+        ```ts
+        view.settings(s).view(fn)
+        ```
+    - 🤗 new good
+        ```ts
+        view.settings(s).declare(fn)
+        ```
+- 🟥 rework view rendering syntax
+    - 😡 old bad
+        ```ts
+        CoolView
+          .attr("class", "hero")
+          .children(html`<em>spongebob</em>`)
+          .props("hello")
+        ```
+    - 🤗 new good
+        ```ts
+        CoolView.props("hello")
+          .attr("class", "hero")
+          .children(html`<em>spongebob</em>`)
+          .render()
+        ```
+
+
+
 <br/>
 
 ## v0.1
@@ -15,6 +47,8 @@
 ### v0.1.0
 - 🍏 moving to version range that allows non-breaking patches
 - 🍏 update dependencies
+
+
 
 <br/>
 
