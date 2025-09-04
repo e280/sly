@@ -5,13 +5,12 @@
 > testing page https://sly.e280.org/
 
 - 🍋 web app view library with taste
-- 🥷 leverage shadow-dom and slots
-- 🤯 register any view as a web component
-- 💲 handy little dom multitool
-- 🫛 ops for fancy loading spinners
+- 🔥 [lit](https://lit.dev/)-based html rendering
 - 🧙‍♂️ took many years to get it right
 - 🌅 sly is the successor that replaces [@benev/slate](https://github.com/benevolent-games/slate)
 - 🧑‍💻 project by [@e280](https://e280.org/)
+
+
 
 <br/>
 
@@ -26,6 +25,8 @@ npm install @e280/sly lit
 > - ⛏️ [@e280/strata](https://github.com/e280/strata) for state management (signals, state trees)
 > - 🏂 [@e280/stz](https://github.com/e280/stz) ***(optional)*** stz is our ts standard library
 > - 🐢 [scute](https://github.com/e280/scute) ***(optional)*** is our buildy-bundly-buddy
+
+
 
 <br/>
 
@@ -254,6 +255,8 @@ view(use => () => html`<p>hello world</p>`)
     }))
     ```
 
+
+
 <br/>
 
 ## 🦝 sly dom multitool
@@ -298,6 +301,8 @@ view(use => () => html`<p>hello world</p>`)
       // <my-component>
       // <another-cool-component>
     ```
+
+
 
 <br/>
 
@@ -425,6 +430,8 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     - when the op is loading, the loading spinner will animate
     - when the op is in error, the error will be displayed
     - when the op is ready, your fn is called and given the value
+
+
 
 <br/>
 
