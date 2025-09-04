@@ -1,7 +1,7 @@
 
 import {CSSResultGroup} from "lit"
 import {defer, MapG} from "@e280/stz"
-import {signal} from "@e280/strata/signals"
+import {signal, SignalOptions} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
 import {Mounts} from "./utils/mounts.js"
@@ -101,8 +101,18 @@ export class Use {
 		return op
 	})()
 
-	signal<V>(value: V) {
-		return this.once(() => signal<V>(value))
-	}
+	signal = (() => {
+		const that = this
+		function sig<V>(value: V, options?: Partial<SignalOptions>) {
+			return that.once(() => signal<V>(value, options))
+		}
+		sig.fn = <V>(value: V, options?: Partial<SignalOptions>) => (
+			this.once(() => signal.fn<V>(value, options))
+		)
+		sig.derive = <V>(formula: () => V, options?: Partial<SignalOptions>) => (
+			this.once(() => signal.derive<V>(formula, options))
+		)
+		return sig
+	})()
 }
 

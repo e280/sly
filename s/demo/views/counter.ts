@@ -9,24 +9,31 @@ export const CounterView = view(use => (initial: number) => {
 	use.name("counter")
 	use.styles(cssReset, styles)
 
+	const $seconds = use.signal.fn(0)
 	const start = use.once(() => Date.now())
-	const seconds = use.signal(0)
-
 	use.mount(() => repeat(async() => {
 		const since = Date.now() - start
-		seconds.set(Math.floor(since / 1000))
+		$seconds.set(Math.floor(since / 1000))
 	}))
 
-	const count = use.signal(initial)
-	const increment = () => count.value++
+	const $count = use.signal.fn(initial)
+	const increment = () => $count.value++
+
+	const $product = use.signal
+		.derive(() => $count() * $seconds())
 
 	return html`
 		<slot></slot>
 		<div>
-			<span>${seconds.get()}</span>
+			<span>${$seconds.get()}</span>
 		</div>
 		<div>
-			<span>${count.get()}</span>
+			<span>${$count.get()}</span>
+		</div>
+		<div>
+			<span>${$product.get()}</span>
+		</div>
+		<div>
 			<button @click="${increment}">+</button>
 		</div>
 	`
