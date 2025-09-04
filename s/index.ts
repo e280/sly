@@ -1,6 +1,5 @@
 
 export * from "./dom/dashify.js"
-export * from "./dom/dollar.js"
 export * from "./dom/register.js"
 export * from "./dom/types.js"
 

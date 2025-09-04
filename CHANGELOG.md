@@ -11,6 +11,8 @@
 ## v0.2
 
 ### v0.2.0
+- 🟥 replace `$` multitool with new `dom` tool
+    - 🟥 rename `Container` type to `Renderable`
 - 🟥 rework view rendering syntax
     - 😡 old bad
         ```ts
