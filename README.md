@@ -139,6 +139,7 @@ view(use => () => html`<p>hello world</p>`)
     ```ts
     use.styles(css1, css2, css3)
     ```
+    *(or `use.css` alias)*
 - **use.signal** — create a [strata signal](https://github.com/e280/strata)
     ```ts
     const count = use.signal(1)
