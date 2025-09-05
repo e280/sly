@@ -1,10 +1,10 @@
 
 import {signal} from "@e280/strata"
-import {dragIsOutsideCurrentTarget} from "./helpers.js"
+import {outsideCurrentTarget} from "./helpers.js"
 
 /** dropzone that accepts dropped stuff like files */
 export class Drop {
-	#$indicator = signal(false)
+	$indicator = signal(false)
 
 	constructor(private params: {
 
@@ -15,28 +15,20 @@ export class Drop {
 		acceptDrop: (event: DragEvent) => void
 	}) {}
 
-	get indicator() {
-		return this.#$indicator.value
-	}
-
-	resetIndicator = () => {
-		this.#$indicator.value = false
-	}
-
 	dragover = (event: DragEvent) => {
 		event.preventDefault()
 		if (this.params.predicate(event))
-			this.#$indicator.value = true
+			this.$indicator.value = true
 	}
 
 	dragleave = (event: DragEvent) => {
-		if (dragIsOutsideCurrentTarget(event))
-			this.#$indicator.value = false
+		if (outsideCurrentTarget(event))
+			this.$indicator.value = false
 	}
 
 	drop = (event: DragEvent) => {
 		event.preventDefault()
-		this.#$indicator.value = false
+		this.$indicator.value = false
 		if (this.params.predicate(event))
 			this.params.acceptDrop(event)
 	}

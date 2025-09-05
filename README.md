@@ -11,6 +11,7 @@ sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate)
 - 🪄 **dom** — the "it's not jquery" multitool
 - 🪵 **base element** — for a more classical experience
 - 🫛 **ops** — tools for async operations and loading spinners
+- 🪙 **loot** — drag-and-drop facilities
 - 🧪 **testing page** — https://sly.e280.org/
 
 
@@ -46,11 +47,10 @@ view(use => () => html`<p>hello world</p>`)
 - views automatically rerender whenever any [strata-compatible](https://github.com/e280/strata) state changes
 
 ### 🍋 view example
-- **import stuff**
-    ```ts
-    import {view, dom} from "@e280/sly"
-    import {html, css} from "lit"
-    ```
+```ts
+import {view, dom} from "@e280/sly"
+import {html, css} from "lit"
+```
 - **declare a view**
     ```ts
     export const CounterView = view(use => (start: number) => {
@@ -273,18 +273,18 @@ view(use => () => html`<p>hello world</p>`)
 ## 🦝🪵 sly base element
 > *the classic experience*
 
-so views are great, and they can be converted into components..  
-..but views have one drawback — you can't actually expose properties on the element instance itself.
+```ts
+import {BaseElement, Use, attributes, dom} from "@e280/sly"
+import {html, css} from "lit"
+```
 
-that's where `BaseElement` comes in.  
-it's a proper class-based element, but it lets you have the same `use` hooks that views enjoy.
+`BaseElement` is a class-based approach to create a custom element web component.
+
+it lets you expose js properties on the element instance, which helps you setup a better developer experience for people interacting with your element through the dom.
+
+base element enjoys the same `use` hooks as views.
 
 ### 🪵 base element setup
-- **import stuff**
-    ```ts
-    import {BaseElement, Use, attributes, dom} from "@e280/sly"
-    import {html, css} from "lit"
-    ```
 - **declare your element class**
     ```ts
     export class MyElement extends BaseElement {
@@ -295,7 +295,7 @@ it's a proper class-based element, but it lets you have the same `use` hooks tha
 
       // custom attributes
       attrs = attributes(this, {
-        multiply: Number
+        multiply: Number,
       })
 
       // custom methods
@@ -532,6 +532,115 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     - when the op is loading, the loading spinner will animate
     - when the op is in error, the error will be displayed
     - when the op is ready, your fn is called and given the value
+
+
+
+<br/><br/>
+
+## 🦝🪙 loot
+> *drag-and-drop facilities*
+
+```ts
+import {loot, ev} from "@e280/sly"
+```
+
+### 🪙 `loot.Drop`
+> *accept the user dropping stuff like files onto the page*
+- **make a drop instance**
+    ```ts
+    const drops = new loot.Drop({
+      predicate: loot.hasFiles,
+      acceptDrop: event => {
+        const files = loot.files(event)
+        console.log("files dropped", files)
+      },
+    })
+    ```
+- **attach event listeners to your dropzone,** one of these ways:
+  - **lit html example**
+      ```ts
+      html`
+        <div
+          ?data-indicator="${drops.$indicator()}"
+          @dragover="${drops.dragover}"
+          @dragleave="${drops.dragleave}"
+          @drop="${drops.drop}">
+            my dropzone
+        </div>
+      `
+      ```
+  - **whole-document example**
+      ```ts
+      // attach listeners to accept drops and stuff
+      ev(document.body, {
+        dragover: drops.dragover,
+        dragleave: drops.dragleave,
+        drop: drops.drop,
+      })
+
+      // update indicator attribute on body
+      drops.$indicator.on(indicator => {
+        if (indicator) document.body.setAttribute("data-indicator", "")
+        else document.body.removeAttribute("data-indicator")
+      })
+      ```
+- **flashy css indicator for the dropzone,** so the user knows your app is eager to accept the drop
+    ```css
+    [data-indicator] {
+      border: 0.5em dashed cyan;
+    }
+    ```
+
+### 🪙 `loot.DragDrop`
+> *setup drag-and-drops between items within your page*
+- **declare types for your grabbable and hoverable things**
+    ```ts
+    // this money can be picked up and dragged
+    type Money = {
+      value: number
+    }
+
+    // this dropzone is a bag that money can be dropped into
+    type Bag = {
+      size: number
+    }
+    ```
+- **make a DragDrop**
+    ```ts
+    const dnd = new loot.DragDrop<Money, Bag>({
+      acceptDrop: (event, grabbed, hovering) => {
+        console.log("drop!")
+        console.log("-money", grabbed)
+        console.log("-bag", hovering)
+      },
+    })
+    ```
+- **attach dragzone listeners**
+    ```ts
+    const money: Money = {value: 99}
+    html`
+      <div
+        draggable="${dnd.dragzone.draggable()}"
+        @dragstart="${dnd.dragzone.dragstart(money)}"
+        @dragend="${dnd.dragzone.dragend()}">
+          money ${money.value}
+      </div>
+    `
+    ```
+- **attach dropzone listeners**
+    ```ts
+    const bag: Bag = {size: 1000}
+    html`
+      <div
+        @dragenter="${dnd.dropzone.dragenter()}"
+        @dragleave="${dnd.dropzone.dragleave()}"
+        @dragover="${dnd.dropzone.dragover(bag)}"
+        @drop="${dnd.dropzone.drop(bag)}"
+        >
+          money ${money.value}
+      </div>
+    `
+    ```
 
 
 

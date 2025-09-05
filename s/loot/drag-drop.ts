@@ -1,11 +1,11 @@
 
 import {signal} from "@e280/strata"
-import {dragIsOutsideCurrentTarget} from "./helpers.js"
+import {outsideCurrentTarget} from "./helpers.js"
 
 /** system for dragging-and-dropping things around on a webpage */
 export class DragDrop<Grabbed, Hovering> {
-	#$grabbed = signal<Grabbed | undefined>(undefined)
-	#$hovering = signal<Hovering | undefined>(undefined)
+	$grabbed = signal<Grabbed | undefined>(undefined)
+	$hovering = signal<Hovering | undefined>(undefined)
 
 	constructor(private params: {
 
@@ -24,12 +24,12 @@ export class DragDrop<Grabbed, Hovering> {
 		draggable: () => "true",
 
 		dragstart: (grabbed: Grabbed) => (_: DragEvent) => {
-			this.#$grabbed.value = grabbed
+			this.$grabbed.value = grabbed
 		},
 
 		dragend: () => (_: DragEvent) => {
-			this.#$grabbed.value = undefined
-			this.#$hovering.value = undefined
+			this.$grabbed.value = undefined
+			this.$hovering.value = undefined
 		},
 	}
 
@@ -38,39 +38,31 @@ export class DragDrop<Grabbed, Hovering> {
 		dragenter: () => (_: DragEvent) => {},
 
 		dragleave: () => (event: DragEvent) => {
-			if (dragIsOutsideCurrentTarget(event))
-				this.#$hovering.value = undefined
+			if (outsideCurrentTarget(event))
+				this.$hovering.value = undefined
 		},
 
 		dragover: (hovering: Hovering) => (event: DragEvent) => {
 			event.preventDefault()
 			const {fromOutside} = this.params
 
-			if (this.#$grabbed() || (fromOutside && fromOutside.predicate(event, hovering)))
-				this.#$hovering.value = hovering
+			if (this.$grabbed() || (fromOutside && fromOutside.predicate(event, hovering)))
+				this.$hovering.value = hovering
 		},
 
 		drop: (hovering: Hovering) => (event: DragEvent) => {
 			event.preventDefault()
 			const {acceptDrop, fromOutside} = this.params
 
-			const grabbed = this.#$grabbed()
-			this.#$grabbed.value = undefined
-			this.#$hovering.value = undefined
+			const grabbed = this.$grabbed()
+			this.$grabbed.value = undefined
+			this.$hovering.value = undefined
 
 			if (grabbed)
 				acceptDrop(event, grabbed, hovering)
 			else if (fromOutside && fromOutside.predicate(event, hovering))
 				fromOutside.acceptDrop(event, hovering)
 		},
-	}
-
-	get grabbed() {
-		return this.#$grabbed()
-	}
-
-	get hovering() {
-		return this.#$hovering()
 	}
 }
 
