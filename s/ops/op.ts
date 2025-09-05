@@ -16,7 +16,7 @@ export class Op<V> {
 		return op
 	}
 
-	static fn<V>(fn: () => Promise<V>) {
+	static load<V>(fn: () => Promise<V>) {
 		return this.promise(fn())
 	}
 
@@ -74,7 +74,7 @@ export class Op<V> {
 		}
 	}
 
-	async fn(fn: () => Promise<V>) {
+	async load(fn: () => Promise<V>) {
 		return this.promise(fn())
 	}
 

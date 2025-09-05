@@ -94,9 +94,9 @@ export class Use {
 	op = (() => {
 		const that = this
 		function op<V>(f: () => Promise<V>) {
-			return that.once(() => Op.fn(f))
+			return that.once(() => Op.load(f))
 		}
-		op.fn = op as (<V>(f: () => Promise<V>) => Op<V>)
+		op.load = op as (<V>(f: () => Promise<V>) => Op<V>)
 		op.promise = <V>(p: Promise<V>) => this.once(() => Op.promise(p))
 		return op
 	})()

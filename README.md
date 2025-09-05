@@ -383,7 +383,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     ```
 - 🔥 create an op that calls and tracks an async fn
     ```ts
-    const op = Op.fn(async() => {
+    const op = Op.load(async() => {
       await nap(4000)
       return 123
     })

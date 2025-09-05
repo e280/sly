@@ -45,6 +45,10 @@
     - `use.signal.lazy(f)`
 - 🟥 replace `$` multitool with new `dom` tool
     - 🟥 rename `Container` type to `Renderable`
+- 🟥 renames in ops
+    - 🟥 rename `Op.fn` type to `Op.load`
+    - 🟥 rename `op.fn` type to `op.load`
+    - 🟥 rename `use.op.fn` type to `use.op.load`
 
 
 
