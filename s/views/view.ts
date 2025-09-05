@@ -46,11 +46,11 @@ function setupView(settings: ViewSettings) {
 			#renderNow() {
 				if (!this.#params) return
 				if (!this.isConnected) return
-				const {context: w, props} = this.#params
+				const {context, props} = this.#params
 
 				this.#use[_wrap](() => {
 					// apply html attributes
-					applyAttrs(this.#element, w.attrs)
+					applyAttrs(this.#element, context.attrs)
 
 					// render the template, tracking strata items
 					const {result, seen} = tracker.observe(() => this.#fn(...props))
@@ -67,12 +67,12 @@ function setupView(settings: ViewSettings) {
 
 					// inject content into light dom
 					if (!situation.isComponent)
-						render(w.children, this.#element)
+						render(context.children, this.#element)
 				})
 			}
 
 			render(context: ViewContext, props: Props) {
-				this.#params = {context: context, props}
+				this.#params = {context, props}
 				this.#renderNow()
 				return situation.isComponent ? null : this.#element
 			}
