@@ -4,21 +4,33 @@ import {register} from "./register.js"
 import {Content} from "../views/types.js"
 import {Queryable, Renderable} from "./types.js"
 
+function require<E extends Element>(
+		container: Queryable,
+		selector: string,
+	) {
+	const e = container.querySelector<E>(selector)
+	if (!e) throw new Error(`element not found (${selector})`)
+	return e
+}
+
+function resolve<E extends Queryable>(
+		container: Queryable,
+		elementOrSelector: E | string,
+	) {
+	return (typeof elementOrSelector === "string")
+		? require(container, elementOrSelector) as E
+		: elementOrSelector
+}
+
 export class Dom<C extends Queryable> {
 	constructor(public element: C) {}
 
-	in<E extends HTMLElement>(elementOrSelector: E | string) {
-		return new Dom(
-			typeof elementOrSelector === "string"
-				? this.require<E>(elementOrSelector)
-				: elementOrSelector
-		)
+	in<E extends HTMLElement>(selector: string) {
+		return new Dom<E>(this.require(selector))
 	}
 
 	require<E extends Element = HTMLElement>(selector: string) {
-		const e = this.element.querySelector<E>(selector)
-		if (!e) throw new Error(`$1 ${selector} not found`)
-		return e
+		return require<E>(this.element, selector)
 	}
 
 	maybe<E extends Element = HTMLElement>(selector: string) {
@@ -34,8 +46,8 @@ export class Dom<C extends Queryable> {
 	}
 }
 
-export function dom(selector: string) {
-	return new Dom(document).require(selector)
+export function dom<E extends Queryable>(elementOrSelector: E | string) {
+	return new Dom(resolve(document, elementOrSelector))
 }
 
 const doc = new Dom(document)

@@ -294,34 +294,40 @@ import {dom} from "@e280/sly"
     ```
 - within a specific container
     ```ts
-    dom.in(element).require("li")
+    dom(element).require("li")
       // HTMLElement (or throws)
     ```
     ```ts
-    dom.in(element).maybe("li")
+    dom(element).maybe("li")
       // HTMLElement | undefined
     ```
     ```ts
-    dom.in(element).all("li")
+    dom(element).all("li")
       // HTMLElement[]
     ```
 
 ### 🪄 dom utilities
-- register web components
+- `register` web components
     ```ts
     dom.register({MyComponent, AnotherCoolComponent})
       // <my-component>
       // <another-cool-component>
     ```
-- render content into an element
+- `render` content into an element
+    ```ts
+    dom(element).render(html`<p>hello world</p>`)
+    ```
+    ```ts
+    dom(".demo").render(html`<p>hello world</p>`)
+    ```
     ```ts
     dom.render(element, html`<p>hello world</p>`)
     ```
+- `in` select within an element
     ```ts
-    dom.in(element).render(html`<p>hello world</p>`)
-    ```
-    ```ts
-    dom.in(".demo").render(html`<p>hello world</p>`)
+    dom(element)
+      .in(".demo")
+      .render(html`<p>hello world</p>`)
     ```
 
 
