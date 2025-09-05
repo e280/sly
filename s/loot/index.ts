@@ -1,5 +1,5 @@
 
-export * from "./drag-drop.js"
-export * from "./drop.js"
+export * from "./drag-and-drops.js"
+export * from "./drops.js"
 export * from "./helpers.js"
 

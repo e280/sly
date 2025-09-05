@@ -2,8 +2,8 @@
 import {signal} from "@e280/strata"
 import {outsideCurrentTarget} from "./helpers.js"
 
-/** dropzone that accepts dropped stuff like files */
-export class Drop {
+/** dropzone that accepts user-dropped stuff like files */
+export class Drops {
 	$indicator = signal(false)
 
 	constructor(private params: {
