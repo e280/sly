@@ -1,18 +1,20 @@
 
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
-# 🦝 sly — mischievous shadow views
-> testing page https://sly.e280.org/
+# 🦝 sly
+> *mischievous shadow views*
 
-- 🍋 web app view library with taste
-- 🔥 [lit](https://lit.dev/)-based html rendering
-- 🧙‍♂️ took many years to get it right
-- 🌅 sly is the successor that replaces [@benev/slate](https://github.com/benevolent-games/slate)
-- 🧑‍💻 project by [@e280](https://e280.org/)
+[@e280](https://e280.org/)'s shiny, tasteful, incredible new [lit](https://lit.dev/)-based toolkit for frontend web developers.  
+sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate).  
+
+- 🍋 **views** — hooks-based, shadow-dom'd, componentizable
+- 🪄 **dom** — the "it's not jquery" multitool
+- 🫛 **ops** — tools for async operations and loading spinners
+- 🧪 **testing page** — https://sly.e280.org/
 
 
 
-<br/>
+<br/><br/>
 
 ## 🦝 sly and friends
 
@@ -22,15 +24,15 @@ npm install @e280/sly lit
 
 > [!NOTE]
 > - 🔥 [lit](https://lit.dev/) for html rendering
-> - ⛏️ [@e280/strata](https://github.com/e280/strata) for state management (signals, state trees)
-> - 🏂 [@e280/stz](https://github.com/e280/stz) ***(optional)*** stz is our ts standard library
-> - 🐢 [scute](https://github.com/e280/scute) ***(optional)*** is our buildy-bundly-buddy
+> - ⛏️ [@e280/strata](https://github.com/e280/strata), for state management (signals, state trees)
+> - 🏂 [@e280/stz](https://github.com/e280/stz) is our ts standard library
+> - 🐢 [scute](https://github.com/e280/scute) is our buildy-bundly-buddy
 
 
 
-<br/>
+<br/><br/>
 
-## 🦝 sly views
+## 🦝🍋 sly views
 > *views are the crown jewel of sly.. shadow-dom'd.. hooks-based.. "ergonomics"..*
 
 ```ts
@@ -45,7 +47,7 @@ view(use => () => html`<p>hello world</p>`)
 ### 🍋 view example
 - **import stuff**
     ```ts
-    import {$, view} from "@e280/sly"
+    import {view, dom} from "@e280/sly"
     import {html, css} from "lit"
     ```
 - **declare a view**
@@ -66,15 +68,14 @@ view(use => () => html`<p>hello world</p>`)
     - each view renders into a `<sly-view view="counter">` host (where "counter" is the `use.name` you provided)
 - **inject a view into the dom**
     ```ts
-    $.render($(".app"), html`
-      <h1>my cool counter demo</h1>
-
+    dom.in(".app").render(html`
+      <h1>cool counter demo</h1>
       ${CounterView(1)}
     `)
     ```
 - 🤯 **register a view as a web component**
     ```ts
-    $.register({MyCounter: CounterView.component(1)})
+    dom.register({MyCounter: CounterView.component(1)})
       // <my-counter></my-counter>
     ```
 
@@ -93,9 +94,8 @@ view(use => () => html`<p>hello world</p>`)
 ### 🍋 view injection options
 - options for views at the template injection site
     ```ts
-    $.render($(".app"), html`
-      <h2>super cool example</h2>
-
+    dom.in(".app").render(html`
+      <h2>cool example</h2>
       ${CoolView.props("hello")
         .attr("class", "hero")
         .children(html`<em>spongebob</em>`)
@@ -107,7 +107,7 @@ view(use => () => html`<p>hello world</p>`)
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
     - `render` — end the view chain and render the lit directive
 
-### 🍋 web components
+### 🍋 view web components
 - **build a component directly**
     ```ts
     const MyComponent = view.component(use => html`<p>hello world</p>`)
@@ -121,11 +121,11 @@ view(use => () => html`<p>hello world</p>`)
     - note that the component instance has a render method like `element.render(2)` which can take new props at runtime
 - **register web components to the dom**
     ```ts
-    $.register({MyComponent, MyCounter})
+    dom.register({MyComponent, MyCounter})
       // <my-component></my-component>
       // <my-counter></my-counter>
     ```
-    - `$.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
+    - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 
 ### 🍋 view "use" hooks reference
 - 👮 **follow the hooks rules**  
@@ -139,7 +139,7 @@ view(use => () => html`<p>hello world</p>`)
     ```ts
     use.styles(css1, css2, css3)
     ```
-    *(or `use.css` alias)*
+    *(alias `use.css`)*
 - **use.signal** — create a [strata signal](https://github.com/e280/strata)
     ```ts
     const count = use.signal(1)
@@ -258,57 +258,69 @@ view(use => () => html`<p>hello world</p>`)
 
 
 
-<br/>
+<br/><br/>
 
-## 🦝 sly dom multitool
-> *"it's not jquery!"*
+## 🦝🪄 sly dom
+> *the "it's not jquery!" multitool*
 
-### 💲 follow the money
-- import the dollarsign
-    ```ts
-    import {$} from "@e280/sly"
-    ```
+```ts
+import {dom} from "@e280/sly"
+```
 
-### 💲 dom queries
+### 🪄 dom queries
 - require an element
     ```ts
-    $(".demo")
-      // HTMLElement (or throws error)
+    dom(".demo")
+      // HTMLElement (or throws)
     ```
-- request an element
+- maybe get an element
     ```ts
-    $.maybe(".demo")
+    dom.maybe(".demo")
       // HTMLElement | undefined
     ```
-- query all elements
+- select all elements
     ```ts
-    for (const item of $.all("ul li"))
-      console.log(item)
+    dom.all(".demo ul li")
+      // HTMLElement[]
     ```
-- specify what element to query under
+- within a specific container
     ```ts
-    $("li", listElement)
-      // HTMLElement
+    dom.in(element).require("li")
+      // HTMLElement (or throws)
+    ```
+    ```ts
+    dom.in(element).maybe("li")
+      // HTMLElement | undefined
+    ```
+    ```ts
+    dom.in(element).all("li")
+      // HTMLElement[]
     ```
 
-### 💲 dom utilities
-- render content into an element
-    ```ts
-    $.render(element, html`<p>hello world</p>`)
-    ```
+### 🪄 dom utilities
 - register web components
     ```ts
-    $.register({MyComponent, AnotherCoolComponent})
+    dom.register({MyComponent, AnotherCoolComponent})
       // <my-component>
       // <another-cool-component>
     ```
+- render content into an element
+    ```ts
+    dom.render(element, html`<p>hello world</p>`)
+    ```
+    ```ts
+    dom.in(element).render(html`<p>hello world</p>`)
+    ```
+    ```ts
+    dom.in(".demo").render(html`<p>hello world</p>`)
+    ```
 
 
 
-<br/>
+<br/><br/>
 
-## 🦝 sly ops, pods, and loaders
-> *async operations and displaying loading spinners.*
+## 🦝🫛 sly ops
+> *tools for async operations and loading spinners*
 
 ```ts
 import {nap} from "@e280/stz"
@@ -434,9 +446,9 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 
 
 
-<br/>
+<br/><br/>
 
-## 🧑‍💻 sly by e280
+## 🦝🧑‍💻 sly is by e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
 
