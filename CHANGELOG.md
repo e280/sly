@@ -11,6 +11,7 @@
 ## v0.2
 
 ### v0.2.0
+- 🍏 add new `BaseElement`
 - 🍏 add new `loot` drag-and-drop system
 - 🟥 rework view rendering syntax
     - 😡 old bad
