@@ -643,7 +643,7 @@ import {loot, ev} from "@e280/sly"
         @dragleave="${dropzone.dragleave}"
         @dragover="${dropzone.dragover}"
         @drop="${dropzone.drop}">
-          bag ${money.value}
+          bag ${bag.id}
       </div>
     `)
     ```
