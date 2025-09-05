@@ -56,11 +56,11 @@ view(use => () => html`<p>hello world</p>`)
       use.name("counter")
       use.styles(css`p {color: green}`)
 
-      const count = use.signal(start)
-      const increment = () => { count.value++ }
+      const $count = use.signal(start)
+      const increment = () => $count.value++
 
       return html`
-        <p>count ${count()}</p>
+        <p>count ${$count.value}</p>
         <button @click="${increment}">+</button>
       `
     })
@@ -142,14 +142,23 @@ view(use => () => html`<p>hello world</p>`)
     *(alias `use.css`)*
 - **use.signal** — create a [strata signal](https://github.com/e280/strata)
     ```ts
-    const count = use.signal(1)
+    const $count = use.signal(1)
 
     // read the signal
-    count() // 1
+    $count()
 
     // write the signal
-    count(2)
+    $count(2)
     ```
+    - `derive` signals
+        ```ts
+        const $product = use.derive(() => $count() * $whatever())
+        ```
+    - `lazy` signals
+        ```ts
+        const $product = use.lazy(() => $count() * $whatever())
+        ```
+    - go read the [strata readme](https://github.com/e280/strata) about this stuff
 - **use.once** — run fn at initialization, and return a value
     ```ts
     const whatever = use.once(() => {
@@ -242,11 +251,11 @@ view(use => () => html`<p>hello world</p>`)
     import {repeat, nap} from "@e280/stz"
     ```
     ```ts
-    const seconds = use.signal(0)
+    const $seconds = use.signal(0)
 
     use.mount(() => repeat(async() => {
       await nap(1000)
-      seconds.value++
+      $seconds.value++
     }))
     ```
 - wake + rendered, to do something after each mount's first render
