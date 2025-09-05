@@ -26,6 +26,12 @@ export type AttrTypes<A extends AttrSpec> = {
 	[P in keyof A]: AttrType<A[P]>
 }
 
+export function onAttrChange(element: HTMLElement, fn: () => void) {
+	const observer = new MutationObserver(fn)
+	observer.observe(element, {attributes: true})
+	return () => observer.disconnect()
+}
+
 export const attributes = <A extends AttrSpec>(
 		element: HTMLElement,
 		spec: A,
@@ -80,10 +86,4 @@ export const attributes = <A extends AttrSpec>(
 	},
 
 }) as any as AttrTypes<A>
-
-export function onAttrChange(element: HTMLElement, fn: () => void) {
-	const observer = new MutationObserver(fn)
-	observer.observe(element, {attributes: true})
-	return () => observer.disconnect()
-}
 

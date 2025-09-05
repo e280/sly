@@ -9,6 +9,7 @@ sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate)
 
 - 🍋 **views** — hooks-based, shadow-dom'd, componentizable
 - 🪄 **dom** — the "it's not jquery" multitool
+- 🪵 **base element** — for a more classical experience
 - 🫛 **ops** — tools for async operations and loading spinners
 - 🧪 **testing page** — https://sly.e280.org/
 
@@ -263,6 +264,85 @@ view(use => () => html`<p>hello world</p>`)
     use.wake(() => use.rendered.then(() => {
       console.log("after first render")
     }))
+    ```
+
+
+
+<br/><br/>
+
+## 🦝🪵 sly base element
+> *the classic experience*
+
+so views are great, and they can be converted into components..  
+..but views have one drawback — you can't actually expose properties on the element instance itself.
+
+that's where `BaseElement` comes in.  
+it's a proper class-based element, but it lets you have the same `use` hooks that views enjoy.
+
+### 🪵 base element setup
+- **import stuff**
+    ```ts
+    import {BaseElement, Use, attributes, dom} from "@e280/sly"
+    import {html, css} from "lit"
+    ```
+- **declare your element class**
+    ```ts
+    export class MyElement extends BaseElement {
+      static styles = css`span{color:orange}`
+
+      // custom property
+      start = 10
+
+      // custom attributes
+      attrs = attributes(this, {
+        multiply: Number
+      })
+
+      // custom methods
+      hello() {
+        return "world"
+      }
+
+      render(use: Use) {
+        const $count = use.signal(1)
+        const increment = () => $count.value++
+
+        const {start} = this
+        const {multiply = 1} = this.attrs
+        const result = start + (multiply * $count())
+
+        return html`
+          <span>${result}</span>
+          <button @click="${increment}">+</button>
+        `
+      }
+    }
+    ```
+- **register your element to the dom**
+    ```ts
+    dom.register({MyElement})
+    ```
+
+### 🪵 base element usage
+- **place the element in your html body**
+    ```html
+    <body>
+      <my-element></my-element>
+    </body>
+    ```
+- **now you can interact with it**
+    ```ts
+    const myElement = dom<MyElement>("my-element")
+
+    // js property
+    myElement.start = 100
+
+    // html attributes
+    myElement.attr.multiply = 2
+
+    // methods
+    myElement.hello()
+      // "world"
     ```
 
 

@@ -5,13 +5,15 @@ import {debounce, MapG} from "@e280/stz"
 
 import {dom} from "../dom/dom.js"
 import {Content} from "./types.js"
+import {onAttrChange} from "./attributes.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
 export abstract class BaseElement extends HTMLElement {
-	readonly #use: Use
+	static styles: CSSResultGroup | undefined
 	readonly shadow: ShadowRoot
 
+	#use: Use
 	#mounts = 0
 	#tracking = new MapG<any, () => void>
 
@@ -26,7 +28,6 @@ export abstract class BaseElement extends HTMLElement {
 		)
 	}
 
-	abstract get styles(): CSSResultGroup
 	abstract render(use: Use): Content
 
 	updateNow = () => {
@@ -47,19 +48,37 @@ export abstract class BaseElement extends HTMLElement {
 	
 	connectedCallback() {
 		if (this.#mounts === 0) {
-			applyStyles(this.shadow, this.styles)
+			const styles = (this.constructor as any).styles
+			if (styles)
+				applyStyles(this.shadow, styles)
 			this.updateNow()
 		}
-		else
+		else {
 			this.#use[_reconnect]()
+		}
+		this.#attrListening.start()
 		this.#mounts++
 	}
 
 	disconnectedCallback() {
+		this.#attrListening.stop()
 		this.#use[_disconnect]()
 		for (const untrack of this.#tracking.values())
 			untrack()
 		this.#tracking.clear()
 	}
+
+	#attrListening = (() => {
+		let stopper: (() => void) | undefined
+		const start = () => {
+			if (stopper) stopper()
+			stopper = onAttrChange(this, () => this.update)
+		}
+		const stop = () => {
+			if (stopper) stopper()
+			stopper = undefined
+		}
+		return {start, stop}
+	})()
 }
 

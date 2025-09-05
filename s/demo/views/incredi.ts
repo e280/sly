@@ -7,10 +7,9 @@ import {attributes} from "../../views/attributes.js"
 import {BaseElement} from "../../views/base-element.js"
 
 export class IncrediElement extends BaseElement {
-	styles = css`:host {color: orange;}`
-
-	something = {whatever: "rofl"}
+	static styles = css`span{color:orange}`
 	attrs = attributes(this, {value: Number})
+	something = {whatever: "rofl"}
 
 	render(use: Use) {
 		const {value = 1} = this.attrs
