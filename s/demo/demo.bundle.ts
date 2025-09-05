@@ -4,7 +4,7 @@ import {DemoView} from "./views/demo.js"
 import {CounterView} from "./views/counter.js"
 import {IncrediElement} from "./views/incredi.js"
 
-dom(".demo").render(DemoView())
+dom.in(".demo").render(DemoView())
 
 dom.register({
 	IncrediElement,

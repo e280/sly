@@ -277,22 +277,22 @@ import {dom} from "@e280/sly"
 ```
 
 ### 🪄 dom queries
-- require an element
+- `require` an element
     ```ts
     dom(".demo")
       // HTMLElement (or throws)
     ```
-- maybe get an element
+- `maybe` get an element
     ```ts
     dom.maybe(".demo")
       // HTMLElement | undefined
     ```
-- select all elements
+- `select` all elements
     ```ts
     dom.all(".demo ul li")
       // HTMLElement[]
     ```
-- within a specific container
+- `in` the scope of an element
     ```ts
     dom(element).require("li")
       // HTMLElement (or throws)
@@ -318,16 +318,10 @@ import {dom} from "@e280/sly"
     dom(element).render(html`<p>hello world</p>`)
     ```
     ```ts
-    dom(".demo").render(html`<p>hello world</p>`)
+    dom.in(".demo").render(html`<p>hello world</p>`)
     ```
     ```ts
     dom.render(element, html`<p>hello world</p>`)
-    ```
-- `in` select within an element
-    ```ts
-    dom(element)
-      .in(".demo")
-      .render(html`<p>hello world</p>`)
     ```
 
 
