@@ -9,14 +9,14 @@ export const CounterView = view(use => (initial: number) => {
 	use.name("counter")
 	use.styles(cssReset, styles)
 
-	const $seconds = use.signal.fn(0)
+	const $seconds = use.signal(0)
 	const start = use.once(() => Date.now())
 	use.mount(() => repeat(async() => {
 		const since = Date.now() - start
 		$seconds.set(Math.floor(since / 1000))
 	}))
 
-	const $count = use.signal.fn(initial)
+	const $count = use.signal(initial)
 	const increment = () => $count.value++
 
 	const $product = use.signal
