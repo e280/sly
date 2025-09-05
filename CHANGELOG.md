@@ -11,8 +11,6 @@
 ## v0.2
 
 ### v0.2.0
-- 🟥 replace `$` multitool with new `dom` tool
-    - 🟥 rename `Container` type to `Renderable`
 - 🟥 rework view rendering syntax
     - 😡 old bad
         ```ts
@@ -37,6 +35,15 @@
         ```ts
         view.settings(s).declare(fn)
         ```
+- 🟥 upgraded to `strata` v0.2.0 (see [strata changelog](https://github.com/e280/strata/blob/main/CHANGELOG.md)
+  - 🟥 using new signals integration
+  - 🍏 added `use` hooks:
+    - `use.derive(f)`
+    - `use.lazy(f)`
+    - `use.signal.derive(f)`
+    - `use.signal.lazy(f)`
+- 🟥 replace `$` multitool with new `dom` tool
+    - 🟥 rename `Container` type to `Renderable`
 
 
 
