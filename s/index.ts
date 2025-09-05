@@ -14,6 +14,7 @@ export * from "./ops/types.js"
 export * as loot from "./loot/index.js"
 
 export * from "./views/attributes.js"
+export * from "./views/base-element.js"
 export * from "./views/css-reset.js"
 export * from "./views/types.js"
 export * from "./views/use.js"

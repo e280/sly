@@ -1,7 +1,7 @@
 
 import {CSSResultGroup} from "lit"
 import {defer, MapG} from "@e280/stz"
-import {Derive, Lazy, Signal, signal, SignalOptions} from "@e280/strata/signals"
+import {signal, SignalOptions} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
 import {Mounts} from "./utils/mounts.js"

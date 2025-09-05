@@ -2,9 +2,14 @@
 import {dom} from "../dom/dom.js"
 import {DemoView} from "./views/demo.js"
 import {CounterView} from "./views/counter.js"
+import {IncrediElement} from "./views/incredi.js"
 
 dom(".demo").render(DemoView())
-dom.register({DemoCounter: CounterView.component(1)})
+
+dom.register({
+	IncrediElement,
+	DemoCounter: CounterView.component(1),
+})
 
 console.log("🦝 sly")
 
