@@ -21,6 +21,14 @@ export class DragAndDrops<Draggy, Droppy> {
 		backchannelDrops?: Drops
 	}) {}
 
+	get dragging() {
+		return this.$draggy()
+	}
+
+	get hovering() {
+		return this.$droppy()
+	}
+
 	/** make event listeners to attach to your dragzone(s) */
 	dragzone = (getDraggy: () => Draggy) => ({
 		draggable: "true",
@@ -56,17 +64,18 @@ export class DragAndDrops<Draggy, Droppy> {
 		drop: (event: DragEvent) => {
 			event.preventDefault()
 			const {acceptDrop} = this.params
-
 			const draggy = this.$draggy()
 			const droppy = this.$droppy()
-
-			this.$draggy.value = undefined
-			this.$droppy.value = undefined
-
-			if (draggy && droppy)
-				acceptDrop(event, draggy, droppy)
-			else
-				this.params.backchannelDrops?.drop(event)
+			try {
+				if (draggy && droppy)
+					acceptDrop(event, draggy, droppy)
+				else
+					this.params.backchannelDrops?.drop(event)
+			}
+			finally {
+				this.$draggy.value = undefined
+				this.$droppy.value = undefined
+			}
 		},
 	})
 }

@@ -541,14 +541,14 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 > *drag-and-drop facilities*
 
 ```ts
-import {loot, ev} from "@e280/sly"
+import {loot, ev, view} from "@e280/sly"
 ```
 
-### 🪙 `loot.Drop`
+### 🪙 `loot.Drops`
 > *accept the user dropping stuff like files onto the page*
 - **setup drops**
     ```ts
-    const drops = new loot.Drop({
+    const drops = new loot.Drops({
       predicate: loot.hasFiles,
       acceptDrop: event => {
         const files = loot.files(event)
@@ -557,9 +557,9 @@ import {loot, ev} from "@e280/sly"
     })
     ```
 - **attach event listeners to your dropzone,** one of these ways:
-  - **lit html example**
+  - **view example**
       ```ts
-      html`
+      view(() => () => html`
         <div
           ?data-indicator="${drops.$indicator()}"
           @dragover="${drops.dragover}"
@@ -567,7 +567,7 @@ import {loot, ev} from "@e280/sly"
           @drop="${drops.drop}">
             my dropzone
         </div>
-      `
+      `)
       ```
   - **vanilla-js whole-page example**
       ```ts
@@ -597,11 +597,13 @@ import {loot, ev} from "@e280/sly"
     ```ts
     // money that can be picked up and dragged
     type Money = {value: number}
+      // dnd will call this a "draggy"
 
     // bag that money can be dropped into
     type Bag = {id: number}
+      // dnd will call this a "droppy"
     ```
-- **make a DragDrop**
+- **make your dnd**
     ```ts
     const dnd = new loot.DragAndDrops<Money, Bag>({
       acceptDrop: (event, money, bag) => {
@@ -612,40 +614,39 @@ import {loot, ev} from "@e280/sly"
 - **attach dragzone listeners**  
     (there can be many dragzones...)
     ```ts
-    const money: Money = {value: 280}
-    const dragzone = dnd.dragzone(() => money)
+    view(use => () => {
+      const money = use.once((): Money => ({value: 280}))
+      const dragzone = use.once(() => dnd.dragzone(() => money))
 
-    dom.render(element, html`
-      <div
-        draggable="${dragzone.draggable}"
-        @dragstart="${dragzone.dragstart}"
-        @dragend="${dragzone.dragend}">
-          money ${money.value}
-      </div>
-    `)
+      return html`
+        <div
+          draggable="${dragzone.draggable}"
+          @dragstart="${dragzone.dragstart}"
+          @dragend="${dragzone.dragend}">
+            money ${money.value}
+        </div>
+      `
+    })
     ```
 - **attach dropzone listeners**  
     (there can be many dropzones...)
     ```ts
-    const bag: Bag = {id: 1}
-    const dropzone = dnd.dropzone(() => bag)
+    view(use => () => {
+      const bag = use.once((): Bag => ({id: 1}))
+      const dropzone = use.once(() => dnd.dropzone(() => bag))
+      const indicator = !!(dnd.dragging && dnd.hovering === bag)
 
-    function showIndicator() {
-      const hoveringOverOurBag = dnd.$droppy() === bag
-      const happyAboutTheMoney = !!dnd.$draggy()
-      return (hoveringOverOurBag && happyAboutTheMoney)
-    }
-
-    dom.render(element, html`
-      <div
-        ?data-indicator="${showIndicator()}"
-        @dragenter="${dropzone.dragenter}"
-        @dragleave="${dropzone.dragleave}"
-        @dragover="${dropzone.dragover}"
-        @drop="${dropzone.drop}">
-          bag ${bag.id}
-      </div>
-    `)
+      return html`
+        <div
+          ?data-indicator="${indicator}"
+          @dragenter="${dropzone.dragenter}"
+          @dragleave="${dropzone.dragleave}"
+          @dragover="${dropzone.dragover}"
+          @drop="${dropzone.drop}">
+            bag ${bag.id}
+        </div>
+      `
+    })
     ```
 
 ### 🪙 loot helpers

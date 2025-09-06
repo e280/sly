@@ -17,8 +17,7 @@ export class Drops {
 
 	dragover = (event: DragEvent) => {
 		event.preventDefault()
-		if (this.params.predicate(event))
-			this.$indicator.value = true
+		this.$indicator.value = this.params.predicate(event)
 	}
 
 	dragleave = (event: DragEvent) => {
