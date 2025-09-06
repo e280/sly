@@ -4,14 +4,14 @@
 # 🦝 sly
 > *mischievous shadow views*
 
-[@e280](https://e280.org/)'s shiny, tasteful, incredible new [lit](https://lit.dev/)-based toolkit for frontend web developers. sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate).
+[@e280](https://e280.org/)'s shiny new [lit](https://lit.dev/)-based frontend lib for webdevs. *(sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate))*
 
 - 🍋 [**views**](#views) — hooks-based, shadow-dom'd, componentizable
 - 🪵 [**base element**](#base-element) — for a more classical experience
 - 🪄 [**dom**](#dom) — the "it's not jquery" multitool
 - 🫛 [**ops**](#ops) — tools for async operations and loading spinners
 - 🪙 [**loot**](#loot) — drag-and-drop facilities
-- 🧪 [**by e280**](#e280) — testing page https://sly.e280.org/
+- 🧪 testing page — https://sly.e280.org/
 
 
 
@@ -597,7 +597,7 @@ import {loot, ev, view} from "@e280/sly"
 
 ### 🪙 `loot.DragAndDrops`
 > *setup drag-and-drops between items within your page*
-- **declare types for your grabbable and hoverable things**
+- **declare types for your draggy and droppy things**
     ```ts
     // money that can be picked up and dragged
     type Money = {value: number}
@@ -615,8 +615,7 @@ import {loot, ev, view} from "@e280/sly"
       },
     })
     ```
-- **attach dragzone listeners**  
-    (there can be many dragzones...)
+- **attach dragzone listeners** (there can be many dragzones...)
     ```ts
     view(use => () => {
       const money = use.once((): Money => ({value: 280}))
@@ -632,8 +631,7 @@ import {loot, ev, view} from "@e280/sly"
       `
     })
     ```
-- **attach dropzone listeners**  
-    (there can be many dropzones...)
+- **attach dropzone listeners** (there can be many dropzones...)
     ```ts
     view(use => () => {
       const bag = use.once((): Bag => ({id: 1}))
