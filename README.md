@@ -545,7 +545,8 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 > *drag-and-drop facilities*
 
 ```ts
-import {loot, ev, view} from "@e280/sly"
+import {loot, view, attributes} from "@e280/sly"
+import {ev} from "@e280/stz"
 ```
 
 ### 🪙 `loot.Drops`
@@ -575,18 +576,20 @@ import {loot, ev, view} from "@e280/sly"
       ```
   - **vanilla-js whole-page example**
       ```ts
-      // attach listeners to accept drops and stuff
+      // attach listeners to the body
       ev(document.body, {
         dragover: drops.dragover,
         dragleave: drops.dragleave,
         drop: drops.drop,
       })
 
-      // update indicator attribute on body
-      drops.$indicator.on(indicator => {
-        if (indicator) document.body.setAttribute("data-indicator", "")
-        else document.body.removeAttribute("data-indicator")
+      // sly attribute handler for the body
+      const attrs = attributes(document.body, {
+        "data-indicator": Boolean,
       })
+
+      // sync the data-indicator attribute
+      drops.$indicator.on(bool => attrs["data-indicator"] = bool)
       ```
 - **flashy css indicator for the dropzone,** so the user knows your app is eager to accept the drop
     ```css
