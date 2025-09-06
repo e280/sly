@@ -1,6 +1,9 @@
 
 import {dashify} from "./dashify.js"
-import {HTMLElementClasses} from "./types.js"
+
+export type HTMLElementClasses = {
+	[key: string]: {new(...args: any[]): HTMLElement}
+}
 
 export type RegistrationOptions = {
 	soft: boolean

@@ -275,7 +275,7 @@ import {html, css} from "lit"
 > *the classic experience*
 
 ```ts
-import {BaseElement, Use, attributes, dom} from "@e280/sly"
+import {BaseElement, Use, dom} from "@e280/sly"
 import {html, css} from "lit"
 ```
 
@@ -295,7 +295,7 @@ base element enjoys the same `use` hooks as views.
       start = 10
 
       // custom attributes
-      attrs = attributes(this, {
+      attrs = dom.attrs(this, {
         multiply: Number,
       })
 
@@ -339,7 +339,7 @@ base element enjoys the same `use` hooks as views.
     myElement.start = 100
 
     // html attributes
-    myElement.attr.multiply = 2
+    myElement.attrs.multiply = 2
 
     // methods
     myElement.hello()
@@ -545,7 +545,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 > *drag-and-drop facilities*
 
 ```ts
-import {loot, view, attributes} from "@e280/sly"
+import {loot, view, dom} from "@e280/sly"
 import {ev} from "@e280/stz"
 ```
 
@@ -584,7 +584,7 @@ import {ev} from "@e280/stz"
       })
 
       // sly attribute handler for the body
-      const attrs = attributes(document.body, {
+      const attrs = dom.attrs(document.body, {
         "data-indicator": Boolean,
       })
 

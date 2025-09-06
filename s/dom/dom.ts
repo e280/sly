@@ -2,7 +2,10 @@
 import {render} from "lit"
 import {register} from "./register.js"
 import {Content} from "../views/types.js"
-import {Queryable, Renderable} from "./types.js"
+import {attributes, AttrSpec, AttrTypes} from "./attributes.js"
+
+export type Renderable = HTMLElement | ShadowRoot | DocumentFragment
+export type Queryable = HTMLElement | ShadowRoot | Element | Document | DocumentFragment
 
 function require<E extends Element>(
 		container: Queryable,
@@ -41,6 +44,10 @@ export class Dom<C extends Queryable> {
 	render(...content: Content[]) {
 		return render(content, this.element as Renderable)
 	}
+
+	attrs<A extends AttrSpec>(spec: A) {
+		return attributes(this.element as HTMLElement, spec)
+	}
 }
 
 export function dom<E extends Queryable>(selector: string): E
@@ -56,6 +63,8 @@ dom.in = doc.in.bind(doc)
 dom.require = doc.require.bind(doc)
 dom.maybe = doc.maybe.bind(doc)
 dom.all = doc.all.bind(doc)
+
+dom.attrs = attributes
 dom.register = register
 dom.render = (container: Renderable, ...content: Content[]) => {
 	return render(content, container)

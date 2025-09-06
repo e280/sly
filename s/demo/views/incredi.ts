@@ -2,13 +2,13 @@
 import {css, html} from "lit"
 import {nap, repeat} from "@e280/stz"
 
+import {dom} from "../../dom/dom.js"
 import {Use} from "../../views/use.js"
-import {attributes} from "../../views/attributes.js"
 import {BaseElement} from "../../views/base-element.js"
 
 export class IncrediElement extends BaseElement {
 	static styles = css`span{color:orange}`
-	attrs = attributes(this, {value: Number})
+	attrs = dom.attrs(this, {value: Number})
 	something = {whatever: "rofl"}
 
 	render(use: Use) {

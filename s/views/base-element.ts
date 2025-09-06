@@ -5,7 +5,7 @@ import {debounce, MapG} from "@e280/stz"
 
 import {dom} from "../dom/dom.js"
 import {Content} from "./types.js"
-import {onAttrChange} from "./attributes.js"
+import {onAttrChange} from "../dom/attributes.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 

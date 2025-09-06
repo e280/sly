@@ -1,8 +1,8 @@
 
+export * from "./dom/attributes.js"
 export * from "./dom/dashify.js"
 export * from "./dom/dom.js"
 export * from "./dom/register.js"
-export * from "./dom/types.js"
 
 export * from "./ops/loaders/make-loader.js"
 export * from "./ops/loaders/parts/ascii-anim.js"
@@ -13,7 +13,7 @@ export * from "./ops/types.js"
 
 export * as loot from "./loot/index.js"
 
-export * from "./views/attributes.js"
+export * from "./dom/attributes.js"
 export * from "./views/base-element.js"
 export * from "./views/css-reset.js"
 export * from "./views/types.js"

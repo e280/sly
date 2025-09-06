@@ -4,9 +4,10 @@ import {defer, MapG} from "@e280/stz"
 import {signal, SignalOptions} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
+import {dom} from "../dom/dom.js"
 import {Mounts} from "./utils/mounts.js"
 import {applyStyles} from "./utils/apply-styles.js"
-import {attributes, AttrSpec, onAttrChange} from "./attributes.js"
+import {AttrSpec, onAttrChange} from "../dom/attributes.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()
@@ -66,7 +67,7 @@ export class Use {
 
 	attrs<A extends AttrSpec>(spec: A) {
 		this.mount(() => onAttrChange(this.element, this.render))
-		return this.once(() => attributes(this.element, spec))
+		return this.once(() => dom.attrs(this.element, spec))
 	}
 
 	once<V>(fn: () => V) {
