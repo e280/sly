@@ -122,20 +122,20 @@ function setupView(settings: ViewSettings) {
 			return chain
 		}
 
-		rendy.component = (...props: Props) => class extends HTMLElement {
+		rendy.component = (...props: Props) => class ViewComponent extends HTMLElement {
+			#context = freshViewContext()
 			#directive = directive(
 				make({
 					getElement: () => this,
 					isComponent: true,
 				})
 			)
-			constructor() {
-				super()
+			connectedCallback() {
 				this.render(...props)
 			}
 			render(...props: Props) {
 				if (this.isConnected)
-					render(this.#directive(freshViewContext(), props), this)
+					render(this.#directive(this.#context, props), this)
 			}
 		}
 
