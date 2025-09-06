@@ -20,7 +20,7 @@ export const CounterView = view(use => (initial: number) => {
 	const increment = () => $count.value++
 
 	const $product = use.signal
-		.derive(() => $count() * $seconds())
+		.derived(() => $count() * $seconds())
 
 	return html`
 		<slot></slot>

@@ -151,9 +151,9 @@ import {html, css} from "lit"
     // write the signal
     $count(2)
     ```
-    - `derive` signals
+    - `derived` signals
         ```ts
-        const $product = use.derive(() => $count() * $whatever())
+        const $product = use.derived(() => $count() * $whatever())
         ```
     - `lazy` signals
         ```ts

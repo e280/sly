@@ -107,8 +107,8 @@ export class Use {
 		function sig<V>(value: V, options?: Partial<SignalOptions>) {
 			return that.once(() => signal<V>(value, options))
 		}
-		sig.derive = function derive<V>(formula: () => V, options?: Partial<SignalOptions>) {
-			return that.once(() => signal.derive<V>(formula, options))
+		sig.derived = function derived<V>(formula: () => V, options?: Partial<SignalOptions>) {
+			return that.once(() => signal.derived<V>(formula, options))
 		}
 		sig.lazy = function lazy<V>(formula: () => V, options?: Partial<SignalOptions>) {
 			return that.once(() => signal.lazy<V>(formula, options))
@@ -116,8 +116,8 @@ export class Use {
 		return sig
 	})()
 
-	derive<V>(formula: () => V, options?: Partial<SignalOptions>) {
-		return this.once(() => signal.derive<V>(formula, options))
+	derived<V>(formula: () => V, options?: Partial<SignalOptions>) {
+		return this.once(() => signal.derived<V>(formula, options))
 	}
 
 	lazy<V>(formula: () => V, options?: Partial<SignalOptions>) {
