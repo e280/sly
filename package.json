@@ -1,6 +1,6 @@
 {
 	"name": "@e280/sly",
-	"version": "0.2.0-4",
+	"version": "0.2.0-5",
 	"description": "web shadow views",
 	"license": "MIT",
 	"type": "module",
