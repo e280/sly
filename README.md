@@ -4,15 +4,14 @@
 # 🦝 sly
 > *mischievous shadow views*
 
-[@e280](https://e280.org/)'s shiny, tasteful, incredible new [lit](https://lit.dev/)-based toolkit for frontend web developers.  
-sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate).  
+[@e280](https://e280.org/)'s shiny, tasteful, incredible new [lit](https://lit.dev/)-based toolkit for frontend web developers. sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate).
 
-- 🍋 **views** — hooks-based, shadow-dom'd, componentizable
-- 🪄 **dom** — the "it's not jquery" multitool
-- 🪵 **base element** — for a more classical experience
-- 🫛 **ops** — tools for async operations and loading spinners
-- 🪙 **loot** — drag-and-drop facilities
-- 🧪 **testing page** — https://sly.e280.org/
+- 🍋 [**views**](#views) — hooks-based, shadow-dom'd, componentizable
+- 🪵 [**base element**](#base-element) — for a more classical experience
+- 🪄 [**dom**](#dom) — the "it's not jquery" multitool
+- 🫛 [**ops**](#ops) — tools for async operations and loading spinners
+- 🪙 [**loot**](#loot) — drag-and-drop facilities
+- 🧪 [**by e280**](#e280) — testing page https://sly.e280.org/
 
 
 
@@ -33,6 +32,7 @@ npm install @e280/sly lit
 
 
 <br/><br/>
+<a id="views"></a>
 
 ## 🦝🍋 sly views
 > *views are the crown jewel of sly.. shadow-dom'd.. hooks-based.. "ergonomics"..*
@@ -269,6 +269,7 @@ import {html, css} from "lit"
 
 
 <br/><br/>
+<a id="base-element"></a>
 
 ## 🦝🪵 sly base element
 > *the classic experience*
@@ -348,6 +349,7 @@ base element enjoys the same `use` hooks as views.
 
 
 <br/><br/>
+<a id="dom"></a>
 
 ## 🦝🪄 sly dom
 > *the "it's not jquery!" multitool*
@@ -407,6 +409,7 @@ import {dom} from "@e280/sly"
 
 
 <br/><br/>
+<a id="ops"></a>
 
 ## 🦝🫛 sly ops
 > *tools for async operations and loading spinners*
@@ -536,6 +539,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 
 
 <br/><br/>
+<a id="loot"></a>
 
 ## 🦝🪙 loot
 > *drag-and-drop facilities*
@@ -656,8 +660,13 @@ import {loot, ev, view} from "@e280/sly"
 
 
 <br/><br/>
+<a id="e280"></a>
 
 ## 🦝🧑‍💻 sly is by e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
+
+
+
+<br/><br/>
 
