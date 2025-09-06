@@ -20,7 +20,7 @@
 ## 🦝 sly and friends
 
 ```sh
-npm install @e280/sly lit
+npm install @e280/sly lit @e280/strata @e280/stz
 ```
 
 > [!NOTE]
