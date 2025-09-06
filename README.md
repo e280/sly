@@ -198,7 +198,8 @@ import {html, css} from "lit"
 
     v // 123
     ```
-- **use.attrs** — ergonomic typed html attribute access
+- **use.attrs** — ergonomic typed html attribute access  
+    *(see [dom.attrs](#dom.attrs) for more details)*
     ```ts
     const attrs = use.attrs({
       name: String,
@@ -210,14 +211,6 @@ import {html, css} from "lit"
     attrs.name // "chase"
     attrs.count // 123
     attrs.active // true
-    ```
-    ```ts
-    attrs.name = "zenky"
-    attrs.count = 124
-    attrs.active = false // removes html attr
-    ```
-    ```ts
-    attrs.name = undefined // removes the attr
     ```
 - **use.render** — rerender the view (debounced)
     ```ts
@@ -404,6 +397,28 @@ import {dom} from "@e280/sly"
     ```
     ```ts
     dom.render(element, html`<p>hello world</p>`)
+    ```
+- `attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper
+    ```ts
+    const attrs = dom.attrs({
+      name: String,
+      count: Number,
+      active: Boolean,
+    })
+    ```
+    ```ts
+    attrs.name // "chase"
+    attrs.count // 123
+    attrs.active // true
+    ```
+    ```ts
+    attrs.name = "zenky"
+    attrs.count = 124
+    attrs.active = false // removes html attr
+    ```
+    ```ts
+    attrs.name = undefined // removes the attr
+    attrs.count = undefined // removes the attr
     ```
 
 
