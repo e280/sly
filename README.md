@@ -400,7 +400,7 @@ import {dom} from "@e280/sly"
     ```
 - `attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper
     ```ts
-    const attrs = dom.attrs({
+    const attrs = dom.attrs(element, {
       name: String,
       count: Number,
       active: Boolean,
