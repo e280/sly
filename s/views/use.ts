@@ -5,15 +5,17 @@ import {signal, SignalOptions} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
 import {dom} from "../dom/dom.js"
+import {Attrs} from "../dom/types.js"
 import {Mounts} from "./utils/mounts.js"
 import {applyStyles} from "./utils/apply-styles.js"
-import {AttrSpec, onAttrChange} from "../dom/attributes.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()
 export const _reconnect = Symbol()
 
 export class Use {
+	attrs: Attrs
+
 	#runs = 0
 	#position = 0
 	#values = new MapG<number, any>()
@@ -38,11 +40,13 @@ export class Use {
 	}
 
 	constructor(
-		public element: HTMLElement,
-		public shadow: ShadowRoot,
-		public renderNow: () => void,
-		public render: () => Promise<void>,
-	) {}
+			public element: HTMLElement,
+			public shadow: ShadowRoot,
+			public renderNow: () => void,
+			public render: () => Promise<void>,
+		) {
+		this.attrs = dom.attrs(this.element)
+	}
 
 	get renderCount() {
 		return this.#runs
@@ -63,11 +67,6 @@ export class Use {
 	/** alias for 'styles' */
 	css(...styles: CSSResultGroup[]) {
 		return this.styles(...styles)
-	}
-
-	attrs<A extends AttrSpec>(spec: A) {
-		this.mount(() => onAttrChange(this.element, this.render))
-		return this.once(() => dom.attrs(this.element, spec))
 	}
 
 	once<V>(fn: () => V) {

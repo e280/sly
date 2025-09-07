@@ -5,12 +5,12 @@ import {directive} from "lit/directive.js"
 import {tracker} from "@e280/strata/tracker"
 import {AsyncDirective} from "lit/async-directive.js"
 
-import {register} from "../dom/register.js"
+import {register} from "../dom/parts/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
+import {AttrWatcher} from "./utils/attr-watcher.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, ComponentFn, Content, View, ViewFn, ViewSettings, ViewContext, ViewComponent, Elmix} from "./types.js"
-import { AttrWatcher } from "./utils/attr-watcher.js"
+import {AttrValue, Content, View, ViewFn, ViewSettings, ViewContext, ViewComponent, Elmix} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
@@ -29,6 +29,13 @@ function setupView(settings: ViewSettings) {
 			#renderDebounced = debounce(0, () => this.#renderNow())
 			#tracking = new MapG<any, () => void>
 			#params!: {context: ViewContext, props: Props}
+			#attrWatcher = new AttrWatcher(this.#element, () => {
+				const is_view_responsible_for_rerendering = (
+					!situation.isComponent
+				)
+				if (is_view_responsible_for_rerendering)
+					this.#renderDebounced()
+			})
 
 			#use = new Use(
 				this.#element,
@@ -75,7 +82,10 @@ function setupView(settings: ViewSettings) {
 			render(context: ViewContext, props: Props) {
 				this.#params = {context, props}
 				this.#renderNow()
-				return situation.isComponent ? null : this.#element
+				this.#attrWatcher.start()
+				return situation.isComponent
+					? null
+					: this.#element
 			}
 
 			disconnected() {
@@ -83,10 +93,12 @@ function setupView(settings: ViewSettings) {
 				for (const untrack of this.#tracking.values())
 					untrack()
 				this.#tracking.clear()
+				this.#attrWatcher.stop()
 			}
 
 			reconnected() {
 				this.#use[_reconnect]()
+				this.#attrWatcher.start()
 			}
 		}
 

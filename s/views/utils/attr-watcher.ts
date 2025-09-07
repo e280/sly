@@ -1,5 +1,5 @@
 
-import {onAttrChange} from "../../dom/attributes.js"
+import {dom} from "../../dom/dom.js"
 
 export class AttrWatcher {
 	#stopper: (() => void) | undefined
@@ -10,8 +10,8 @@ export class AttrWatcher {
 	) {}
 
 	start() {
-		if (this.#stopper) this.#stopper()
-		this.#stopper = onAttrChange(this.element, this.response)
+		if (!this.#stopper)
+			this.#stopper = dom.attrs(this.element).on(this.response)
 	}
 
 	stop() {

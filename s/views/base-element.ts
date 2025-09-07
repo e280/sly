@@ -62,11 +62,11 @@ export abstract class BaseElement extends HTMLElement {
 	}
 
 	disconnectedCallback() {
-		this.#attrWatcher.stop()
 		this.#use[_disconnect]()
 		for (const untrack of this.#tracking.values())
 			untrack()
 		this.#tracking.clear()
+		this.#attrWatcher.stop()
 	}
 }
 

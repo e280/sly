@@ -57,6 +57,16 @@
         ```ts
         MyView.component<{a: number, b: number}>(el => [el.a, el.b])
         ```
+- 🟥 replaced `onAttrChange(el, fn)` with `dom.attrs(el).on(fn)`
+- 🟥 reworked `use.attrs` and `dom.attrs`
+    - 😡 old bad
+        ```ts
+        use.attrs({count: Number})
+        ```
+    - 🤗 new good
+        ```ts
+        use.attrs.spec({count: Number})
+        ```
 - 🟥 upgraded to `strata` v0.2.0 (see [strata changelog](https://github.com/e280/strata/blob/main/CHANGELOG.md)
   - 🟥 using new signals integration
   - 🍏 added `use` hooks:

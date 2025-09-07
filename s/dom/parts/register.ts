@@ -1,14 +1,6 @@
 
 import {dashify} from "./dashify.js"
-
-export type HTMLElementClasses = {
-	[key: string]: {new(...args: any[]): HTMLElement}
-}
-
-export type RegistrationOptions = {
-	soft: boolean
-	upgrade: boolean
-}
+import {HTMLElementClasses, RegisterOptions} from "../types.js"
 
 /**
  * register custom elements (web components) to the dom
@@ -24,7 +16,7 @@ export type RegistrationOptions = {
  */
 export function register<E extends HTMLElementClasses>(
 		elements: E,
-		options: Partial<RegistrationOptions> = {},
+		options: Partial<RegisterOptions> = {},
 	) {
 
 	const {

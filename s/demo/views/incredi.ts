@@ -8,7 +8,7 @@ import {BaseElement} from "../../views/base-element.js"
 
 export class IncrediElement extends BaseElement {
 	static styles = css`span{color:orange}`
-	attrs = dom.attrs(this, {value: Number})
+	attrs = dom.attrs(this).spec({value: Number})
 	something = {whatever: "rofl"}
 
 	render(use: Use) {
