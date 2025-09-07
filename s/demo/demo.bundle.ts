@@ -8,7 +8,9 @@ dom.in(".demo").render(DemoView())
 
 dom.register({
 	IncrediElement,
-	DemoCounter: CounterView.component(1),
+	DemoCounter: CounterView.component(el => [
+		dom.attrProxies(el).number.initial ?? 0,
+	]),
 })
 
 console.log("🦝 sly")

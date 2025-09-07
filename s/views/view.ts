@@ -1,6 +1,6 @@
 
 import {render} from "lit"
-import {debounce, MapG} from "@e280/stz"
+import {Constructor, debounce, MapG} from "@e280/stz"
 import {directive} from "lit/directive.js"
 import {tracker} from "@e280/strata/tracker"
 import {AsyncDirective} from "lit/async-directive.js"
@@ -9,7 +9,8 @@ import {register} from "../dom/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, ComponentFn, Content, View, ViewFn, ViewSettings, ViewContext} from "./types.js"
+import {AttrValue, ComponentFn, Content, View, ViewFn, ViewSettings, ViewContext, ViewComponent, Elmix} from "./types.js"
+import { AttrWatcher } from "./utils/attr-watcher.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
@@ -122,21 +123,31 @@ function setupView(settings: ViewSettings) {
 			return chain
 		}
 
-		rendy.component = (...props: Props) => class ViewComponent extends HTMLElement {
-			#context = freshViewContext()
-			#directive = directive(
-				make({
-					getElement: () => this,
-					isComponent: true,
-				})
-			)
-			connectedCallback() {
-				this.render(...props)
-			}
-			render(...props: Props) {
-				if (this.isConnected)
-					render(this.#directive(this.#context, props), this)
-			}
+		rendy.component = <El extends Partial<ViewComponent>>(fn: (el: El) => Props) => {
+			return class VComponent extends HTMLElement implements ViewComponent {
+				#context = freshViewContext()
+				#directive = directive(
+					make({
+						getElement: () => this,
+						isComponent: true,
+					})
+				)
+				#attrWatcher = new AttrWatcher(this, () => this.render())
+				connectedCallback() {
+					this.#attrWatcher.start()
+					this.renderNow()
+				}
+				disconnectedCallback() {
+					this.#attrWatcher.stop()
+				}
+				render = debounce(0, () => this.renderNow())
+				renderNow() {
+					if (this.isConnected) {
+						const props = fn(this as any)
+						render(this.#directive(this.#context, props), this)
+					}
+				}
+			} as any as (Constructor<El> & typeof HTMLElement)
 		}
 
 		return rendy
@@ -144,7 +155,11 @@ function setupView(settings: ViewSettings) {
 
 	view.declare = view
 	view.settings = (settings2: Partial<ViewSettings>) => setupView({...settings, ...settings2})
-	view.component = (fn: ComponentFn) => view(use => () => fn(use)).component()
+	view.component = <Mix extends Partial<ViewComponent>>() => ({
+		props: <Props extends any[]>(elfn: (el: Elmix<Mix>) => Props) => ({
+			declare: (fn: ViewFn<Props>) => view(fn).component(elfn)
+		}),
+	})
 	return view
 }
 

@@ -5,7 +5,7 @@ import {debounce, MapG} from "@e280/stz"
 
 import {dom} from "../dom/dom.js"
 import {Content} from "./types.js"
-import {onAttrChange} from "../dom/attributes.js"
+import {AttrWatcher} from "./utils/attr-watcher.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
@@ -16,6 +16,7 @@ export abstract class BaseElement extends HTMLElement {
 	#use: Use
 	#mounts = 0
 	#tracking = new MapG<any, () => void>
+	#attrWatcher = new AttrWatcher(this, () => this.update())
 
 	constructor() {
 		super()
@@ -56,29 +57,16 @@ export abstract class BaseElement extends HTMLElement {
 		else {
 			this.#use[_reconnect]()
 		}
-		this.#attrListening.start()
+		this.#attrWatcher.start()
 		this.#mounts++
 	}
 
 	disconnectedCallback() {
-		this.#attrListening.stop()
+		this.#attrWatcher.stop()
 		this.#use[_disconnect]()
 		for (const untrack of this.#tracking.values())
 			untrack()
 		this.#tracking.clear()
 	}
-
-	#attrListening = (() => {
-		let stopper: (() => void) | undefined
-		const start = () => {
-			if (stopper) stopper()
-			stopper = onAttrChange(this, () => this.update)
-		}
-		const stop = () => {
-			if (stopper) stopper()
-			stopper = undefined
-		}
-		return {start, stop}
-	})()
 }
 

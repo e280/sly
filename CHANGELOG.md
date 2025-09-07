@@ -37,6 +37,26 @@
         ```ts
         view.settings(s).declare(fn)
         ```
+- 🟥 rework view component declaration
+    - 😡 old bad
+        ```ts
+        view.component(use => html`hello`)
+        ```
+    - 🤗 new good
+        ```ts
+        view.component<{a: number, b: number}>()
+          .props(el => [el.a, el.b])
+          .declare(use => (a, b) => html`hello`)
+        ```
+- 🟥 rework view conversions into components
+    - 😡 old bad
+        ```ts
+        MyView.component(a, b)
+        ```
+    - 🤗 new good
+        ```ts
+        MyView.component<{a: number, b: number}>(el => [el.a, el.b])
+        ```
 - 🟥 upgraded to `strata` v0.2.0 (see [strata changelog](https://github.com/e280/strata/blob/main/CHANGELOG.md)
   - 🟥 using new signals integration
   - 🍏 added `use` hooks:
