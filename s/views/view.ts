@@ -10,14 +10,14 @@ import {applyAttrs} from "./utils/apply-attrs.js"
 import {AttrWatcher} from "./utils/attr-watcher.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, Content, View, ViewFn, ViewSettings, ViewContext, ViewComponent, ViewComponentClass} from "./types.js"
+import {AttrValue, Content, View, ViewRenderFn, ViewSettings, ViewContext, ViewComponent, ViewComponentClass} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
 register({SlyView}, {soft: true, upgrade: true})
 
 function setupView(settings: ViewSettings) {
-	function view<Props extends any[]>(fn: ViewFn<Props>): View<Props> {
+	function view<Props extends any[]>(fn: ViewRenderFn<Props>): View<Props> {
 		type Situation = {
 			getElement: () => HTMLElement
 			isComponent: boolean
@@ -166,11 +166,11 @@ function setupView(settings: ViewSettings) {
 		return rendy
 	}
 
-	view.declare = view
+	view.render = view
 	view.settings = (settings2: Partial<ViewSettings>) => setupView({...settings, ...settings2})
 	view.component = <Mix extends {}>() => ({
 		props: <Props extends any[]>(elfn: (el: ViewComponent<Mix>) => Props) => ({
-			declare: (fn: ViewFn<Props>) => view(fn).component(elfn),
+			render: (fn: ViewRenderFn<Props>) => view(fn).component(elfn),
 		}),
 	})
 	return view

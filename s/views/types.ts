@@ -17,8 +17,7 @@ export type ViewComponentClass<Mix extends {}, Props extends any[]> = {
 	new(): ViewComponent<Mix>
 }
 
-export type ComponentFn = (use: Use) => Content
-export type ViewFn<Props extends any[]> = (use: Use) => (...props: Props) => Content
+export type ViewRenderFn<Props extends any[]> = (use: Use) => (...props: Props) => Content
 export type BasicView<Props extends any[]> = (...props: Props) => DirectiveResult<any>
 
 export type View<Props extends any[]> = BasicView<Props> & {
