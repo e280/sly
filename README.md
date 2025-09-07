@@ -76,8 +76,14 @@ import {html, css} from "lit"
     ```
 - 🤯 **register a view as a web component**
     ```ts
-    dom.register({MyCounter: CounterView.component(1)})
-      // <my-counter></my-counter>
+    dom.register({
+      MyCounter: CounterView
+        .component<{start: number}>()
+        .props(element => [dom.attrs(element).number.start]),
+    })
+    ```
+    ```html
+    <my-counter start="1"></my-counter>
     ```
 
 ### 🍋 view declaration settings
@@ -85,7 +91,7 @@ import {html, css} from "lit"
     ```ts
     export const CoolView = view
       .settings({mode: "open", delegatesFocus: true})
-      .declare(use => (greeting: string) => {
+      .render(use => (greeting: string) => {
         return html`😎 ${greeting} <slot></slot>`
       })
     ```
@@ -109,22 +115,32 @@ import {html, css} from "lit"
     - `render` — end the view chain and render the lit directive
 
 ### 🍋 view web components
-- **build a component directly**
+- **convert any existing view into a view-component**
     ```ts
-    const MyComponent = view.component(use => html`<p>hello world</p>`)
+    export class CounterElement extends (
+      CounterView
+        .component<{size: number}>()
+        .props(element => [element.size])
+    ) {}
     ```
-    - notice that direct components don't take props (do `use.attrs` instead)
-- **convert any view into a web component**
+- **build a view-component directly**
     ```ts
-    const MyCounter = CounterView.component(1)
+    export class MyComponent extends (view
+      .component<{active: boolean}>()
+      .props<[active: boolean]>(element => [element.active])
+      .render(use => active => {
+        return html`<div>${active ? "active" : "inactive"}</div>`
+      })
+    ) {}
     ```
-    - to convert a view to a component, you provide props
-    - note that the component instance has a render method like `element.render(2)` which can take new props at runtime
+    - 🧐 the view is available as `MyComponent.view`
 - **register web components to the dom**
     ```ts
-    dom.register({MyComponent, MyCounter})
-      // <my-component></my-component>
-      // <my-counter></my-counter>
+    dom.register({CounterElement, MyComponent})
+    ```
+    ```html
+    <my-counter size="1"></my-counter>
+    <my-component active></my-component>
     ```
     - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 

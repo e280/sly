@@ -10,7 +10,7 @@ dom.in(".demo").render(DemoView())
 dom.register({
 	IncrediElement,
 	DivineElement,
-	DemoCounter: CounterView.component(el => [
+	DemoCounter: CounterView.component().props(el => [
 		dom.attrs(el).number.initial ?? 0,
 	]),
 })

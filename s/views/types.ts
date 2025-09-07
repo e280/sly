@@ -22,9 +22,11 @@ export type BasicView<Props extends any[]> = (...props: Props) => DirectiveResul
 
 export type View<Props extends any[]> = BasicView<Props> & {
 	props: (...props: Props) => ViewChain
-	component: <Mix extends {}>(fn: (el: ViewComponent<Mix>) => Props) => (
-		ViewComponentClass<Mix, Props>
-	)
+	component: <Mix extends {}>() => {
+		props: (fn: (el: ViewComponent<Mix>) => Props) => (
+			ViewComponentClass<Mix, Props>
+		)
+	}
 }
 
 export type ViewSettings = ShadowRootInit & {

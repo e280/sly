@@ -135,33 +135,35 @@ function setupView(settings: ViewSettings) {
 			return chain
 		}
 
-		rendy.component = <Mix extends {} = {}>(fn: (el: Mix) => Props) => {
-			return class VComponent extends HTMLElement implements ViewComponent {
-				static view = rendy
-				#context = freshViewContext()
-				#directive = directive(
-					make({
-						getElement: () => this,
-						isComponent: true,
-					})
-				)
-				#attrWatcher = new AttrWatcher(this, () => this.render())
-				connectedCallback() {
-					this.#attrWatcher.start()
-					this.renderNow()
-				}
-				disconnectedCallback() {
-					this.#attrWatcher.stop()
-				}
-				render = debounce(0, () => this.renderNow())
-				renderNow() {
-					if (this.isConnected) {
-						const props = fn(this as any)
-						render(this.#directive(this.#context, props), this)
+		rendy.component = <Mix extends {} = {}>() => ({
+			props: (fn: (el: ViewComponent<Mix>) => Props) => {
+				return class VComponent extends HTMLElement implements ViewComponent {
+					static view = rendy
+					#context = freshViewContext()
+					#directive = directive(
+						make({
+							getElement: () => this,
+							isComponent: true,
+						})
+					)
+					#attrWatcher = new AttrWatcher(this, () => this.render())
+					connectedCallback() {
+						this.#attrWatcher.start()
+						this.renderNow()
 					}
-				}
-			} as any as ViewComponentClass<Mix, Props>
-		}
+					disconnectedCallback() {
+						this.#attrWatcher.stop()
+					}
+					render = debounce(0, () => this.renderNow())
+					renderNow() {
+						if (this.isConnected) {
+							const props = fn(this as any)
+							render(this.#directive(this.#context, props), this)
+						}
+					}
+				} as any as ViewComponentClass<Mix, Props>
+			},
+		})
 
 		return rendy
 	}
@@ -170,7 +172,7 @@ function setupView(settings: ViewSettings) {
 	view.settings = (settings2: Partial<ViewSettings>) => setupView({...settings, ...settings2})
 	view.component = <Mix extends {}>() => ({
 		props: <Props extends any[]>(elfn: (el: ViewComponent<Mix>) => Props) => ({
-			render: (fn: ViewRenderFn<Props>) => view(fn).component(elfn),
+			render: (fn: ViewRenderFn<Props>) => view(fn).component<Mix>().props(elfn),
 		}),
 	})
 	return view

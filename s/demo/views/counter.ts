@@ -2,21 +2,22 @@
 import {css, html} from "lit"
 import {repeat} from "@e280/stz"
 
+import {dom} from "../../dom/dom.js"
 import {view} from "../../views/view.js"
 import {cssReset} from "../../views/css-reset.js"
 
-export const CounterView = view(use => (initial: number) => {
+export const CounterView = view(use => (start: number) => {
 	use.name("counter")
 	use.styles(cssReset, styles)
 
 	const $seconds = use.signal(0)
-	const start = use.once(() => Date.now())
+	const since = use.once(() => Date.now())
 	use.mount(() => repeat(async() => {
-		const since = Date.now() - start
-		$seconds.set(Math.floor(since / 1000))
+		const delta = Date.now() - since
+		$seconds.set(Math.floor(delta / 1000))
 	}))
 
-	const $count = use.signal(initial)
+	const $count = use.signal(start)
 	const increment = () => $count.value++
 
 	const $product = use.signal
@@ -38,6 +39,12 @@ export const CounterView = view(use => (initial: number) => {
 		</div>
 	`
 })
+
+export class CounterElement extends (
+	CounterView
+		.component<{start: number}>()
+		.props(el => [dom.attrs(el).number.start ?? 0])
+) {}
 
 const styles = css`
 :host {

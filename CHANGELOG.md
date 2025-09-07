@@ -28,14 +28,14 @@
           .children(html`<em>spongebob</em>`)
           .render()
         ```
-- 🟥 rename view.view to view.declare
+- 🟥 rename view.view to view.render
     - 😡 old bad
         ```ts
         view.settings(s).view(fn)
         ```
     - 🤗 new good
         ```ts
-        view.settings(s).declare(fn)
+        view.settings(s).render(fn)
         ```
 - 🟥 rework view component declaration
     - 😡 old bad
@@ -44,9 +44,10 @@
         ```
     - 🤗 new good
         ```ts
-        view.component<{a: number, b: number}>()
+        view
+          .component<{a: number, b: number}>()
           .props(el => [el.a, el.b])
-          .declare(use => (a, b) => html`hello`)
+          .render(use => (a, b) => html`hello`)
         ```
 - 🟥 rework view conversions into components
     - 😡 old bad
