@@ -1,10 +1,10 @@
 
 import {render} from "lit"
-import {debounce, MapG} from "@e280/stz"
+import {debounce} from "@e280/stz"
 import {directive} from "lit/directive.js"
-import {tracker} from "@e280/strata/tracker"
 import {AsyncDirective} from "lit/async-directive.js"
 
+import {Reactor} from "./utils/reactor.js"
 import {register} from "../dom/parts/register.js"
 import {applyAttrs} from "./utils/apply-attrs.js"
 import {AttrWatcher} from "./utils/attr-watcher.js"
@@ -26,8 +26,8 @@ function setupView(settings: ViewSettings) {
 		const make = (situation: Situation) => class ViewDirective extends AsyncDirective {
 			#element = situation.getElement()
 			#shadow = this.#element.attachShadow(settings)
+			#reactor = new Reactor()
 			#renderDebounced = debounce(0, () => this.#renderNow())
-			#tracking = new MapG<any, () => void>
 			#params!: {context: ViewContext, props: Props}
 			#attrWatcher = new AttrWatcher(this.#element, () => {
 				const is_view_responsible_for_rerendering = (
@@ -60,18 +60,14 @@ function setupView(settings: ViewSettings) {
 					// apply html attributes
 					applyAttrs(this.#element, context.attrs)
 
-					// render the template, tracking strata items
-					const {result, seen} = tracker.observe(() => this.#fn(...props))
+					// render the template and track reactivity
+					const content = this.#reactor.effect(
+						() => this.#fn(...props),
+						this.#renderDebounced,
+					)
 
 					// inject the template
-					render(result, this.#shadow)
-
-					// reacting to changes
-					for (const item of seen)
-						this.#tracking.guarantee(
-							item,
-							() => tracker.subscribe(item, async() => this.#renderDebounced()),
-						)
+					render(content, this.#shadow)
 
 					// inject content into light dom
 					if (!situation.isComponent)
@@ -90,9 +86,7 @@ function setupView(settings: ViewSettings) {
 
 			disconnected() {
 				this.#use[_disconnect]()
-				for (const untrack of this.#tracking.values())
-					untrack()
-				this.#tracking.clear()
+				this.#reactor.clear()
 				this.#attrWatcher.stop()
 			}
 
@@ -159,25 +153,16 @@ function setupView(settings: ViewSettings) {
 					}
 					disconnectedCallback() {
 						this.#attrWatcher.stop()
-						for (const untrack of this.#tracking.values())
-							untrack()
-						this.#tracking.clear()
+						this.#reactor.clear()
 					}
-					#tracking = new MapG<any, () => void>()
-					#getProps() {
-						const {seen, result} = tracker.observe(() => propsFn(this as any))
-						for (const item of seen) {
-							this.#tracking.guarantee(
-								item,
-								() => tracker.subscribe(item, this.render),
-							)
-						}
-						return result
-					}
+					#reactor = new Reactor()
 					render = debounce(0, () => this.renderNow())
 					renderNow() {
 						if (this.isConnected) {
-							const props = this.#getProps()
+							const props = this.#reactor.effect(
+								() => propsFn(this as any),
+								this.render,
+							)
 							render(this.#directive(this.#context, props), this)
 						}
 					}

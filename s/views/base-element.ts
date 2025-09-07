@@ -1,12 +1,12 @@
 
+import {debounce} from "@e280/stz"
 import {CSSResultGroup} from "lit"
-import {tracker} from "@e280/strata"
-import {debounce, MapG} from "@e280/stz"
 
 import {dom} from "../dom/dom.js"
 import {Content} from "./types.js"
-import {AttrWatcher} from "./utils/attr-watcher.js"
+import {Reactor} from "./utils/reactor.js"
 import {applyStyles} from "./utils/apply-styles.js"
+import {AttrWatcher} from "./utils/attr-watcher.js"
 import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
 export abstract class BaseElement extends HTMLElement {
@@ -15,7 +15,7 @@ export abstract class BaseElement extends HTMLElement {
 
 	#use: Use
 	#mounts = 0
-	#tracking = new MapG<any, () => void>
+	#reactor = new Reactor()
 	#attrWatcher = new AttrWatcher(this, () => this.update())
 
 	constructor() {
@@ -33,15 +33,13 @@ export abstract class BaseElement extends HTMLElement {
 
 	updateNow = () => {
 		this.#use[_wrap](() => {
-			const {result, seen} = tracker.observe(() => this.render(this.#use))
-
-			dom.render(this.shadow, result)
-
-			for (const item of seen)
-				this.#tracking.guarantee(
-					item,
-					() => tracker.subscribe(item, this.update),
-				)
+			dom.render(
+				this.shadow,
+				this.#reactor.effect(
+					() => this.render(this.#use),
+					this.update,
+				),
+			)
 		})
 	}
 
@@ -63,9 +61,7 @@ export abstract class BaseElement extends HTMLElement {
 
 	disconnectedCallback() {
 		this.#use[_disconnect]()
-		for (const untrack of this.#tracking.values())
-			untrack()
-		this.#tracking.clear()
+		this.#reactor.clear()
 		this.#attrWatcher.stop()
 	}
 }
