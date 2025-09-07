@@ -2,7 +2,7 @@
 import {html} from "lit"
 import {view} from "../../views/view.js"
 
-export class BackwardsElement extends (view
+export class DivineElement extends (view
 	.component<{speed?: number}>()
 	.props<[speed: number]>(el => [el.speed ?? 1])
 	.render(use => speed => {
@@ -15,5 +15,5 @@ export class BackwardsElement extends (view
 	})
 ) {}
 
-export const BackwardsView = BackwardsElement.view
+export const DivineView = DivineElement.view
 
