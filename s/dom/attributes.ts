@@ -41,9 +41,9 @@ export const attr = {
 		},
 		number: (e: HTMLElement, key: string) => {
 			const raw = e.getAttribute(key)
-			return raw !== null
-				? Number(raw)
-				: undefined
+			return (raw === null || !raw)
+				? undefined
+				: Number(raw)
 		},
 		boolean: (e: HTMLElement, key: string) => {
 			const raw = e.getAttribute(key)
