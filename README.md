@@ -257,7 +257,7 @@ import {html, css} from "lit"
 - **use.attrs** — ergonomic typed html attribute access  
     *(see [dom.attrs](#dom.attrs) for more details)*
     ```ts
-    const attrs = use.attrs({
+    const attrs = use.attrs.spec({
       name: String,
       count: Number,
       active: Boolean,
@@ -344,7 +344,7 @@ base element enjoys the same `use` hooks as views.
       start = 10
 
       // custom attributes
-      attrs = dom.attrs(this, {
+      attrs = dom.attrs(this).spec({
         multiply: Number,
       })
 
@@ -457,7 +457,7 @@ import {dom} from "@e280/sly"
     ```
 - `attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper
     ```ts
-    const attrs = dom.attrs(element, {
+    const attrs = dom.attrs(element).spec({
       name: String,
       count: Number,
       active: Boolean,
@@ -476,6 +476,12 @@ import {dom} from "@e280/sly"
     ```ts
     attrs.name = undefined // removes the attr
     attrs.count = undefined // removes the attr
+    ```
+    or if you wanna be more loosey-goosy, skip the spec
+    ```ts
+    dom.attrs(element).string.name = "pimsley"
+    dom.attrs(element).number.count = 125
+    dom.attrs(element).boolean.active = true
     ```
 
 
@@ -656,7 +662,7 @@ import {ev} from "@e280/stz"
       })
 
       // sly attribute handler for the body
-      const attrs = dom.attrs(document.body, {
+      const attrs = dom.attrs(document.body).spec({
         "data-indicator": Boolean,
       })
 
