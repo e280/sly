@@ -138,7 +138,7 @@ function setupView(settings: ViewSettings) {
 		rendy.component = <Mix extends {} = {}>(
 				init: (component: Component<Mix>) => void = () => {}
 			) => ({
-			props: (fn: (component: Component<Mix>) => Props) => {
+			props: (propsFn: (component: Component<Mix>) => Props) => {
 				return class VComponent extends HTMLElement implements Component {
 					static view = rendy
 					#context = freshViewContext()
@@ -159,11 +159,25 @@ function setupView(settings: ViewSettings) {
 					}
 					disconnectedCallback() {
 						this.#attrWatcher.stop()
+						for (const untrack of this.#tracking.values())
+							untrack()
+						this.#tracking.clear()
+					}
+					#tracking = new MapG<any, () => void>()
+					#getProps() {
+						const {seen, result} = tracker.observe(() => propsFn(this as any))
+						for (const item of seen) {
+							this.#tracking.guarantee(
+								item,
+								() => tracker.subscribe(item, this.render),
+							)
+						}
+						return result
 					}
 					render = debounce(0, () => this.renderNow())
 					renderNow() {
 						if (this.isConnected) {
-							const props = fn(this as any)
+							const props = this.#getProps()
 							render(this.#directive(this.#context, props), this)
 						}
 					}

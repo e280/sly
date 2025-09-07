@@ -20,7 +20,7 @@ const divine = dom<DivineElement>("divine-element")
 
 repeat(async() => {
 	await nap(1000)
-	divine.$speed.value = 2
+	divine.$speed.value++
 })
 
 console.log("🦝 sly")
