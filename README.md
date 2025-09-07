@@ -170,10 +170,14 @@ import {html, css} from "lit"
         ```
     - `.component` also takes an init fn, so you can do some setup, like use signals for reactivity
         ```ts
-        .component<{$name: Signal<string>}>(component => {
+        .component<{$name: SignalFn<string>}>(component => {
           component.$name = signal("pimsley")
         })
         .props(component => [component.$name])
+        ```
+    - `.component` lets you set instance properties, that devs can interact with via the dom
+        ```ts
+        dom<GreeterComponent>("my-component").$name.value = "mortimer"
         ```
 - **register web components to the dom**
     ```ts
