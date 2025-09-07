@@ -1,6 +1,6 @@
 
 import {render} from "lit"
-import {Constructor, debounce, MapG} from "@e280/stz"
+import {debounce, MapG} from "@e280/stz"
 import {directive} from "lit/directive.js"
 import {tracker} from "@e280/strata/tracker"
 import {AsyncDirective} from "lit/async-directive.js"
@@ -10,7 +10,7 @@ import {applyAttrs} from "./utils/apply-attrs.js"
 import {AttrWatcher} from "./utils/attr-watcher.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {Use, _wrap, _disconnect, _reconnect} from "./use.js"
-import {AttrValue, Content, View, ViewFn, ViewSettings, ViewContext, ViewComponent, Elmix} from "./types.js"
+import {AttrValue, Content, View, ViewFn, ViewSettings, ViewContext, ViewComponent, ViewComponentClass} from "./types.js"
 
 export const view = setupView({mode: "open"})
 export class SlyView extends HTMLElement {}
@@ -135,8 +135,9 @@ function setupView(settings: ViewSettings) {
 			return chain
 		}
 
-		rendy.component = <El extends Partial<ViewComponent>>(fn: (el: El) => Props) => {
+		rendy.component = <Mix extends {} = {}>(fn: (el: Mix) => Props) => {
 			return class VComponent extends HTMLElement implements ViewComponent {
+				static view = rendy
 				#context = freshViewContext()
 				#directive = directive(
 					make({
@@ -159,7 +160,7 @@ function setupView(settings: ViewSettings) {
 						render(this.#directive(this.#context, props), this)
 					}
 				}
-			} as any as (Constructor<El> & typeof HTMLElement)
+			} as any as ViewComponentClass<Mix, Props>
 		}
 
 		return rendy
@@ -167,9 +168,9 @@ function setupView(settings: ViewSettings) {
 
 	view.declare = view
 	view.settings = (settings2: Partial<ViewSettings>) => setupView({...settings, ...settings2})
-	view.component = <Mix extends Partial<ViewComponent>>() => ({
-		props: <Props extends any[]>(elfn: (el: Elmix<Mix>) => Props) => ({
-			declare: (fn: ViewFn<Props>) => view(fn).component(elfn)
+	view.component = <Mix extends {}>() => ({
+		props: <Props extends any[]>(elfn: (el: ViewComponent<Mix>) => Props) => ({
+			declare: (fn: ViewFn<Props>) => view(fn).component(elfn),
 		}),
 	})
 	return view
