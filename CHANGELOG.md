@@ -45,18 +45,20 @@
     - 🤗 new good
         ```ts
         view
-          .component<{a: number, b: number}>()
-          .props(el => [el.a, el.b])
-          .render(use => (a, b) => html`hello`)
+          .component<{a?: number}>()
+          .props(component => [component.a])
+          .render(use => a => html`hello`)
         ```
 - 🟥 rework view conversions into components
     - 😡 old bad
         ```ts
-        MyView.component(a, b)
+        MyView.component(a)
         ```
     - 🤗 new good
         ```ts
-        MyView.component<{a: number, b: number}>(el => [el.a, el.b])
+        MyView
+          .component<{a?: number}>()
+          .props(component => [component.a])
         ```
 - 🟥 replaced `onAttrChange(el, fn)` with `dom.attrs(el).on(fn)`
 - 🟥 reworked `use.attrs` and `dom.attrs`

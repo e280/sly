@@ -40,10 +40,11 @@ export const CounterView = view(use => (start: number) => {
 	`
 })
 
-export class CounterElement extends (
+// convert a view into a web component
+export class CounterComponent extends (
 	CounterView
-		.component<{start: number}>()
-		.props(el => [dom.attrs(el).number.start ?? 0])
+		.component<{start?: number}>()
+		.props(c => [dom.attrs(c).number.start ?? 0])
 ) {}
 
 const styles = css`

@@ -5,14 +5,22 @@ import {view} from "../../views/view.js"
 import {CounterView} from "./counter.js"
 import {LoadersView} from "./loaders.js"
 import {cssReset} from "../../views/css-reset.js"
+import { nap, repeat } from "@e280/stz"
 
 export const DemoView = view(use => () => {
 	use.name("demo")
 	use.styles(cssReset, styles)
 
+	const $speed = use.signal(3)
+
+	use.mount(() => repeat(async() => {
+		await nap(1000)
+		$speed.value++
+	}))
+
 	return html`
 		${CounterView.props(2).children("view").render()}
-		${DivineView(3)}
+		${DivineView($speed())}
 		${LoadersView()}
 	`
 })

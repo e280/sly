@@ -7,14 +7,14 @@ import {Use} from "./use.js"
 export type Content = TemplateResult | DirectiveResult | HTMLElement | string | null | undefined | void | Content[]
 export type AttrValue = string | boolean | number | undefined | null | void
 
-export type ViewComponent<Mix extends {} = {}> = Mix & {
+export type Component<Mix extends {} = {}> = Mix & {
 	renderNow(): void
 	render: () => void
 } & HTMLElement
 
-export type ViewComponentClass<Mix extends {}, Props extends any[]> = {
+export type ComponentClass<Mix extends {}, Props extends any[]> = {
 	view: View<Props>
-	new(): ViewComponent<Mix>
+	new(): Component<Mix>
 }
 
 export type ViewRenderFn<Props extends any[]> = (use: Use) => (...props: Props) => Content
@@ -22,9 +22,9 @@ export type BasicView<Props extends any[]> = (...props: Props) => DirectiveResul
 
 export type View<Props extends any[]> = BasicView<Props> & {
 	props: (...props: Props) => ViewChain
-	component: <Mix extends {}>() => {
-		props: (fn: (el: ViewComponent<Mix>) => Props) => (
-			ViewComponentClass<Mix, Props>
+	component: <Mix extends {}>(init?: (component: Component<Mix>) => void) => {
+		props: (fn: (component: Component<Mix>) => Props) => (
+			ComponentClass<Mix, Props>
 		)
 	}
 }

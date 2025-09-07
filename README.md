@@ -34,15 +34,15 @@ npm install @e280/sly lit @e280/strata @e280/stz
 <br/><br/>
 <a id="views"></a>
 
-## 🦝🍋 sly views
+## 🦝🍋 sly views and components
 > *views are the crown jewel of sly.. shadow-dom'd.. hooks-based.. "ergonomics"..*
 
 ```ts
 view(use => () => html`<p>hello world</p>`)
 ```
 
+- any view can be converted into a web component
 - views are not [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components), but they do have [shadow roots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
-- any view can be registered as a web component, perfect for entrypoints or sharing widgets with html authors
 - views are typescript-native and comfy for webdevs building apps
 - views automatically rerender whenever any [strata-compatible](https://github.com/e280/strata) state changes
 
@@ -78,8 +78,8 @@ import {html, css} from "lit"
     ```ts
     dom.register({
       MyCounter: CounterView
-        .component<{start: number}>()
-        .props(element => [dom.attrs(element).number.start]),
+        .component()
+        .props(component => [dom.attrs(component).number.start ?? 0]),
     })
     ```
     ```html
@@ -114,37 +114,73 @@ import {html, css} from "lit"
     - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
     - `render` — end the view chain and render the lit directive
 
-### 🍋 view web components
-- **convert any existing view into a view-component**
+### 🍋 view/component universality
+- **start with a view,**
     ```ts
-    export class CounterElement extends (
-      CounterView
-        .component<{size: number}>()
-        .props(element => [element.size])
-    ) {}
+    export const GreeterView = view(use => (name: string) => {
+      return html`<p>hello ${name}</p>`
+    })
+
+    // view usage:
+    //   GreeterView("pimsley")
     ```
-- **build a view-component directly**
+    then you can convert it to a component
     ```ts
-    export class MyComponent extends (view
-      .component<{active: boolean}>()
-      .props<[active: boolean]>(element => [element.active])
-      .render(use => active => {
-        return html`<div>${active ? "active" : "inactive"}</div>`
+    export class GreeterComponent extends (GreeterView
+      .component()
+      .props(component => [component.getAttribute("name") ?? "unknown"])
+    ) {}
+
+    // html usage:
+    //   <greeter-component name="pimsley"></greeter-component>
+    ```
+- **start with a component,**
+    ```ts
+    export class GreeterComponent extends (view
+      .component()
+      .props(component => [component.getAttribute("name") ?? "unknown"])
+      .render(use => (name: string) => {
+        return html`<p>hello ${name}</p>`
       })
     ) {}
+
+    // html usage:
+    //   <greeter-component name="pimsley"></greeter-component>
     ```
-    - 🧐 the view is available as `MyComponent.view`
+    then you can already use it as a view
+    ```ts
+    // view usage:
+    //   GreeterComponent.view("pimsley")
+    ```
+- **understanding `.component(init)` and `.props(fn)`**
+    - `.props` takes a fn that is called every render, which returns the props given to the view
+        ```ts
+        .component()
+        .props(() => ["pimsley"])
+        ```
+        the props fn receives the component instance, so you can query html attributes
+        ```ts
+        .component()
+        .props(component => [component.getAttribute("name") ?? "unknown"])
+        ```
+    - `.component` takes a mixin type added to the component type, so your `.props` can accept instance properties
+        ```ts
+        .component<{name?: string}>()
+        .props(component => [component.name ?? "unknown"])
+        ```
+    - `.component` also takes an init fn, so you can do some setup, like use signals for reactivity
+        ```ts
+        .component<{$name: Signal<string>}>(component => {
+          component.$name = signal("pimsley")
+        })
+        .props(component => [component.$name])
+        ```
 - **register web components to the dom**
     ```ts
-    dom.register({CounterElement, MyComponent})
+    dom.register({GreeterComponent})
     ```
-    ```html
-    <my-counter size="1"></my-counter>
-    <my-component active></my-component>
-    ```
-    - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 
-### 🍋 view "use" hooks reference
+### 🍋 "use" hooks reference
 - 👮 **follow the hooks rules**  
     > just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of sly's `use` hooks actually matters..  
     > you must not call these hooks under `if` conditionals, or `for` loops, or in callbacks, or after a conditional `return` statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
@@ -255,7 +291,7 @@ import {html, css} from "lit"
     const op = use.op.promise(doAsyncWork())
     ```
 
-### 🍋 view "use" recipes
+### 🍋 "use" recipes
 - make a ticker — mount, repeat, and nap
     ```ts
     import {repeat, nap} from "@e280/stz"
@@ -404,6 +440,7 @@ import {dom} from "@e280/sly"
       // <my-component>
       // <another-cool-component>
     ```
+    - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 - `render` content into an element
     ```ts
     dom(element).render(html`<p>hello world</p>`)
