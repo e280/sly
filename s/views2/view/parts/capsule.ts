@@ -1,7 +1,7 @@
 
 import {debounce} from "@e280/stz"
 import {ViewFn} from "../../types.js"
-import {SlyView} from "../sly-view.js"
+import {SlyView} from "./sly-view.js"
 import {dom} from "../../../dom/dom.js"
 import {ViewContext} from "./context.js"
 import {applyAttrs} from "../utils/apply-attrs.js"
@@ -9,6 +9,7 @@ import {Reactor} from "../../base/utils/reactor.js"
 import {AttrWatcher} from "../../base/utils/attr-watcher.js"
 import {_disconnect, _reconnect, Use} from "../../base/use.js"
 
+/** controls the rendering of view context into an element. */
 export class ViewCapsule<Props extends any[]> {
 	#element = SlyView.make()
 	#reactor = new Reactor()

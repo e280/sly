@@ -1,11 +1,12 @@
 
 import {Constructor} from "@e280/stz"
 import {Use} from "../base/use.js"
-import {ViewFn} from "../types.js"
+import {ComponentClass, ViewFn} from "../types.js"
 import {makeView} from "./make-view.js"
 import {Reactor} from "../base/utils/reactor.js"
 import {BaseElement} from "../base/base-element.js"
 
+/** make a component from a BaseElement and a view. */
 export function makeComponent<B extends Constructor<BaseElement>, Props extends any[]>(
 		settings: ShadowRootInit,
 		Base: B,
@@ -27,6 +28,6 @@ export function makeComponent<B extends Constructor<BaseElement>, Props extends 
 				() => this.update(),
 			))
 		}
-	}
+	} as any as ComponentClass<B, Props>
 }
 

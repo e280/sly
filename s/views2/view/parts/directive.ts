@@ -4,12 +4,13 @@ import {ViewFn} from "../../types.js"
 import {ViewCapsule} from "./capsule.js"
 import {ViewContext} from "./context.js"
 
+/** creates a lit directive fn, which when called, emits a funky lit thing to inject in your html templates. */
 export function makeViewDirective<Props extends any[]>(
 		viewFn: ViewFn<Props>,
 		settings: ShadowRootInit,
 	) {
 
-	return directive (class ViewDirective extends AsyncDirective {
+	return directive(class ViewDirective extends AsyncDirective {
 		#capsule = new ViewCapsule(viewFn, settings)
 
 		render(context: ViewContext<Props>) {
