@@ -180,13 +180,13 @@ import {html, css} from "lit"
 
           // props gets the right types on 'component'
           .props(component => [component.$name.value])
-        ```— the technical term for a *genuine* web component
+        ```
     - `.component` provides the devs interacting with your component, with noice typings
         ```ts
         dom<GreeterComponent>("greeter-component").updateName("mortimer")
         ```
     - typescript class wizardry
-        - ❌ smol-brain approach exports class value, but not the typings
+        - ❌ smol-brain approach exports class value, but NOT the typings
             ```ts
             export const GreeterComponent = (...)
             ```
