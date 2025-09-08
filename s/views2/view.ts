@@ -1,15 +1,15 @@
 
 import {ViewFn} from "./types.js"
-import {mkView} from "./view/make-view.js"
+import {makeView} from "./view/make-view.js"
 import {_disconnect, _reconnect} from "./base/use.js"
 
 export function view<Props extends any[]>(fn: ViewFn<Props>) {
-	return mkView(fn, {mode: "open"})
+	return makeView(fn, {mode: "open"})
 }
 
 view.settings = (settings: ShadowRootInit) => ({
 	render: <Props extends any[]>(fn: ViewFn<Props>) => {
-		return mkView(fn, settings)
+		return makeView(fn, settings)
 	}
 })
 

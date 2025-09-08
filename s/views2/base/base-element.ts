@@ -11,20 +11,22 @@ import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
 export class BaseElement extends HTMLElement {
 	static styles: CSSResultGroup | undefined
+
 	readonly shadow: ShadowRoot
 
 	#use: Use
-	#mounts = 0
+	#mountCount = 0
 	#reactor = new Reactor()
 	#attrWatcher = new AttrWatcher(this, () => this.update())
 
-	shadowize() {
+	/** create the shadow root. override this if you want to change the shadow root settings. */
+	createShadow() {
 		return this.attachShadow({mode: "open"})
 	}
 
 	constructor() {
 		super()
-		this.shadow = this.shadowize()
+		this.shadow = this.createShadow()
 		this.#use = new Use(
 			this,
 			this.shadow,
@@ -33,8 +35,10 @@ export class BaseElement extends HTMLElement {
 		)
 	}
 
+	/** return some content to render. */
 	render(_use: Use): Content {}
 
+	/** immediately perform a fresh render into the shadow root. */
 	updateNow = () => {
 		this.#use[_wrap](() => {
 			dom.render(
@@ -47,20 +51,20 @@ export class BaseElement extends HTMLElement {
 		})
 	}
 
+	/** request a rerender which will happen soon (debounced). */
 	update = debounce(0, this.updateNow)
 	
 	connectedCallback() {
-		if (this.#mounts === 0) {
+		if (this.#mountCount === 0) {
 			const styles = (this.constructor as any).styles
-			if (styles)
-				applyStyles(this.shadow, styles)
+			if (styles) applyStyles(this.shadow, styles)
 			this.updateNow()
 		}
 		else {
 			this.#use[_reconnect]()
 		}
 		this.#attrWatcher.start()
-		this.#mounts++
+		this.#mountCount++
 	}
 
 	disconnectedCallback() {
