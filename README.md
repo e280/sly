@@ -54,7 +54,6 @@ import {html, css} from "lit"
 - **declare a view**
     ```ts
     export const CounterView = view(use => (start: number) => {
-      use.name("counter")
       use.styles(css`p {color: green}`)
 
       const $count = use.signal(start)
@@ -66,7 +65,7 @@ import {html, css} from "lit"
       `
     })
     ```
-    - each view renders into a `<sly-view view="counter">` host (where "counter" is the `use.name` you provided)
+    - `$count` is a [strata signal](https://github.com/e280/strata#readme) *(we like those)*
 - **inject a view into the dom**
     ```ts
     dom.in(".app").render(html`
@@ -79,15 +78,15 @@ import {html, css} from "lit"
     dom.register({
       MyCounter: CounterView
         .component(BaseElement)
-        .props(component => [dom.attrs(component).number.start ?? 0]),
+        .props(component => [1]),
     })
     ```
     ```html
-    <my-counter start="1"></my-counter>
+    <my-counter></my-counter>
     ```
 
 ### 🍋 view settings
-- special settings for views at declaration-time
+- lame settings for views
     ```ts
     export const CoolView = view
       .settings({mode: "open", delegatesFocus: true})
@@ -110,7 +109,7 @@ import {html, css} from "lit"
     ```
     - `props` — provide props and start a view chain
     - `attr` — set html attributes on the `<sly-view>` host element
-    - `children` — nested content in the host element, can be [slotted](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+    - `children` — add nested [slottable](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots) content
     - `render` — end the view chain and render the lit directive
 
 ### 🍋 view/component universality
