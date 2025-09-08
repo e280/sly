@@ -34,7 +34,7 @@ npm install @e280/sly lit @e280/strata @e280/stz
 <br/><br/>
 <a id="views"></a>
 
-## 🦝🍋 sly views
+## 🍋🦝 sly views
 > *the crown jewel of sly*
 
 ```ts
@@ -343,7 +343,7 @@ import {html, css} from "lit"
 <br/><br/>
 <a id="base-element"></a>
 
-## 🦝🪵 sly base element
+## 🪵🦝 sly base element
 > *the classic experience*
 
 ```ts
@@ -439,7 +439,7 @@ import {html, css} from "lit"
 <br/><br/>
 <a id="dom"></a>
 
-## 🦝🪄 sly dom
+## 🪄🦝 sly dom
 > *the "it's not jquery!" multitool*
 
 ```ts
@@ -528,7 +528,7 @@ import {dom} from "@e280/sly"
 <br/><br/>
 <a id="ops"></a>
 
-## 🦝🫛 sly ops
+## 🫛🦝 sly ops
 > *tools for async operations and loading spinners*
 
 ```ts
@@ -658,7 +658,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 <br/><br/>
 <a id="loot"></a>
 
-## 🦝🪙 loot
+## 🪙🦝 loot
 > *drag-and-drop facilities*
 
 ```ts
@@ -780,7 +780,7 @@ import {ev} from "@e280/stz"
 <br/><br/>
 <a id="e280"></a>
 
-## 🦝🧑‍💻 sly is by e280
+## 🧑‍💻🦝 sly is by e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
 
