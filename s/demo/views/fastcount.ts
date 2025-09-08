@@ -6,7 +6,7 @@ import {dom} from "../../dom/dom.js"
 import {Use} from "../../ui/base/use.js"
 import {BaseElement} from "../../ui/base-element.js"
 
-export class IncrediElement extends BaseElement {
+export class FastcountElement extends BaseElement {
 	static styles = css`span{color:orange}`
 
 	attrs = dom.attrs(this).spec({value: Number})
