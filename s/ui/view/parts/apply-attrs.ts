@@ -6,7 +6,7 @@ export function applyAttrs(
 		attrs: Map<string, AttrValue>,
 	) {
 
-	for (const [key, value] of Object.entries(attrs)) {
+	for (const [key, value] of attrs) {
 		if (value === undefined || value === null)
 			element.removeAttribute(key)
 
