@@ -86,24 +86,23 @@ import {html, css} from "lit"
     <my-counter start="1"></my-counter>
     ```
 
-### 🍋 view declaration settings
+### 🍋 view settings
 - special settings for views at declaration-time
     ```ts
     export const CoolView = view
       .settings({mode: "open", delegatesFocus: true})
-      .render(use => (greeting: string) => {
-        return html`😎 ${greeting} <slot></slot>`
-      })
+      .render(use => (greeting: string) => html`😎 ${greeting} <slot></slot>`)
     ```
     - all [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters) (like `mode` and `delegatesFocus`) are valid `settings`
     - note the `<slot></slot>` we'll use in the next example lol
 
-### 🍋 view injection options
-- options for views at the template injection site
+### 🍋 view chain
+- views have this chaining syntax for supplying more stuff at the template injection site
     ```ts
     dom.in(".app").render(html`
       <h2>cool example</h2>
-      ${CoolView.props("hello")
+      ${CoolView
+        .props("hello")
         .attr("class", "hero")
         .children(html`<em>spongebob</em>`)
         .render()}
@@ -152,7 +151,7 @@ import {html, css} from "lit"
         <greeter-component name="pimsley"></greeter-component>
         ```
     **and it already has `.view` ready for you.**
-    - view usage:
+    - view usage
         ```ts
         GreeterComponent.view("pimsley")
         ```
@@ -182,6 +181,12 @@ import {html, css} from "lit"
 - **register web components to the dom**
     ```ts
     dom.register({GreeterComponent})
+    ```
+- **oh and don't miss out on the insta-component shorthand**
+    ```ts
+    dom.register({
+      QuickComponent: view.component(use => html`⚡ incredi`),
+    })
     ```
 
 ### 🍋 "use" hooks reference
@@ -328,7 +333,7 @@ import {BaseElement, Use, dom} from "@e280/sly"
 import {html, css} from "lit"
 ```
 
-`BaseElement` is an old-timey class-based "fogey" approach to making web components, but with a modern twist — its `render` method gives you the same `use` hooks that views enjoy.
+`BaseElement` is an old-timey class-based "boomer" approach to making web components, but with a zoomer twist — its `render` method gives you the same `use` hooks that views enjoy.
 
 ### 🪵 base element setup
 - **declare your element class**
