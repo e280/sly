@@ -7,7 +7,7 @@ import {Op} from "../../ops/op.js"
 import {dom} from "../../dom/dom.js"
 import {Attrs} from "../../dom/types.js"
 import {Mounts} from "./utils/mounts.js"
-import {applyStyles} from "../parts/utils/apply-styles.js"
+import {applyStyles} from "./utils/apply-styles.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()

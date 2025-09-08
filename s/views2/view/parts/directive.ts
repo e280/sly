@@ -9,12 +9,10 @@ export function makeViewDirective<Props extends any[]>(
 	) {
 
 	return directive (class ViewDirective extends AsyncDirective {
-		#capsule = new ViewCapsule(settings, viewFn)
+		#capsule = new ViewCapsule(viewFn, settings)
 
 		render(context: ViewContext<Props>) {
-			this.#capsule.updateContext(context)
-			this.#capsule.renderNow()
-			return this.#capsule.element
+			return this.#capsule.update(context)
 		}
 
 		disconnected() {

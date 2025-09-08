@@ -1,7 +1,7 @@
 
 import {ViewFn} from "./types.js"
-import {mkView} from "./parts/make-view.js"
-import {_disconnect, _reconnect} from "./units/use.js"
+import {mkView} from "./view/make-view.js"
+import {_disconnect, _reconnect} from "./base/use.js"
 
 export function view<Props extends any[]>(fn: ViewFn<Props>) {
 	return mkView(fn, {mode: "open"})

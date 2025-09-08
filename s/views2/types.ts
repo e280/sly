@@ -1,8 +1,8 @@
 
 import {TemplateResult} from "lit"
 import {DirectiveResult} from "lit/directive.js"
-import {Use} from "./units/use.js"
-import {BaseElement} from "./units/base-element.js"
+import {Use} from "./base/use.js"
+import {BaseElement} from "./base/base-element.js"
 
 export type Content = TemplateResult | DirectiveResult | HTMLElement | string | null | undefined | void | Content[]
 export type AttrValue = string | boolean | number | undefined | null | void

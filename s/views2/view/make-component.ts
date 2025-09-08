@@ -1,10 +1,10 @@
 
 import {Constructor} from "@e280/stz"
 import {ViewFn} from "../types.js"
-import {Use} from "../units/use.js"
+import {Use} from "../base/use.js"
 import {mkView} from "./make-view.js"
-import {Reactor} from "./utils/reactor.js"
-import {BaseElement} from "../units/base-element.js"
+import {Reactor} from "../base/utils/reactor.js"
+import {BaseElement} from "../base/base-element.js"
 
 export function mkComponent<B extends Constructor<BaseElement>, Props extends any[]>(
 		settings: ShadowRootInit,

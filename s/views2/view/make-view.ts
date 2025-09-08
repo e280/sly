@@ -2,11 +2,11 @@
 import {Constructor} from "@e280/stz"
 import {DirectiveResult} from "lit/async-directive.js"
 import {ViewFn} from "../types.js"
-import {ViewChain} from "./viewparts/chain.js"
+import {ViewChain} from "./parts/chain.js"
 import {mkComponent} from "./make-component.js"
-import {ViewContext} from "./viewparts/context.js"
-import {BaseElement} from "../units/base-element.js"
-import {makeViewDirective} from "./viewparts/directive.js"
+import {ViewContext} from "./parts/context.js"
+import {BaseElement} from "../base/base-element.js"
+import {makeViewDirective} from "./parts/directive.js"
 
 export function mkView<Props extends any[]>(
 		viewFn: ViewFn<Props>,
