@@ -12,7 +12,11 @@ import {IncrediElement} from "./views/incredi.js"
 // const component = new KingComponent()
 // console.log("BBB")
 
-dom.in(".demo").render(KingView(99))
+dom.in(".demo").render(
+	KingView.props(99)
+		.attr("hello", "world")
+		.render()
+)
 
 dom.register({
 	KingComponent,

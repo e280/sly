@@ -1,23 +1,30 @@
 
-import {Constructor, debounce} from "@e280/stz"
+import {Constructor, debounce, MapG} from "@e280/stz"
 import {CSSResultGroup, html} from "lit"
 
 import {dom} from "../dom/dom.js"
 import {Reactor} from "./utils/reactor.js"
-import {AsyncDirective, directive, DirectiveResult, PartInfo} from "lit/async-directive.js"
+import {AsyncDirective, directive, DirectiveResult} from "lit/async-directive.js"
 import {BaseElement} from "./base-element.js"
 import {Content} from "./types.js"
 import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
 export type ViewFn<Props extends any[]> = (use: Use) => (this: void, ...props: Props) => Content
 
-export class SlyView extends BaseElement {}
+export type ComponentClass<Props extends any[]> = {
+	view: (...props: Props) => DirectiveResult
+	new(): BaseElement
+} & typeof BaseElement
+
+
+export class SlyView extends HTMLElement {}
 dom.register({SlyView}, {soft: true})
 
-export const componentize = () => ({
+export const componentize = (settings: ShadowRootInit = {mode: "open"}) => ({
 	base: <B extends Constructor<BaseElement>>(Base: B) => ({
 		props: <Props extends any[]>(propFn: (component: InstanceType<B>) => Props) => ({
 			render: (viewFn: ViewFn<Props>) => mkComponent(
+				settings,
 				Base,
 				propFn,
 				viewFn,
@@ -26,160 +33,118 @@ export const componentize = () => ({
 	})
 })
 
+export class ViewContext<Props extends any[]> {
+	attrs = new MapG<string, string | undefined>()
+	children: Content[] = []
+	constructor(public props: Props) {}
+}
+
+export class ViewChain<Props extends any[]> {
+	#render: (context: ViewContext<Props>) => DirectiveResult
+	#context: ViewContext<Props>
+
+	constructor(
+			context: ViewContext<Props>,
+			render: (context: ViewContext<Props>) => DirectiveResult,
+		) {
+		this.#context = context
+		this.#render = render
+	}
+
+	attr(key: string, value: string | undefined) {
+		this.#context.attrs.set(key, value)
+		return this
+	}
+
+	children(...contents: Content[]) {
+		this.#context.children.push(...contents)
+		return this
+	}
+
+	render() {
+		return this.#render(this.#context)
+	}
+}
+
+export function makeViewDirective<Props extends any[]>(
+		viewFn: ViewFn<Props>,
+		settings: ShadowRootInit,
+	) {
+
+	return directive (class ViewDirective extends AsyncDirective {
+		#context!: ViewContext<Props>
+		#element = document.createElement("sly-view")
+		#shadow = this.#element.attachShadow(settings)
+		#reactor = new Reactor()
+		#use = new Use(
+			this.#element,
+			this.#shadow,
+			() => this.#injectNow(),
+			() => this.#injectDebounced(),
+		)
+		#fn = viewFn(this.#use)
+
+		render(context: ViewContext<Props>) {
+			this.#context = context
+			this.#injectNow()
+			return this.#element
+		}
+
+		#injectNow() {
+			this.#applyAttrs()
+			const content = this.#reactor.effect(
+				() => this.#fn(...this.#context.props),
+				() => this.#injectDebounced(),
+			)
+			dom.render(this.#shadow, content)
+			dom.render(this.#element, this.#context.children)
+		}
+
+		#injectDebounced = debounce(0, this.#injectNow)
+
+		#applyAttrs() {
+			for (const [key, value] of this.#context.attrs) {
+				if (value !== undefined) this.#element.setAttribute(key, value)
+				else this.#element.removeAttribute(key)
+			}
+		}
+	}) as (context: ViewContext<Props>) => DirectiveResult
+}
+
+export function mkView<Props extends any[]>(viewFn: ViewFn<Props>, settings: ShadowRootInit) {
+	const render = makeViewDirective(viewFn, settings)
+
+	function v(...props: Props): DirectiveResult {
+		return render(new ViewContext(props))
+	}
+
+	v.props = (...props: Props) => new ViewChain(
+		new ViewContext(props),
+		render,
+	)
+
+	return v
+}
+
 export function mkComponent<B extends Constructor<BaseElement>, Props extends any[]>(
+		settings: ShadowRootInit,
 		Base: B,
 		propFn: (component: InstanceType<B>) => Props,
 		viewFn: ViewFn<Props>,
 	) {
 
-	class ViewDirective extends AsyncDirective {
-		#props!: Props
-
-		#element = (() => {
-			const element = new SlyView()
-			element.render = use => viewFn(use)(...this.#props)
-			return element
-		})()
-
-		render(...props: Props) {
-			this.#props = props
-			return this.#element
-		}
-	}
-
 	return class Component extends Base {
-		static view = directive(ViewDirective)
+		static view = mkView(viewFn, settings)
 		#reactor = new Reactor()
+		shadowize() {
+			return this.attachShadow(settings)
+		}
 		render(use: Use) {
 			return viewFn(use)(...this.#reactor.effect(
 				() => propFn(this as any),
 				() => this.update(),
 			))
 		}
-	} as any as ComponentClass<Props>
+	}
 }
 
-export type ComponentClass<Props extends any[]> = {
-	view: (...props: Props) => DirectiveResult
-	new(): BaseElement
-} & typeof BaseElement
-
-// export function viewize<Props extends any[]>(C: Constructor<Component<Props>>) {
-// 	const fn = C.prototype.fn.bind(null) as ViewFn<Props>
-//
-// 	class ViewDirective extends AsyncDirective {
-// 		#props!: Props
-// 		#element = (() => {
-// 			const element = new SlyView()
-// 			element.actuate = use => fn(use)(...this.#props)
-// 			return element
-// 		})()
-//
-// 		render(...props: Props) {
-// 			this.#props = props
-// 			this.#element.updateNow()
-// 			console.log("RENDERED VIEW")
-// 			return this.#element
-// 		}
-// 	}
-//
-// 	return directive(ViewDirective) as (...props: Props) => DirectiveResult
-// }
-
-
-
-
-
-
-// export class SlyView extends BaseElement {
-// 	actuate!: (use: Use) => Content
-// 	render(use: Use) { this.actuate(use) }
-// }
-//
-// dom.register({SlyView}, {soft: true})
-
-
-
-		//
-		// render(props: Props) {
-		// 	this.isConnected
-		// 	this.#component.connectedCallback()
-		// 	this.#component.updateNow()
-		// 	return this.#
-		// }
-		//
-		// disconnected() {
-		// 	this.#component.disconnectedCallback()
-		// 	this.#use[_disconnect]()
-		// }
-		//
-		// reconnected() {
-		// 	this.#use[_reconnect]()
-		// }
-
-
-
-
-
-
-
-// type IVC<Props extends any[]> = Constructor<{
-// 	props(): Props
-// 	fn: ViewRenderFn<Props>
-// 	render(use: Use): Content
-// } & ViewComponent<Props>>
-//
-// // TODO
-// export function viewize<Props extends any[]>(
-// 		C: Constructor<ViewComponent<Props>>,
-// 	) {
-//
-// 	class AugmentedComponent extends (C as IVC<Props>) {
-// 		directProps!: Props
-// 		props() { return this.directProps }
-// 	}
-//
-// 	class ViewDirective extends AsyncDirective {
-// 		#component = new AugmentedComponent()
-// 		#reactor = new Reactor()
-//
-// 		render(props: Props) {
-// 			this.#component.directProps = props
-// 			this.#component.updateNow()
-// 			return this.#component
-// 		}
-// 	}
-// }
-//
-//
-//
-//
-//
-//
-//
-// export const toView = <C extends Component>(C: Constructor<C>) => ({
-// 	fromProps: <Props extends any[]>(
-// 		fn: (component: C) => (...props: Props) => void
-// 	) => viewForComponent<C, Props>(C, fn),
-// })
-//
-// function viewForComponent<C extends Component, Props extends any[]>(
-// 		C: Constructor<C>,
-// 		fn: (component: C) => (...props: Props) => void,
-// 	) {
-// }
-//
-// export function makeViewComponent<Props extends any[]>(
-// 		fn: ViewRenderFn<Props>
-// 	) {
-// 	abstract class ViewComponent extends Component {
-// 		abstract props(): Props
-// 		render(use: Use) { return fn(use)(...this.props()) }
-// 	}
-// 	return ViewComponent
-// }
-//
-// export class RoflComponent extends makeViewComponent(
-// 	use => () => "html"
-// ) {}
-//

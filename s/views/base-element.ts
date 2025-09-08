@@ -11,16 +11,21 @@ import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
 export class BaseElement extends HTMLElement {
 	static styles: CSSResultGroup | undefined
-	readonly shadow: ShadowRoot
+
+	shadow: ShadowRoot
 
 	#use: Use
 	#mounts = 0
 	#reactor = new Reactor()
 	#attrWatcher = new AttrWatcher(this, () => this.update())
 
+	shadowize() {
+		return this.attachShadow({mode: "open"})
+	}
+
 	constructor() {
 		super()
-		this.shadow = this.attachShadow({mode: "open"})
+		this.shadow = this.shadowize()
 		this.#use = new Use(
 			this,
 			this.shadow,
