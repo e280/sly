@@ -180,7 +180,7 @@ import {html, css} from "lit"
 
           // props gets the right types on 'component'
           .props(component => [component.$name.value])
-        ```
+        ```— the technical term for a *genuine* web component
     - `.component` provides the devs interacting with your component, with noice typings
         ```ts
         dom<GreeterComponent>("greeter-component").updateName("mortimer")
@@ -351,7 +351,27 @@ import {BaseElement, Use, dom} from "@e280/sly"
 import {html, css} from "lit"
 ```
 
-`BaseElement` is an old-timey class-based "boomer" approach to making web components, but with a zoomer twist — its `render` method gives you the same `use` hooks that views enjoy.
+`BaseElement` is more of an old-timey class-based "boomer" approach to making web components, but with a zoomer twist — its `render` method gives you the same `use` hooks that views enjoy.
+
+👮 a *BaseElement* is not a *View*, and cannot be converted into a *View*.
+
+### 🪵 let's clarify some sly terminology
+- "Element"
+    - an html element; any subclass of the browser's HTMLElement
+    - all genuine ["web components"](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) are elements
+- "BaseElement"
+    - sly's own subclass of the browser-native HTMLElement
+    - is a true element and web component (can be registered to the dom)
+- "View"
+    - sly's own magic concept that uses a lit-directive to render stuff
+    - NOT an element or web component (can NOT be registered to the dom)
+    - NOT related to BaseElement
+    - can be converted into a Component via `view.component().props(() => [])`
+- "Component"
+    - a sly view that has been converted into an element
+    - is a true element and web component (can be registered to the dom)
+    - actually a subclass of BaseElement
+    - actually contains the view on `Component.view`
 
 ### 🪵 base element setup
 - **declare your element class**
