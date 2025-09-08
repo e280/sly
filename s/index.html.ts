@@ -29,10 +29,13 @@ export default ssg.page(import.meta.url, async orb => ({
 		<h1>sly testing page</h1>
 		<p><a href="https://github.com/e280/sly">github.com/e280/sly</a></p>
 		<p class=lil>v${orb.packageVersion()}</p>
+
+		<king-component></king-component>
+		<div class=demo></div>
+
 		<incredi-element></incredi-element>
 		<divine-element></divine-element>
 		<demo-counter initial="-1">component</demo-counter>
-		<div class=demo></div>
 	`,
 }))
 

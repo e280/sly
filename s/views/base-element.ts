@@ -9,7 +9,7 @@ import {applyStyles} from "./utils/apply-styles.js"
 import {AttrWatcher} from "./utils/attr-watcher.js"
 import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
-export abstract class BaseElement extends HTMLElement {
+export class BaseElement extends HTMLElement {
 	static styles: CSSResultGroup | undefined
 	readonly shadow: ShadowRoot
 
@@ -29,7 +29,7 @@ export abstract class BaseElement extends HTMLElement {
 		)
 	}
 
-	abstract render(use: Use): Content
+	render(_use: Use): Content {}
 
 	updateNow = () => {
 		this.#use[_wrap](() => {
