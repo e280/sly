@@ -45,7 +45,7 @@
     - 🤗 new good
         ```ts
         MyView
-          .component(BaseElement)
+          .component()
           .props(() => [a])
         ```
 - 🟥 replaced `onAttrChange(el, fn)` with `dom.attrs(el).on(fn)`

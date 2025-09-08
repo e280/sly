@@ -24,7 +24,7 @@ export function makeView<Props extends any[]>(
 		renderDirective,
 	)
 
-	v.component = <B extends Constructor<BaseElement>>(Base: B) => ({
+	v.component = <B extends Constructor<BaseElement>>(Base: B = BaseElement as any) => ({
 		props: (propFn: (component: InstanceType<B>) => Props) => (
 			makeComponent<B, Props>(
 				settings,

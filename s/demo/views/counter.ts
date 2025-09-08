@@ -24,7 +24,6 @@ export const CounterView = view(use => (start: number, step: number) => {
 	`
 })
 
-
 // convert a view into a web component
 export class CounterComponent extends (
 	CounterView

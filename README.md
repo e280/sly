@@ -80,7 +80,7 @@ import {html, css} from "lit"
     ```ts
     dom.register({
       MyCounter: CounterView
-        .component(BaseElement)
+        .component()
         .props(() => [1]),
     })
     ```
@@ -130,7 +130,7 @@ import {html, css} from "lit"
     ```ts
     export class GreeterComponent extends (
       GreeterView
-        .component(BaseElement)
+        .component()
         .props(component => [component.getAttribute("name") ?? "unknown"])
     ) {}
     ```
@@ -144,7 +144,7 @@ import {html, css} from "lit"
       view(use => (name: string) => {
         return html`<p>hello ${name}</p>`
       })
-      .component(BaseElement)
+      .component()
       .props(component => [component.getAttribute("name") ?? "unknown"])
     ) {}
     ```
@@ -157,7 +157,7 @@ import {html, css} from "lit"
         ```ts
         GreeterComponent.view("pimsley")
         ```
-- **understanding `.component(C)` and `.props(fn)`**
+- **understanding `.component(BaseElement)` and `.props(fn)`**
     - `.props` takes a fn that is called every render, which returns the props given to the view
         ```ts
         .props(() => ["pimsley"])
