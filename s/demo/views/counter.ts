@@ -5,7 +5,7 @@ import {repeat} from "@e280/stz"
 import {dom} from "../../dom/dom.js"
 import {view} from "../../ui/view.js"
 import {cssReset} from "../../ui/base/css-reset.js"
-import { BaseElement } from "../../ui/base-element.js"
+import {BaseElement} from "../../ui/base-element.js"
 
 export const CounterView = view(use => (start: number) => {
 	use.name("counter")
