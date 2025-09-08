@@ -328,11 +328,7 @@ import {BaseElement, Use, dom} from "@e280/sly"
 import {html, css} from "lit"
 ```
 
-`BaseElement` is a class-based approach to create a custom element web component.
-
-it lets you expose js properties on the element instance, which helps you setup a better developer experience for people interacting with your element through the dom.
-
-base element enjoys the same `use` hooks as views.
+`BaseElement` is an old-timey class-based "fogey" approach to making web components, but with a modern twist — its `render` method gives you the same `use` hooks that views enjoy.
 
 ### 🪵 base element setup
 - **declare your element class**
