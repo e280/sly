@@ -23,6 +23,7 @@ export function makeComponent<B extends Constructor<BaseElement>, Props extends 
 		}
 
 		render(use: Use) {
+			// reactor is tracking the propFn
 			return viewFn(use)(...this.#reactor.effect(
 				() => propFn(this as any),
 				() => this.update(),
