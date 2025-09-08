@@ -342,7 +342,7 @@ import {html, css} from "lit"
       static styles = css`span{color:orange}`
 
       // custom property
-      start = 10
+      $start = signal(10)
 
       // custom attributes
       attrs = dom.attrs(this).spec({
@@ -358,9 +358,9 @@ import {html, css} from "lit"
         const $count = use.signal(1)
         const increment = () => $count.value++
 
-        const {start} = this
+        const {$start} = this
         const {multiply = 1} = this.attrs
-        const result = start + (multiply * $count())
+        const result = $start() + (multiply * $count())
 
         return html`
           <span>${result}</span>
@@ -386,7 +386,7 @@ import {html, css} from "lit"
     const myElement = dom<MyElement>("my-element")
 
     // js property
-    myElement.start = 100
+    myElement.$start(100)
 
     // html attributes
     myElement.attrs.multiply = 2
