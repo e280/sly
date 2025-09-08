@@ -166,13 +166,14 @@ import {html, css} from "lit"
         ```
     - `.component` accepts a subclass of `BaseElement`, which lets you define your own properties and methods for your component class
         ```ts
-        .component(class extends BaseElement {
-          $name = signal("jim raynor")
-          updateName(name: string) {
-            this.$name.value = name
-          }
-        })
-        .props(component => [component.$name.value])
+        GreeterView
+          .component(class extends BaseElement {
+            $name = signal("jim raynor")
+            updateName(name: string) {
+              this.$name.value = name
+            }
+          })
+          .props(component => [component.$name.value])
         ```
     - `.component` lets devs interacting with your component get nice types
         ```ts
