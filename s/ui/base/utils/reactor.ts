@@ -7,8 +7,19 @@ export class Reactor {
 
 	effect<R>(collect: () => R, respond: () => Promise<void>) {
 		const {seen, result} = tracker.observe(collect)
+
+		// add seen items
 		for (const item of seen)
 			this.#map.guarantee(item, () => tracker.subscribe(item, respond))
+
+		// remove orphaned items
+		for (const [item, dispose] of this.#map) {
+			if (!seen.has(item)) {
+				dispose()
+				this.#map.delete(item)
+			}
+		}
+
 		return result
 	}
 
