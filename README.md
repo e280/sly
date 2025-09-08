@@ -120,22 +120,23 @@ import {html, css} from "lit"
     export const GreeterView = view(use => (name: string) => {
       return html`<p>hello ${name}</p>`
     })
-
-    // view usage:
-    //   GreeterView("pimsley")
     ```
-    then convert it to a component.
+    - view usage
+        ```ts
+        GreeterView("pimsley")
+        ```
+    **then you can convert it to a component.**
     ```ts
     export class GreeterComponent extends (
       GreeterView
         .component(BaseElement)
         .props(component => [component.getAttribute("name") ?? "unknown"])
     ) {}
-
-    // html usage:
-    //   <greeter-component name="pimsley"></greeter-component>
     ```
-    - this trick with `class` and `extends` is amazing because typescript exports both the value of your component class, but also its type (doesn't work if you use `const`)
+    - html usage
+        ```html
+        <greeter-component name="pimsley"></greeter-component>
+        ```
 - **you can start with a component,**
     ```ts
     export class GreeterComponent extends (
@@ -145,24 +146,23 @@ import {html, css} from "lit"
       .component(BaseElement)
       .props(component => [component.getAttribute("name") ?? "unknown"])
     ) {}
-
-    // html usage:
-    //   <greeter-component name="pimsley"></greeter-component>
     ```
-    then it already has a `.view` ready for you.
-    ```ts
-    // view usage:
-    //   GreeterComponent.view("pimsley")
-    ```
+    - html usage
+        ```html
+        <greeter-component name="pimsley"></greeter-component>
+        ```
+    **and it already has `.view` ready for you.**
+    - view usage:
+        ```ts
+        GreeterComponent.view("pimsley")
+        ```
 - **understanding `.component(C)` and `.props(fn)`**
     - `.props` takes a fn that is called every render, which returns the props given to the view
         ```ts
-        .component(BaseElement)
         .props(() => ["pimsley"])
         ```
         the props fn receives the component instance, so you can query html attributes or instance properties
         ```ts
-        .component(BaseElement)
         .props(component => [component.getAttribute("name") ?? "unknown"])
         ```
     - `.component` accepts a subclass of `BaseElement`, which lets you define your own properties and methods for your component class
@@ -177,7 +177,7 @@ import {html, css} from "lit"
         ```
     - `.component` lets devs interacting with your component get nice types
         ```ts
-        dom<GreeterComponent>("my-component").updateName("mortimer")
+        dom<GreeterComponent>("greeter-component").updateName("mortimer")
         ```
 - **register web components to the dom**
     ```ts
