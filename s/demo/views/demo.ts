@@ -4,10 +4,10 @@ import {nap, repeat} from "@e280/stz"
 
 import {KingView} from "./king.js"
 import {DivineView} from "./divine.js"
-import {view} from "../../views/view.js"
+import {view} from "../../ui/view.js"
 import {CounterView} from "./counter.js"
 import {LoadersView} from "./loaders.js"
-import {cssReset} from "../../views/base/css-reset.js"
+import {cssReset} from "../../ui/base/css-reset.js"
 
 export const DemoView = view(use => () => {
 	use.name("demo")

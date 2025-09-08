@@ -1,8 +1,8 @@
 
 import {html} from "lit"
 import {signal} from "@e280/strata"
-import {view} from "../../views/view.js"
-import {BaseElement} from "../../views/base-element.js"
+import {view} from "../../ui/view.js"
+import {BaseElement} from "../../ui/base-element.js"
 
 export class DivineElement extends (
 	view(use => (speed: number) => {

@@ -1,8 +1,8 @@
 
 import {html} from "lit"
 import {dom} from "../../dom/dom.js"
-import {view} from "../../views/view.js"
-import {BaseElement} from "../../views/base-element.js"
+import {view} from "../../ui/view.js"
+import {BaseElement} from "../../ui/base-element.js"
 
 // starting as view
 export const QueenView = view(use => (start: number) => {

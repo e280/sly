@@ -11,11 +11,11 @@ export * from "./ops/types.js"
 
 export * as loot from "./loot/index.js"
 
-export * from "./views/base/css-reset.js"
-export * from "./views/base/use.js"
-export * from "./views/view/parts/chain.js"
-export * from "./views/view/parts/sly-view.js"
-export * from "./views/base-element.js"
-export * from "./views/types.js"
-export * from "./views/view.js"
+export * from "./ui/base/css-reset.js"
+export * from "./ui/base/use.js"
+export * from "./ui/view/parts/chain.js"
+export * from "./ui/view/parts/sly-view.js"
+export * from "./ui/base-element.js"
+export * from "./ui/types.js"
+export * from "./ui/view.js"
 

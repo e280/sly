@@ -1,7 +1,7 @@
 
 import {Op} from "../op.js"
 import {braille} from "./parts/anims.js"
-import {Content} from "../../views/types.js"
+import {Content} from "../../ui/types.js"
 import {ErrorDisplay} from "./parts/error-display.js"
 
 export * as anims from "./parts/anims.js"
