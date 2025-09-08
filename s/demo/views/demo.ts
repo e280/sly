@@ -10,7 +10,10 @@ export class DemoComponent extends (component(use => {
 	use.name("demo")
 	use.styles(cssReset, styles)
 	return html`
-		${CounterView(768, 3)}
+		${CounterView
+			.props(768, 3)
+			.children("view")
+			.render()}
 		${LoadersView()}
 	`
 })) {}

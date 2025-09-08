@@ -31,7 +31,7 @@ export default ssg.page(import.meta.url, async orb => ({
 		<p class=lil>v${orb.packageVersion()}</p>
 
 		<fastcount-element></fastcount-element>
-		<counter-component start=280 step=2></counter-component>
+		<counter-component start=280 step=2>component</counter-component>
 		<demo-component></demo-component>
 	`,
 }))
