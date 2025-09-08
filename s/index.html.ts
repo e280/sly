@@ -31,6 +31,7 @@ export default ssg.page(import.meta.url, async orb => ({
 		<p class=lil>v${orb.packageVersion()}</p>
 
 		<king-component></king-component>
+		<queen-component></queen-component>
 		<div class=demo></div>
 
 		<incredi-element></incredi-element>

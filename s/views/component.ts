@@ -2,13 +2,18 @@
 import {Constructor, debounce, MapG} from "@e280/stz"
 
 import {dom} from "../dom/dom.js"
-import {Content} from "./types.js"
 import {Reactor} from "./utils/reactor.js"
 import {BaseElement} from "./base-element.js"
+import {AttrValue, Content} from "./types.js"
+import {applyAttrsMap} from "./utils/apply-attrs.js"
 import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 import {AsyncDirective, directive, DirectiveResult} from "lit/async-directive.js"
 
-export type ViewFn<Props extends any[]> = (use: Use) => (this: void, ...props: Props) => Content
+export type ViewFn<Props extends any[]> = (
+	(use: Use) =>
+	(...props: Props) =>
+	Content
+)
 
 export type ComponentClass<Props extends any[]> = {
 	view: (...props: Props) => DirectiveResult
@@ -17,23 +22,11 @@ export type ComponentClass<Props extends any[]> = {
 
 
 export class SlyView extends HTMLElement {}
+
 dom.register({SlyView}, {soft: true})
 
-export const componentize = (settings: ShadowRootInit = {mode: "open"}) => ({
-	base: <B extends Constructor<BaseElement>>(Base: B) => ({
-		props: <Props extends any[]>(propFn: (component: InstanceType<B>) => Props) => ({
-			render: (viewFn: ViewFn<Props>) => mkComponent(
-				settings,
-				Base,
-				propFn,
-				viewFn,
-			)
-		})
-	})
-})
-
 export class ViewContext<Props extends any[]> {
-	attrs = new MapG<string, string | undefined>()
+	attrs = new MapG<string, AttrValue>()
 	children: Content[] = []
 	constructor(public props: Props) {}
 }
@@ -65,35 +58,57 @@ export class ViewChain<Props extends any[]> {
 	}
 }
 
-// export class ViewCapsule {
-// 	#element = document.createElement("sly-view")
-// 	#use: Use
-// 	#shadow: ShadowRoot
-// 	#reactor = new Reactor()
-//
-// 	constructor(
-// 			private settings: ShadowRootInit,
-// 			private executeRender: () => Content,
-// 		) {
-// 		this.#shadow = this.#element.attachShadow(this.settings)
-// 		this.#use = new Use(
-// 			this.#element,
-// 			this.#shadow,
-// 			() => this.#renderNow(),
-// 			() => this.#renderDebounced(),
-// 		)
-// 	}
-//
-// 	#renderNow() {
-// 		const content = this.#reactor.effect(
-// 			() => this.executeRender(),
-// 			() => this.#renderDebounced(),
-// 		)
-// 		dom.render(this.#shadow, content)
-// 	}
-//
-// 	#renderDebounced = debounce(0, this.#renderNow)
-// }
+export class ViewCapsule<Props extends any[]> {
+	#context!: ViewContext<Props>
+	#element = document.createElement("sly-view")
+	#reactor = new Reactor()
+
+	#use: Use
+	#shadow: ShadowRoot
+
+	constructor(
+			private settings: ShadowRootInit,
+			private viewFn: ViewFn<Props>
+		) {
+		this.#shadow = this.#element.attachShadow(this.settings)
+		this.#use = new Use(
+			this.#element,
+			this.#shadow,
+			() => this.renderNow(),
+			() => this.#renderDebounced(),
+		)
+	}
+
+	updateContext(context: ViewContext<Props>) {
+		this.#context = context
+	}
+
+	renderNow() {
+		const content = this.#reactor.effect(
+			() => this.viewFn(this.#use)(...this.#context.props),
+			() => this.#renderDebounced(),
+		)
+		applyAttrsMap(this.#element, this.#context.attrs)
+		dom.render(this.#shadow, content)
+		dom.render(this.#shadow, this.#context.children)
+	}
+
+	#renderDebounced = debounce(0, this.renderNow)
+
+	get element() {
+		return this.#element
+	}
+
+	disconnected() {
+		this.#use[_disconnect]()
+		this.#reactor.clear()
+	}
+
+	reconnected() {
+		this.#use[_reconnect]()
+		// this.#attrWatcher.start()
+	}
+}
 
 export function makeViewDirective<Props extends any[]>(
 		viewFn: ViewFn<Props>,
@@ -101,53 +116,21 @@ export function makeViewDirective<Props extends any[]>(
 	) {
 
 	return directive (class ViewDirective extends AsyncDirective {
-		#context!: ViewContext<Props>
-		#element = document.createElement("sly-view")
-		#shadow = this.#element.attachShadow(settings)
-		#reactor = new Reactor()
-		#use = new Use(
-			this.#element,
-			this.#shadow,
-			() => this.#renderNow(),
-			() => this.#renderDebounced(),
-		)
-		#fn = viewFn(this.#use)
+		#capsule = new ViewCapsule(settings, viewFn)
 
 		render(context: ViewContext<Props>) {
-			this.#context = context
-			this.#applyAttrs()
-			this.#renderNow()
-			return this.#element
+			this.#capsule.updateContext(context)
+			this.#capsule.renderNow()
+			return this.#capsule.element
 		}
 
 		disconnected() {
-			this.#use[_disconnect]()
-			this.#reactor.clear()
-			// this.#attrWatcher.stop()
+			this.#capsule.disconnected()
 		}
 
 		reconnected() {
-			this.#use[_reconnect]()
-			// this.#attrWatcher.start()
+			this.#capsule.reconnected()
 		}
-
-		#applyAttrs() {
-			for (const [key, value] of this.#context.attrs) {
-				if (value !== undefined) this.#element.setAttribute(key, value)
-				else this.#element.removeAttribute(key)
-			}
-		}
-
-		#renderNow() {
-			const content = this.#reactor.effect(
-				() => this.#fn(...this.#context.props),
-				() => this.#renderDebounced(),
-			)
-			dom.render(this.#shadow, content)
-			dom.render(this.#element, this.#context.children)
-		}
-
-		#renderDebounced = debounce(0, this.#renderNow)
 	}) as (context: ViewContext<Props>) => DirectiveResult
 }
 
@@ -162,6 +145,17 @@ export function mkView<Props extends any[]>(viewFn: ViewFn<Props>, settings: Sha
 		new ViewContext(props),
 		render,
 	)
+
+	v.component = <B extends Constructor<BaseElement>>(Base: B) => ({
+		props: (propFn: (component: InstanceType<B>) => Props) => (
+			mkComponent<B, Props>(
+				settings,
+				Base,
+				propFn,
+				viewFn,
+			)
+		)
+	})
 
 	return v
 }
@@ -187,4 +181,16 @@ export function mkComponent<B extends Constructor<BaseElement>, Props extends an
 		}
 	}
 }
+
+export function view<Props extends any[]>(fn: ViewFn<Props>) {
+	return mkView(fn, {mode: "open"})
+}
+
+view.settings = (settings: ShadowRootInit) => ({
+	render: <Props extends any[]>(fn: ViewFn<Props>) => {
+		return mkView(fn, settings)
+	}
+})
+
+view.render = view
 

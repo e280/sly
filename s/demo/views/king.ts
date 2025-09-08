@@ -1,15 +1,31 @@
 
 import {html} from "lit"
 import {dom} from "../../dom/dom.js"
-import {componentize} from "../../views/component.js"
+import {view} from "../../views/component.js"
 import {BaseElement} from "../../views/base-element.js"
 
-export class KingComponent extends (componentize()
-	.base(class extends BaseElement {
-		attrs = dom.attrs(this).spec({start: Number})
-	})
-	.props<[start: number]>(component => [component.attrs.start ?? 0])
-	.render(use => start => {
+// starting as view
+export const QueenView = view(use => (start: number) => {
+	const $count = use.signal(start)
+	const increment = () => $count($count() + 1)
+	return html`
+		<span>QUEEN ${$count()}</span>
+		<button @click="${increment}">++</button>
+	`
+})
+
+// convert to component
+export class QueenComponent extends (
+	QueenView
+		.component(BaseElement)
+		.props(() => [1])
+) {}
+
+//------------------------------
+
+// starting as component
+export class KingComponent extends (
+	view(use => (start: number) => {
 		const $count = use.signal(start)
 		const increment = () => $count($count() + 1)
 		return html`
@@ -17,25 +33,34 @@ export class KingComponent extends (componentize()
 			<button @click="${increment}">++</button>
 		`
 	})
+	.component(class extends BaseElement {
+		attrs = dom.attrs(this).spec({start: Number})
+	})
+	.props(el => [el.attrs.start ?? 0])
 ) {}
 
+// obtain as view
 export const KingView = KingComponent.view
 
-// export class KingComponent extends Component<[start: number]> {
-// 	attrs = dom.attrs(this).spec({start: Number})
-// 	props = this.asProps(() => [0])
-// 	fn(use: Use) {
-// 		return (start: number) => {
-// 			const $count = use.signal(start)
-// 			const increment = () => $count($count() + 1)
-// 			return html`
-// 				<span>KING</span>
-// 				<span>${$count()}</span>
-// 				<button @click="${increment}">+</button>
-// 			`
-// 		}
-// 	}
-// }
-//
-// export const KingView = viewize(KingComponent)
+//------------------------------
+
+// start as component, supply shadow settings
+export class BishopComponent extends (view
+	.settings({mode: "open"})
+	.render(use => (start: number) => {
+		const $count = use.signal(start)
+		const increment = () => $count($count() + 1)
+		return html`
+			<span>${$count()}</span>
+			<button @click="${increment}">++</button>
+		`
+	})
+	.component(class extends BaseElement {
+		attrs = dom.attrs(this).spec({start: Number})
+	})
+	.props(el => [el.attrs.start ?? 0])
+) {}
+
+// obtain as view
+export const BishopView = BishopComponent.view
 

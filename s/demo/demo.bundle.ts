@@ -2,7 +2,7 @@
 import {nap, repeat} from "@e280/stz"
 import {dom} from "../dom/dom.js"
 import {DemoView} from "./views/demo.js"
-import {KingComponent, KingView} from "./views/king.js"
+import {KingComponent, KingView, QueenComponent} from "./views/king.js"
 import {CounterView} from "./views/counter.js"
 import {DivineElement} from "./views/divine.js"
 import {IncrediElement} from "./views/incredi.js"
@@ -20,6 +20,7 @@ dom.in(".demo").render(
 
 dom.register({
 	KingComponent,
+	QueenComponent,
 	// IncrediElement,
 	// DivineElement,
 	// DemoCounter: CounterView
