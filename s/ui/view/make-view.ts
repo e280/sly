@@ -3,9 +3,9 @@ import {Constructor} from "@e280/stz"
 import {DirectiveResult} from "lit/async-directive.js"
 import {View, ViewFn} from "../types.js"
 import {ViewChain} from "./parts/chain.js"
+import {BaseElement} from "../base-element.js"
 import {ViewContext} from "./parts/context.js"
 import {makeComponent} from "./make-component.js"
-import {BaseElement} from "../base-element.js"
 import {makeViewDirective} from "./parts/directive.js"
 
 export function makeView<Props extends any[]>(
