@@ -3,7 +3,7 @@ import {css, html} from "lit"
 import {nap, repeat} from "@e280/stz"
 
 import {dom} from "../../dom/dom.js"
-import {Use} from "../../views/use.js"
+import {Use} from "../../views/base/use.js"
 import {BaseElement} from "../../views/base-element.js"
 
 export class IncrediElement extends BaseElement {

@@ -2,7 +2,7 @@
 import {css, html} from "lit"
 import {Op} from "../../ops/op.js"
 import {view} from "../../views/view.js"
-import {cssReset} from "../../views/css-reset.js"
+import {cssReset} from "../../views/base/css-reset.js"
 import {anims, makeLoader} from "../../ops/loaders/make-loader.js"
 
 export const LoadersView = view(use => () => {

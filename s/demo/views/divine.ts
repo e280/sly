@@ -1,14 +1,11 @@
 
 import {html} from "lit"
+import {signal} from "@e280/strata"
 import {view} from "../../views/view.js"
-import {signal, SignalFn} from "@e280/strata"
+import {BaseElement} from "../../views/base-element.js"
 
-export class DivineElement extends (view
-	.component<{$speed: SignalFn<number>}>(component => {
-		component.$speed = signal(1)
-	})
-	.props<[speed: number]>(component => [component.$speed()])
-	.render(use => speed => {
+export class DivineElement extends (
+	view(use => (speed: number) => {
 		const $count = use.signal(0)
 		const increment = () => $count($count() + speed)
 		return html`
@@ -16,6 +13,10 @@ export class DivineElement extends (view
 			<button @click="${increment}">+${speed}</button>
 		`
 	})
+	.component(class extends BaseElement {
+		$speed = signal(1)
+	})
+	.props(component => [component.$speed()])
 ) {}
 
 export const DivineView = DivineElement.view

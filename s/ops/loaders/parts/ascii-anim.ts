@@ -4,7 +4,7 @@ import {nap, repeat} from "@e280/stz"
 
 import {view} from "../../../views/view.js"
 import {Content} from "../../../views/types.js"
-import {cssReset} from "../../../views/css-reset.js"
+import {cssReset} from "../../../views/base/css-reset.js"
 
 export function makeAsciiAnim(hz: number, frames: string[]): () => Content {
 	return () => AsciiAnim({hz, frames})

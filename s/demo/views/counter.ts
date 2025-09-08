@@ -5,6 +5,7 @@ import {repeat} from "@e280/stz"
 import {dom} from "../../dom/dom.js"
 import {view} from "../../views/view.js"
 import {cssReset} from "../../views/base/css-reset.js"
+import { BaseElement } from "../../views/base-element.js"
 
 export const CounterView = view(use => (start: number) => {
 	use.name("counter")
@@ -43,7 +44,7 @@ export const CounterView = view(use => (start: number) => {
 // convert a view into a web component
 export class CounterComponent extends (
 	CounterView
-		.component<{start?: number}>()
+		.component(BaseElement)
 		.props(c => [dom.attrs(c).number.start ?? 0])
 ) {}
 
