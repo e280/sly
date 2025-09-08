@@ -4,13 +4,13 @@
 # 🦝 sly
 > *mischievous shadow views*
 
-[@e280](https://e280.org/)'s shiny new [lit](https://lit.dev/)-based frontend lib for webdevs. *(sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate))*
+[@e280](https://e280.org/)'s shiny new [lit](https://lit.dev/)-based frontend webdev library. *(sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate))*
 
-- 🍋 [**views**](#views) — hooks-based, shadow-dom'd, componentizable
-- 🪵 [**base element**](#base-element) — for a more classical experience
-- 🪄 [**dom**](#dom) — the "it's not jquery" multitool
-- 🫛 [**ops**](#ops) — tools for async operations and loading spinners
-- 🪙 [**loot**](#loot) — drag-and-drop facilities
+- 🍋 [**#views**](#views) — shadow-dom'd, hooks-based, componentizable
+- 🪵 [**#base-element**](#base-element) — for a more classical experience
+- 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
+- 🫛 [**#ops**](#ops) — tools for async operations and loading spinners
+- 🪙 [**#loot**](#loot) — drag-and-drop facilities
 - 🧪 testing page — https://sly.e280.org/
 
 
@@ -34,24 +34,26 @@ npm install @e280/sly lit @e280/strata @e280/stz
 <br/><br/>
 <a id="views"></a>
 
-## 🦝🍋 sly views and components
-> *views are the crown jewel of sly.. shadow-dom'd.. hooks-based.. "ergonomics"..*
+## 🦝🍋 sly views
+> *the crown jewel of sly*
 
 ```ts
 view(use => () => html`<p>hello world</p>`)
 ```
 
-- any view can be converted into a web component
-- views are not [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) per se, but they do have [shadow roots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
-- views are typescript-native and comfy for webdevs building apps
-- views automatically rerender whenever any [strata-compatible](https://github.com/e280/strata) state changes
+- 🪶 **no compile step** — just god's honest javascript, via [lit](https://lit.dev/)-html tagged-template-literals
+- 🥷 **shadow dom'd** — each gets its own cozy [shadow](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble, and supports [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+- 🪝 **hooks-based** — declarative rendering with the [`use.*`](#use) family of ergonomic hooks
+- ⚡ **reactive** — they auto-rerender whenever any [strata](https://github.com/e280/strata)-compatible state changes
+- 🧐 **not components, per se** — they're comfy typescript-native ui building blocks [(technically, lit directives)](https://lit.dev/docs/templates/custom-directives/)
+- 🧩 **componentizable** — any view can be magically converted into a proper [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
 
 ### 🍋 view example
 ```ts
 import {view, dom, BaseElement} from "@e280/sly"
 import {html, css} from "lit"
 ```
-- **declare a view**
+- **declare view**
     ```ts
     export const CounterView = view(use => (start: number) => {
       use.styles(css`p {color: green}`)
@@ -60,25 +62,26 @@ import {html, css} from "lit"
       const increment = () => $count.value++
 
       return html`
-        <span>${$count.value}</span>
-        <button @click="${increment}">+</button>
+        <button @click="${increment}">
+          ${$count.value}
+        </button>
       `
     })
     ```
     - `$count` is a [strata signal](https://github.com/e280/strata#readme) *(we like those)*
-- **inject a view into the dom**
+- **inject view into dom**
     ```ts
     dom.in(".app").render(html`
       <h1>cool counter demo</h1>
       ${CounterView(1)}
     `)
     ```
-- 🤯 **register a view as a web component**
+- 🤯 **register view as web component**
     ```ts
     dom.register({
       MyCounter: CounterView
         .component(BaseElement)
-        .props(component => [1]),
+        .props(() => [1]),
     })
     ```
     ```html
@@ -86,7 +89,7 @@ import {html, css} from "lit"
     ```
 
 ### 🍋 view settings
-- lame settings for views
+- lame settings for views you should know about
     ```ts
     export const CoolView = view
       .settings({mode: "open", delegatesFocus: true})
@@ -96,7 +99,7 @@ import {html, css} from "lit"
     - note the `<slot></slot>` we'll use in the next example lol
 
 ### 🍋 view chain
-- views have this chaining syntax for supplying more stuff at the template injection site
+- views have this sick chaining syntax for supplying more stuff at the template injection site
     ```ts
     dom.in(".app").render(html`
       <h2>cool example</h2>
@@ -163,21 +166,34 @@ import {html, css} from "lit"
         ```ts
         .props(component => [component.getAttribute("name") ?? "unknown"])
         ```
-    - `.component` accepts a subclass of `BaseElement`, which lets you define your own properties and methods for your component class
+    - `.component` accepts a subclass of `BaseElement`, so you can define your own properties and methods for your component class
         ```ts
-        GreeterView
+        const GreeterComponent = GreeterView
+
+          // declare your own custom class
           .component(class extends BaseElement {
             $name = signal("jim raynor")
             updateName(name: string) {
               this.$name.value = name
             }
           })
+
+          // props gets the right types on 'component'
           .props(component => [component.$name.value])
         ```
-    - `.component` lets devs interacting with your component get nice types
+    - `.component` provides the devs interacting with your component, with noice typings
         ```ts
         dom<GreeterComponent>("greeter-component").updateName("mortimer")
         ```
+    - typescript class wizardry
+        - ❌ smol-brain approach exports class value, but not the typings
+            ```ts
+            export const GreeterComponent = (...)
+            ```
+        - ✅ giga-brain approach exports class value AND the typings
+            ```ts
+            export class GreeterComponent extends (...) {}
+            ```
 - **register web components to the dom**
     ```ts
     dom.register({GreeterComponent})
@@ -188,6 +204,8 @@ import {html, css} from "lit"
       QuickComponent: view.component(use => html`⚡ incredi`),
     })
     ```
+
+<a id="use"></a>
 
 ### 🍋 "use" hooks reference
 - 👮 **follow the hooks rules**  
