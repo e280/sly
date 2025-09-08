@@ -11,7 +11,7 @@ export const CounterView = view(use => (start: number, step: number) => {
 	use.styles(cssReset, styles)
 
 	const $count = use.signal(start)
-	const increment = () => $count($count() + step)
+	const increment = () => { $count.value += step }
 
 	return html`
 		<slot></slot>

@@ -7,7 +7,7 @@ import {ViewContext} from "./context.js"
 import {applyAttrs} from "./apply-attrs.js"
 import {Reactor} from "../../base/utils/reactor.js"
 import {AttrWatcher} from "../../base/utils/attr-watcher.js"
-import {_disconnect, _reconnect, Use} from "../../base/use.js"
+import {_disconnect, _reconnect, _wrap, Use} from "../../base/use.js"
 
 /** controls the rendering of view context into an element. */
 export class ViewCapsule<Props extends any[]> {
@@ -38,15 +38,17 @@ export class ViewCapsule<Props extends any[]> {
 		return this.#element
 	}
 
-	#renderNow() {
-		const content = this.#reactor.effect(
-			() => this.viewFn(this.#use)(...this.#context.props),
-			() => this.#renderDebounced(),
-		)
-		applyAttrs(this.#element, this.#context.attrs)
-		dom.render(this.#shadow, content)
-		dom.render(this.#shadow, this.#context.children)
-		this.#attrWatcher.start()
+	#renderNow = () => {
+		this.#use[_wrap](() => {
+			const content = this.#reactor.effect(
+				() => this.viewFn(this.#use)(...this.#context.props),
+				() => this.#renderDebounced(),
+			)
+			applyAttrs(this.#element, this.#context.attrs)
+			dom.render(this.#shadow, content)
+			dom.render(this.#element, this.#context.children)
+			this.#attrWatcher.start()
+		})
 	}
 
 	#renderDebounced = debounce(0, this.#renderNow)
