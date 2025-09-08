@@ -1,7 +1,8 @@
 
-import {ViewFn} from "./types.js"
+import {Content, ViewFn} from "./types.js"
 import {makeView} from "./view/make-view.js"
-import {_disconnect, _reconnect} from "./base/use.js"
+import {_disconnect, _reconnect, Use} from "./base/use.js"
+import { BaseElement } from "./base-element.js"
 
 export function view<Props extends any[]>(fn: ViewFn<Props>) {
 	return makeView(fn, {mode: "open"})
@@ -14,4 +15,10 @@ view.settings = (settings: ShadowRootInit) => ({
 })
 
 view.render = view
+
+view.component = (fn: (use: Use) => Content) => (
+	view(use => () => fn(use))
+		.component(BaseElement)
+		.props(() => [])
+)
 

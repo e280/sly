@@ -1,12 +1,12 @@
 
 import {css, html} from "lit"
 
+import {view} from "../../ui/view.js"
 import {CounterView} from "./counter.js"
 import {LoadersView} from "./loaders.js"
-import {component} from "../../ui/component.js"
 import {cssReset} from "../../ui/base/css-reset.js"
 
-export class DemoComponent extends (component(use => {
+export class DemoComponent extends (view.component(use => {
 	use.name("demo")
 	use.styles(cssReset, styles)
 	return html`
