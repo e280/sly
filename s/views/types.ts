@@ -2,9 +2,10 @@
 import {TemplateResult} from "lit"
 import {Constructor} from "@e280/stz"
 import {DirectiveResult} from "lit/directive.js"
+
 import {Use} from "./base/use.js"
 import {ViewChain} from "./view/parts/chain.js"
-import {BaseElement} from "./base/base-element.js"
+import {BaseElement} from "./base-element.js"
 
 export type Content = TemplateResult | DirectiveResult | HTMLElement | string | null | undefined | void | Content[]
 export type AttrValue = string | boolean | number | undefined | null | void
