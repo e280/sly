@@ -1,16 +1,13 @@
 
-import {AttrValue} from "../types.js"
+import {AttrValue} from "../../types.js"
 
 export function applyAttrs(
 		element: HTMLElement,
-		attrs: Record<string, AttrValue>,
+		attrs: Map<string, AttrValue>,
 	) {
 
 	for (const [key, value] of Object.entries(attrs)) {
-		if (value === undefined)
-			element.removeAttribute(key)
-
-		else if (value === null)
+		if (value === undefined || value === null)
 			element.removeAttribute(key)
 
 		else if (typeof value === "string")
@@ -27,7 +24,7 @@ export function applyAttrs(
 		}
 
 		else
-			console.warn(`invalid attribute type ${key} is ${typeof value}`)
+			console.warn(`invalid attribute "${key}" type is "${typeof value}"`)
 	}
 }
 

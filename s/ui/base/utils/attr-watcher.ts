@@ -1,5 +1,5 @@
 
-import {dom} from "../../dom/dom.js"
+import {dom} from "../../../dom/dom.js"
 
 export class AttrWatcher {
 	#stopper: (() => void) | undefined

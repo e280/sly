@@ -2,7 +2,7 @@
 import {render} from "lit"
 import {AttrSpec} from "./types.js"
 import {attrs} from "./attrs/attrs.js"
-import {Content} from "../views/types.js"
+import {Content} from "../ui/types.js"
 import {register} from "./parts/register.js"
 
 export type Renderable = HTMLElement | ShadowRoot | DocumentFragment

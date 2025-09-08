@@ -4,23 +4,29 @@ import {CSSResultGroup} from "lit"
 
 import {dom} from "../dom/dom.js"
 import {Content} from "./types.js"
-import {Reactor} from "./utils/reactor.js"
-import {applyStyles} from "./utils/apply-styles.js"
-import {AttrWatcher} from "./utils/attr-watcher.js"
-import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
+import {Reactor} from "./base/utils/reactor.js"
+import {AttrWatcher} from "./base/utils/attr-watcher.js"
+import {applyStyles} from "./base/utils/apply-styles.js"
+import {Use, _disconnect, _reconnect, _wrap} from "./base/use.js"
 
-export abstract class BaseElement extends HTMLElement {
+export class BaseElement extends HTMLElement {
 	static styles: CSSResultGroup | undefined
+
 	readonly shadow: ShadowRoot
 
 	#use: Use
-	#mounts = 0
+	#mountCount = 0
 	#reactor = new Reactor()
 	#attrWatcher = new AttrWatcher(this, () => this.update())
 
+	/** create the shadow root. override this if you want to change the shadow root settings. */
+	createShadow() {
+		return this.attachShadow({mode: "open"})
+	}
+
 	constructor() {
 		super()
-		this.shadow = this.attachShadow({mode: "open"})
+		this.shadow = this.createShadow()
 		this.#use = new Use(
 			this,
 			this.shadow,
@@ -29,8 +35,10 @@ export abstract class BaseElement extends HTMLElement {
 		)
 	}
 
-	abstract render(use: Use): Content
+	/** return some content to render. */
+	render(_use: Use): Content {}
 
+	/** immediately perform a fresh render into the shadow root. */
 	updateNow = () => {
 		this.#use[_wrap](() => {
 			dom.render(
@@ -43,20 +51,20 @@ export abstract class BaseElement extends HTMLElement {
 		})
 	}
 
+	/** request a rerender which will happen soon (debounced). */
 	update = debounce(0, this.updateNow)
 	
 	connectedCallback() {
-		if (this.#mounts === 0) {
+		if (this.#mountCount === 0) {
 			const styles = (this.constructor as any).styles
-			if (styles)
-				applyStyles(this.shadow, styles)
+			if (styles) applyStyles(this.shadow, styles)
 			this.updateNow()
 		}
 		else {
 			this.#use[_reconnect]()
 		}
 		this.#attrWatcher.start()
-		this.#mounts++
+		this.#mountCount++
 	}
 
 	disconnectedCallback() {

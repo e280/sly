@@ -37,18 +37,6 @@
         ```ts
         view.settings(s).render(fn)
         ```
-- 🟥 rework view component declaration
-    - 😡 old bad
-        ```ts
-        view.component(use => html`hello`)
-        ```
-    - 🤗 new good
-        ```ts
-        view
-          .component<{a?: number}>()
-          .props(component => [component.a])
-          .render(use => a => html`hello`)
-        ```
 - 🟥 rework view conversions into components
     - 😡 old bad
         ```ts
@@ -57,8 +45,8 @@
     - 🤗 new good
         ```ts
         MyView
-          .component<{a?: number}>()
-          .props(component => [component.a])
+          .component(BaseElement)
+          .props(() => [a])
         ```
 - 🟥 replaced `onAttrChange(el, fn)` with `dom.attrs(el).on(fn)`
 - 🟥 reworked `use.attrs` and `dom.attrs`

@@ -1,7 +1,7 @@
 
 import {css, html} from "lit"
-import {view} from "../../../views/view.js"
-import {cssReset} from "../../../views/css-reset.js"
+import {view} from "../../../ui/view.js"
+import {cssReset} from "../../../ui/base/css-reset.js"
 
 export const ErrorDisplay = view(use => (error: any) => {
 	use.name("error")

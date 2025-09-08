@@ -1,29 +1,22 @@
 
 import {css, html} from "lit"
-import {DivineView} from "./divine.js"
-import {view} from "../../views/view.js"
+
+import {view} from "../../ui/view.js"
 import {CounterView} from "./counter.js"
 import {LoadersView} from "./loaders.js"
-import {cssReset} from "../../views/css-reset.js"
-import { nap, repeat } from "@e280/stz"
+import {cssReset} from "../../ui/base/css-reset.js"
 
-export const DemoView = view(use => () => {
+export class DemoComponent extends (view.component(use => {
 	use.name("demo")
 	use.styles(cssReset, styles)
-
-	const $speed = use.signal(3)
-
-	use.mount(() => repeat(async() => {
-		await nap(1000)
-		$speed.value++
-	}))
-
 	return html`
-		${CounterView.props(2).children("view").render()}
-		${DivineView($speed())}
+		${CounterView
+			.props(768, 3)
+			.children("view")
+			.render()}
 		${LoadersView()}
 	`
-})
+})) {}
 
 const styles = css`
 :host {

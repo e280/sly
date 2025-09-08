@@ -42,13 +42,13 @@ view(use => () => html`<p>hello world</p>`)
 ```
 
 - any view can be converted into a web component
-- views are not [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components), but they do have [shadow roots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+- views are not [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components) per se, but they do have [shadow roots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) and support [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
 - views are typescript-native and comfy for webdevs building apps
 - views automatically rerender whenever any [strata-compatible](https://github.com/e280/strata) state changes
 
 ### 🍋 view example
 ```ts
-import {view, dom} from "@e280/sly"
+import {view, dom, BaseElement} from "@e280/sly"
 import {html, css} from "lit"
 ```
 - **declare a view**
@@ -61,7 +61,7 @@ import {html, css} from "lit"
       const increment = () => $count.value++
 
       return html`
-        <p>count ${$count.value}</p>
+        <span>${$count.value}</span>
         <button @click="${increment}">+</button>
       `
     })
@@ -78,7 +78,7 @@ import {html, css} from "lit"
     ```ts
     dom.register({
       MyCounter: CounterView
-        .component()
+        .component(BaseElement)
         .props(component => [dom.attrs(component).number.start ?? 0]),
     })
     ```
@@ -115,7 +115,7 @@ import {html, css} from "lit"
     - `render` — end the view chain and render the lit directive
 
 ### 🍋 view/component universality
-- **start with a view,**
+- **you can start with a view,**
     ```ts
     export const GreeterView = view(use => (name: string) => {
       return html`<p>hello ${name}</p>`
@@ -124,60 +124,60 @@ import {html, css} from "lit"
     // view usage:
     //   GreeterView("pimsley")
     ```
-    then you can convert it to a component
+    then convert it to a component.
     ```ts
-    export class GreeterComponent extends (GreeterView
-      .component()
-      .props(component => [component.getAttribute("name") ?? "unknown"])
+    export class GreeterComponent extends (
+      GreeterView
+        .component(BaseElement)
+        .props(component => [component.getAttribute("name") ?? "unknown"])
     ) {}
 
     // html usage:
     //   <greeter-component name="pimsley"></greeter-component>
     ```
-- **start with a component,**
+    - this trick with `class` and `extends` is amazing because typescript exports both the value of your component class, but also its type (doesn't work if you use `const`)
+- **you can start with a component,**
     ```ts
-    export class GreeterComponent extends (view
-      .component()
-      .props(component => [component.getAttribute("name") ?? "unknown"])
-      .render(use => (name: string) => {
+    export class GreeterComponent extends (
+      view(use => (name: string) => {
         return html`<p>hello ${name}</p>`
       })
+      .component(BaseElement)
+      .props(component => [component.getAttribute("name") ?? "unknown"])
     ) {}
 
     // html usage:
     //   <greeter-component name="pimsley"></greeter-component>
     ```
-    then you can already use it as a view
+    then it already has a `.view` ready for you.
     ```ts
     // view usage:
     //   GreeterComponent.view("pimsley")
     ```
-- **understanding `.component(init)` and `.props(fn)`**
+- **understanding `.component(C)` and `.props(fn)`**
     - `.props` takes a fn that is called every render, which returns the props given to the view
         ```ts
-        .component()
+        .component(BaseElement)
         .props(() => ["pimsley"])
         ```
-        the props fn receives the component instance, so you can query html attributes
+        the props fn receives the component instance, so you can query html attributes or instance properties
         ```ts
-        .component()
+        .component(BaseElement)
         .props(component => [component.getAttribute("name") ?? "unknown"])
         ```
-    - `.component` takes a mixin type added to the component type, so your `.props` can accept instance properties
+    - `.component` accepts a subclass of `BaseElement`, which lets you define your own properties and methods for your component class
         ```ts
-        .component<{name?: string}>()
-        .props(component => [component.name ?? "unknown"])
-        ```
-    - `.component` also takes an init fn, so you can do some setup, like use signals for reactivity
-        ```ts
-        .component<{$name: SignalFn<string>}>(component => {
-          component.$name = signal("pimsley")
+        .component(class extends BaseElement {
+          $name = signal("jim raynor")
+          updateName(name: string) {
+            this.$name.value = name
+          }
         })
-        .props(component => [component.$name])
+        .props(component => [component.$name.value])
         ```
-    - `.component` lets you set instance properties, that devs can interact with via the dom
+    - `.component` lets devs interacting with your component get nice types
         ```ts
-        dom<GreeterComponent>("my-component").$name.value = "mortimer"
+        dom<GreeterComponent>("my-component").updateName("mortimer")
         ```
 - **register web components to the dom**
     ```ts
