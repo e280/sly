@@ -69,6 +69,7 @@ export class Op<V> {
 			return value
 		}
 		catch (error) {
+			console.error(error)
 			if (count === this.#count)
 				await this.setError(error)
 		}
