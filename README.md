@@ -457,12 +457,12 @@ import {dom} from "@e280/sly"
     dom.maybe(".demo")
       // HTMLElement | undefined
     ```
-- `select` all elements
+- `all` matching elements in an array
     ```ts
     dom.all(".demo ul li")
       // HTMLElement[]
     ```
-- `in` the scope of an element
+- scoped to an element
     ```ts
     dom(element).require("li")
       // HTMLElement (or throws)
