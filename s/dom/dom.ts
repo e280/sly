@@ -4,6 +4,7 @@ import {AttrSpec} from "./types.js"
 import {attrs} from "./attrs/attrs.js"
 import {Content} from "../ui/types.js"
 import {register} from "./parts/register.js"
+import { eve, EveSpec } from "./parts/eve.js"
 
 export type Renderable = HTMLElement | ShadowRoot | DocumentFragment
 export type Queryable = HTMLElement | ShadowRoot | Element | Document | DocumentFragment
@@ -49,6 +50,10 @@ export class Dom<C extends Queryable> {
 	attrs() {
 		return attrs(this.element as HTMLElement)
 	}
+
+	events(spec: EveSpec) {
+		return eve(this.element, spec)
+	}
 }
 
 export function dom<E extends Queryable>(selector: string): E
@@ -65,6 +70,7 @@ dom.require = doc.require.bind(doc)
 dom.maybe = doc.maybe.bind(doc)
 dom.all = doc.all.bind(doc)
 
+dom.events = eve
 dom.attrs = attrs
 dom.register = register
 dom.render = (container: Renderable, ...content: Content[]) => {
