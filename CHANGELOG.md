@@ -14,6 +14,7 @@
 - 🍏 add new `BaseElement`
 - 🍏 add new `loot` drag-and-drop system
 - 🍏 add new tool `dom.events` for attaching dom events
+- 🍏 add new tool `dom.el` for making dom elements
 - 🟥 rework view rendering syntax
     - 😡 old bad
         ```ts
