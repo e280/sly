@@ -6,7 +6,8 @@
 	"type": "module",
 	"main": "./x/index.js",
 	"exports": {
-		".": "./x/index.js"
+		".": "./x/index.js",
+		"./uni": "./x/index.uni.js"
 	},
 	"files": [
 		"x",
