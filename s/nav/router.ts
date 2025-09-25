@@ -18,6 +18,7 @@ export class Router<R extends Routes> extends RouterCore<R> {
 	loader: Loader
 	notFound: () => Content
 	readonly dispose = disposer()
+	#lastHash: string
 
 	constructor(options: RouterOptions<R>) {
 		super(
@@ -26,6 +27,7 @@ export class Router<R extends Routes> extends RouterCore<R> {
 		)
 		this.loader = options.loader ?? makeLoader()
 		this.notFound = options.notFound ?? (() => null)
+		this.#lastHash = this.hash
 	}
 
 	render() {
@@ -36,7 +38,12 @@ export class Router<R extends Routes> extends RouterCore<R> {
 	}
 
 	listen() {
-		const dispose = onHashChange(() => this.refresh())
+		const dispose = onHashChange(() => {
+			const hash = this.hash
+			const isChanged = hash !== this.#lastHash
+			this.#lastHash = hash
+			if (isChanged) this.refresh()
+		})
 		this.dispose.schedule(dispose)
 		return dispose
 	}
