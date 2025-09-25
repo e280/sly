@@ -352,7 +352,7 @@ import {BaseElement, Use, dom} from "@e280/sly"
 import {html, css} from "lit"
 ```
 
-`BaseElement` is more of an old-timey class-based "boomer" approach to making web components, but with a zoomer twist — its `render` method gives you the same `use` hooks that views enjoy.
+`BaseElement` is more of an old-timey class-based "boomer" approach to making web components, but with a millennial twist — its `render` method gives you the same `use` hooks that views enjoy.
 
 👮 a *BaseElement* is not a *View*, and cannot be converted into a *View*.
 
