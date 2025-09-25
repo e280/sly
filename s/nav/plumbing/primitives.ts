@@ -15,14 +15,18 @@ export function normalizeHash(hash: string) {
 		: hash
 }
 
-export function getNormalizedWindowHash() {
-	const hash = normalizeHash(window.location.hash)
-	if (hash === "#/") eraseWindowHash()
-	return hash
-}
+export class HashNormalizer {
+	constructor(public location: Location) {}
 
-export function setWindowHash(hash: string) {
-	window.location.hash = hash
+	get hash() {
+		const hash = normalizeHash(this.location.hash)
+		if (hash === "#/") eraseWindowHash()
+		return hash
+	}
+
+	set hash(hash: string) {
+		this.location.hash = hash
+	}
 }
 
 export class Navigable<R extends Routes, K extends keyof R> {

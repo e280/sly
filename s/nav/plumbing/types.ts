@@ -1,7 +1,17 @@
 
-import {Op} from "../../ops/op.js"
+import type {Op} from "../../ops/op.js"
+import type {Navigable} from "./primitives.js"
 import type {Content} from "../../ui/types.js"
-import { Navigable } from "./primitives.js"
+import type {Loader} from "../../loaders/types.js"
+
+export type RouterOptions<R extends Routes> = {
+	routes: R
+	location?: Hashbearer
+	loader?: Loader
+	notFound?: () => Content
+}
+
+export type Hashbearer = {hash: string}
 
 export type Hasher<Params extends any[]> = {
 	parse: (hash: string) => (Params | null)

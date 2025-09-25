@@ -2,15 +2,11 @@
 import {Science, test, expect} from "@e280/science"
 import {route} from "./plumbing/braces.js"
 import {Routes} from "./plumbing/types.js"
-import {Router} from "./router.js"
+import {RouterCore} from "./plumbing/router-core.js"
 
 async function setup<R extends Routes>(routes: R) {
 	const location = {hash: ""}
-	const router = new Router({
-		routes,
-		getHash: () => location.hash,
-		setHash: hash => { location.hash = hash },
-	})
+	const router = new RouterCore(routes, location)
 	return {location, router}
 }
 

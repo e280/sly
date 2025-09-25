@@ -1,11 +1,11 @@
 
 import {render} from "lit"
+import {el} from "./parts/el.js"
 import {AttrSpec} from "./types.js"
 import {attrs} from "./attrs/attrs.js"
 import {Content} from "../ui/types.js"
+import {eve, EveSpec} from "./parts/eve.js"
 import {register} from "./parts/register.js"
-import { eve, EveSpec } from "./parts/eve.js"
-import { el } from "./parts/el.js"
 
 export type Renderable = HTMLElement | ShadowRoot | DocumentFragment
 export type Queryable = HTMLElement | ShadowRoot | Element | Document | DocumentFragment

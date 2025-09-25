@@ -670,24 +670,19 @@ import {nav, html, makeLoader, view} from "@e280/sly"
 - **setup your router**
     ```ts
     const router = await nav.Router.setup({
-
-      // declare your routes
       routes: {
         home: nav.route("#/", async() => html`home`),
         settings: nav.route("#/settings", async() => html`settings`),
         user: nav.route("#/user/{userId}", async({userId}) => html`user ${userId}`),
       },
-
-      // specify what loading animation you want
-      loader: makeLoader(),
-
-      // what to do when no routes match
-      notFound: async() => html`404 not found`,
     })
     ```
     - all route strings must start with `#/`
     - use braces like `{userId}` to accept string params
     - home-equivalent hashes like `""` and `"#"` are normalized to `"#/"`
+    - `await nav.Router.setup(options)` automatically runs an initial refresh and listens for window hashchange events, whereas `new nav.Router(options)` doesn't
+    - you can provide a `loader` option if you want to specify the loading spinner (defaults to `makeLoader()`)
+    - you can provide a `notFound` render fn, if you want to specify what is shown on invalid routes (defaults to `() => null`)
 - **render your current page**
     ```ts
     router.render()
@@ -698,19 +693,19 @@ import {nav, html, makeLoader, view} from "@e280/sly"
 - **perform navigations**
     - go to settings page
         ```ts
-        await router.routes.settings.go()
+        await router.navs.settings.go()
           // goes to "#/settings"
         ```
     - go to user page
         ```ts
-        await router.routes.user.go("123")
+        await router.navs.user.go("123")
           // goes to "#/user/123"
         ```
 
 ### 🗺️ nav.Router advanced
 - **generate a route's hash string**
     ```ts
-    const hash = router.routes.user.hash("123")
+    const hash = router.navs.user.hash("123")
       // "#/user/123"
 
     return html`
@@ -721,15 +716,17 @@ import {nav, html, makeLoader, view} from "@e280/sly"
     ```ts
     await router.refresh()
     ```
-- **force-navigate the router like this**
+- **force-navigate the router by hash like this**
     ```ts
     await router.refresh("#/user/123")
     ```
-- **read the current hash string like this**
+- **normalize the current hash string like this**
     ```ts
     router.hash
       // "#/user/123"
     ```
+- **the `route(...)` helper fn enables the braces-params syntax**
+    - but, if you wanna do it differently, you *can* implement your own hash parser to do your own funky syntax
 - **dispose the router when you're done with it**
     ```ts
     router.dispose()

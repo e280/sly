@@ -1,59 +1,38 @@
 
 import {disposer} from "@e280/stz"
-import {signal} from "@e280/strata"
-import type {Content} from "../ui/types.js"
-import {Navigables, ResolvedRoute, Routes} from "./plumbing/types.js"
-import {getNormalizedWindowHash, Navigable, normalizeHash, onHashChange, resolveRoute, setWindowHash} from "./plumbing/primitives.js"
+import {Content} from "../ui/types.js"
+import {Loader} from "../loaders/types.js"
+import {RouterCore} from "./plumbing/router-core.js"
+import {makeLoader} from "../loaders/make-loader.js"
+import {RouterOptions, Routes} from "./plumbing/types.js"
+import {HashNormalizer, onHashChange} from "./plumbing/primitives.js"
 
-export class Router<R extends Routes> {
-	static async setup<R extends Routes>(routes: R) {
-		const router = new this({routes})
+export class Router<R extends Routes> extends RouterCore<R> {
+	static async setup<R extends Routes>(options: RouterOptions<R>) {
+		const router = new this(options)
 		await router.refresh()
 		router.listen()
 		return router
 	}
 
-	readonly routes: R
-	readonly navs: Navigables<R>
+	loader: Loader
+	notFound: () => Content
 	readonly dispose = disposer()
-	readonly $resolved = signal<ResolvedRoute<R> | null>(null)
 
-	#getHash: () => string
-	#setHash: (hash: string) => void
-
-	constructor(options: {
-			routes: R
-			getHash?: () => string
-			setHash?: (hash: string) => void
-		}) {
-
-		this.routes = options.routes
-		this.#getHash = options.getHash ?? getNormalizedWindowHash
-		this.#setHash = options.setHash ?? setWindowHash
-
-		this.navs = Navigable.all(options.routes, async hash => {
-			this.#setHash(hash)
-			const resolved = await this.refresh()
-			if (!resolved) throw new Error(`route failed "${hash}"`)
-			return resolved
-		})
+	constructor(options: RouterOptions<R>) {
+		super(
+			options.routes,
+			options.location ?? new HashNormalizer(window.location),
+		)
+		this.loader = options.loader ?? makeLoader()
+		this.notFound = options.notFound = () => null
 	}
 
-	get hash() {
-		return normalizeHash(this.#getHash())
-	}
-
-	get content(): Content | null {
-		return this.$resolved.value?.op.value ?? null
-	}
-
-	async refresh(hash?: string) {
-		hash = hash === undefined
-			? this.hash
-			: normalizeHash(hash)
-		const resolved = await this.$resolved.set(resolveRoute(hash, this.routes))
-		await resolved?.op
-		return resolved
+	render() {
+		const resolved = this.$resolved.get()
+		return resolved === null
+			? this.notFound()
+			: this.loader(resolved.op, content => content)
 	}
 
 	listen() {
