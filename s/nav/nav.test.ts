@@ -22,7 +22,7 @@ export default Science.suite({
 			})
 			expect(router.content).is(null)
 			location.hash = "#/"
-			await router.update()
+			await router.refresh()
 			expect(router.content).is("123")
 		}),
 
@@ -32,7 +32,7 @@ export default Science.suite({
 			})
 			expect(router.content).is(null)
 			location.hash = "#/hello/world"
-			await router.update()
+			await router.refresh()
 			expect(router.content).is("123")
 		}),
 
@@ -41,7 +41,7 @@ export default Science.suite({
 				item: route("#/item/{id}", async({id}) => `content ${id}`),
 			})
 			location.hash = "#/item/a123"
-			await router.update()
+			await router.refresh()
 			expect(router.content).is("content a123")
 		}),
 
@@ -50,7 +50,7 @@ export default Science.suite({
 				item: route("#/item/{id}", async({id}) => `content ${id}`),
 			})
 			location.hash = "#/item/a123/lol"
-			await router.update()
+			await router.refresh()
 			expect(router.content).is(null)
 		}),
 
@@ -59,7 +59,7 @@ export default Science.suite({
 				item: route("#/left/{mid}/right", async({mid}) => `content ${mid}`),
 			})
 			location.hash = "#/left/middle/right"
-			await router.update()
+			await router.refresh()
 			expect(router.content).is("content middle")
 		}),
 
@@ -68,7 +68,7 @@ export default Science.suite({
 				helloWorld: route("#/hello/world", async() => "123"),
 			})
 			location.hash = "#/not-found-lol"
-			await router.update()
+			await router.refresh()
 			expect(router.content).is(null)
 		}),
 	}),
@@ -80,9 +80,9 @@ export default Science.suite({
 				item: route("#/item/{id}", async({id}) => `item ${id}`),
 			})
 			location.hash = "#/"
-			await router.update()
+			await router.refresh()
 			expect(router.content).is("home")
-			await router.nav.item({id: "x234"})
+			await router.navs.item.go({id: "x234"})
 			expect(router.content).is("item x234")
 		}),
 	}),

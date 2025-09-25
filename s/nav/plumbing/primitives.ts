@@ -1,7 +1,7 @@
 
 import {ev, ob} from "@e280/stz"
 import {Op} from "../../ops/op.js"
-import {Hashnav, ResolvedRoute, Routes} from "./types.js"
+import {ResolvedRoute, Route, Routes} from "./types.js"
 
 export function eraseWindowHash() {
 	const {pathname, search} = window.location
@@ -25,14 +25,26 @@ export function setWindowHash(hash: string) {
 	window.location.hash = hash
 }
 
-export function makeNavigation<R extends Routes>(
-		routes: R,
-		navigate: (hash: string) => Promise<ResolvedRoute<R>>,
-	): Hashnav<R> {
+export class Navigable<R extends Routes, K extends keyof R> {
+	static all<R extends Routes>(
+			routes: R,
+			navigate: (hash: string) => Promise<ResolvedRoute<R>>,
+		): {[K in keyof R]: Navigable<R, K>} {
 
-	return ob(routes).map(route => (
-		async(...params: string[]) => navigate(route.hasher.make(...params))
-	))
+		return ob(routes).map(route => new this(
+			route,
+			async(...params: any[]) => navigate(route.hasher.make(...params)),
+		))
+	}
+
+	constructor(
+		public route: Route<Parameters<R[K]["hasher"]["make"]>>,
+		public go: (...params: Parameters<R[K]["hasher"]["make"]>) => Promise<ResolvedRoute<R>>,
+	) {}
+
+	hash(...params: Parameters<R[K]["hasher"]["make"]>) {
+		return this.route.hasher.make(...params)
+	}
 }
 
 export function resolveRoute<R extends Routes>(
