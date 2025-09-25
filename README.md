@@ -43,11 +43,11 @@ view(use => () => html`<p>hello world</p>`)
 ```
 
 - 🪶 **no compile step** — just god's honest javascript, via [lit](https://lit.dev/)-html tagged-template-literals
-- 🥷 **shadow dom'd** — each gets its own cozy [shadow](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble, and supports [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
-- 🪝 **hooks-based** — declarative rendering with the [`use.*`](#use) family of ergonomic hooks
+- 🥷 **shadow dom'd** — each view gets its own cozy [shadow](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble, and supports [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)
+- 🪝 **hooks-based** — declarative rendering with the [`use`](#use) family of ergonomic hooks
 - ⚡ **reactive** — they auto-rerender whenever any [strata](https://github.com/e280/strata)-compatible state changes
 - 🧐 **not components, per se** — they're comfy typescript-native ui building blocks [(technically, lit directives)](https://lit.dev/docs/templates/custom-directives/)
-- 🧩 **componentizable** — any view can be magically converted into a proper [web components](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
+- 🧩 **componentizable** — any view can be magically converted into a proper [web component](https://developer.mozilla.org/en-US/docs/Web/API/Web_components)
 
 ### 🍋 view example
 ```ts
@@ -90,7 +90,7 @@ import {html, css} from "lit"
     ```
 
 ### 🍋 view settings
-- lame settings for views you should know about
+- optional settings for views you should know about
     ```ts
     export const CoolView = view
       .settings({mode: "open", delegatesFocus: true})
@@ -99,7 +99,7 @@ import {html, css} from "lit"
     - all [attachShadow params](https://developer.mozilla.org/en-US/docs/Web/API/Element/attachShadow#parameters) (like `mode` and `delegatesFocus`) are valid `settings`
     - note the `<slot></slot>` we'll use in the next example lol
 
-### 🍋 view chain
+### 🍋 view chains
 - views have this sick chaining syntax for supplying more stuff at the template injection site
     ```ts
     dom.in(".app").render(html`
