@@ -15,6 +15,10 @@
 - 🍏 add new `loot` drag-and-drop system
 - 🍏 add new tool `dom.events` for attaching dom events
 - 🍏 add new tool `dom.el` for making dom elements
+- 🟥 moved all loaders exports under `loaders` namespace
+    - `makeLoader()` -> `loaders.make()`
+    - `anims` -> `loaders.anims`
+    - etc
 - 🟥 rework view rendering syntax
     - 😡 old bad
         ```ts

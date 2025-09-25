@@ -2,8 +2,8 @@
 import {css, html} from "lit"
 import {Op} from "../../ops/op.js"
 import {view} from "../../ui/view.js"
+import {loaders} from "../../loaders/index.js"
 import {cssReset} from "../../ui/base/css-reset.js"
-import {anims, makeLoader} from "../../loaders/make-loader.js"
 
 export const LoadersView = view(use => () => {
 	use.name("loaders")
@@ -11,14 +11,14 @@ export const LoadersView = view(use => () => {
 
 	const op = use.once(() => Op.loading())
 
-	const loaders = use.once(() =>
-		Object.entries(anims).map(([key, anim]) => ({
+	const library = use.once(() =>
+		Object.entries(loaders.anims).map(([key, anim]) => ({
 			key,
-			loader: makeLoader(anim)
+			loader: loaders.make(anim)
 		}))
 	)
 
-	return loaders.map(({key, loader}) => html`
+	return library.map(({key, loader}) => html`
 		<div data-anim="${key}">
 			<span>${key}</span>
 			<span>${loader(op, () => null)}</span>

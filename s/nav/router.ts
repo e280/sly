@@ -2,8 +2,8 @@
 import {disposer} from "@e280/stz"
 import {Content} from "../ui/types.js"
 import {Loader} from "../loaders/types.js"
+import {loaders} from "../loaders/index.js"
 import {RouterCore} from "./plumbing/router-core.js"
-import {makeLoader} from "../loaders/make-loader.js"
 import {RouterOptions, Routes} from "./plumbing/types.js"
 import {HashNormalizer, onHashChange} from "./plumbing/primitives.js"
 
@@ -25,7 +25,7 @@ export class Router<R extends Routes> extends RouterCore<R> {
 			options.routes,
 			options.location ?? new HashNormalizer(window.location),
 		)
-		this.loader = options.loader ?? makeLoader()
+		this.loader = options.loader ?? loaders.make()
 		this.notFound = options.notFound ?? (() => null)
 		this.#lastHash = this.hash
 	}

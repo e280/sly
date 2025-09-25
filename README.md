@@ -534,7 +534,7 @@ import {dom} from "@e280/sly"
 
 ```ts
 import {nap} from "@e280/stz"
-import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
+import {Pod, podium, Op, loaders} from "@e280/sly"
 ```
 
 ### 🫛 pods: loading/ready/error
@@ -634,9 +634,13 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     - ready if all the ops are ready
 
 ### 🫛 loaders: animated loading spinners
-- create a `loader` using `makeLoader`
+- import
     ```ts
-    const loader = makeLoader(anims.dots)
+    import {loaders} from "@e280/sly"
+    ```
+- make a loader
+    ```ts
+    const loader = loaders.make(loaders.anims.dots)
     ```
     - see all the anims available on the testing page https://sly.e280.org/
     - ngl, i made too many.. *i was having fun, okay?*
@@ -682,7 +686,7 @@ import {nav, html} from "@e280/sly"
     - home-equivalent hashes like `""` and `"#"` are normalized to `"#/"`
     - the router has an effect on the appearance of the url in the browser address bar -- the home `#/` is removed, aesthetically, eg, `e280.org/#/` is rewritten to `e280.org` using history.replaceState
     - `await nav.Router.setup(options)` automatically runs an initial refresh and listens for window hashchange events, whereas `new nav.Router(options)` doesn't
-    - you can provide a `loader` option if you want to specify the loading spinner (defaults to `makeLoader()`)
+    - you can provide a `loader` option if you want to specify the loading spinner (defaults to `loaders.make()`)
     - you can provide a `notFound` render fn, if you want to specify what is shown on invalid routes (defaults to `() => null`)
 - **render your current page**
     ```ts
