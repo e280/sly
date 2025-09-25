@@ -2,6 +2,7 @@
 export * from "./dom/types.js"
 export * from "./dom/dom.js"
 
+export * from "./hashrouter/index.js"
 export * from "./ops/index.js"
 export * as loot from "./loot/index.js"
 
