@@ -83,7 +83,7 @@ export default Science.suite({
 			await router.navs.item.go({id: "x234"})
 			expect(router.content).is("item x234")
 
-			await router.navs.home.go({})
+			await router.navs.home.go()
 			expect(router.content).is("home")
 		}),
 	}),
