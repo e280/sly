@@ -9,7 +9,8 @@
 - 🍋 [**#views**](#views) — shadow-dom'd, hooks-based, componentizable
 - 🪵 [**#base-element**](#base-element) — for a more classical experience
 - 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
-- 🫛 [**#ops**](#ops) — tools for async operations and loading spinners
+- 🫛 [**#ops**](#ops) — reactive tooling for async operations
+- ⏳ [**#loaders**](#loaders) — animated loading spinners for rendering ops
 - 🗺️ [**#nav**](#nav) — hash routing for your spa-day
 - 🪙 [**#loot**](#loot) — drag-and-drop facilities
 - 🧪 testing page — https://sly.e280.org/
@@ -633,18 +634,28 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
     - loading if any ops are in loading, otherwise
     - ready if all the ops are ready
 
-### 🫛 loaders: animated loading spinners
-- import
-    ```ts
-    import {loaders} from "@e280/sly"
-    ```
-- make a loader
+
+
+<br/><br/>
+<a id="loaders"></a>
+
+## ⏳🦝 sly loaders
+> *animated loading spinners for ops*
+
+```ts
+import {loaders} from "@e280/sly"
+```
+
+### ⏳ make a loader, choose an anim
+- create a loader fn
     ```ts
     const loader = loaders.make(loaders.anims.dots)
     ```
     - see all the anims available on the testing page https://sly.e280.org/
     - ngl, i made too many.. *i was having fun, okay?*
-- use the loader to render your op
+
+### ⏳ render an op with it
+- use your loader to render an op
     ```ts
     return html`
       <h2>cool stuff</h2>
