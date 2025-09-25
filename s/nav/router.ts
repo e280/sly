@@ -5,7 +5,7 @@ import type {Content} from "../ui/types.js"
 import {Hashnav, ResolvedRoute, Routes} from "./plumbing/types.js"
 import {getNormalizedWindowHash, makeNavigation, normalizeHash, onHashChange, resolveRoute, setWindowHash} from "./plumbing/primitives.js"
 
-export class Hashrouter<R extends Routes> {
+export class Router<R extends Routes> {
 	static async setup<R extends Routes>(routes: R) {
 		const router = new this({routes})
 		await router.update()

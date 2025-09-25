@@ -1,8 +1,8 @@
 
 import {Science} from "@e280/science"
-import hashrouter from "./hashrouter/hashrouter.test.js"
+import nav from "./nav/nav.test.js"
 
 await Science.run({
-	hashrouter,
+	nav,
 })
 
