@@ -1,7 +1,7 @@
 
-import {Op} from "../op.js"
+import {Op} from "../ops/op.js"
 import {earth} from "./parts/anims.js"
-import {Content} from "../../ui/types.js"
+import {Content} from "../ui/types.js"
 import {ErrorDisplay} from "./parts/error-display.js"
 
 export * as anims from "./parts/anims.js"

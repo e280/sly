@@ -3,7 +3,7 @@ import {css, html} from "lit"
 import {Op} from "../../ops/op.js"
 import {view} from "../../ui/view.js"
 import {cssReset} from "../../ui/base/css-reset.js"
-import {anims, makeLoader} from "../../ops/loaders/make-loader.js"
+import {anims, makeLoader} from "../../loaders/make-loader.js"
 
 export const LoadersView = view(use => () => {
 	use.name("loaders")
