@@ -1,6 +1,6 @@
 
 import {Science, test, expect} from "@e280/science"
-import {braceRoute} from "./plumbing/braces.js"
+import {route} from "./plumbing/braces.js"
 import {Routes} from "./plumbing/types.js"
 import {Hashrouter} from "./hashrouter.js"
 
@@ -18,7 +18,7 @@ export default Science.suite({
 	inits: Science.suite({
 		"#/": test(async() => {
 			const {location, hashrouter} = await setup({
-				home: braceRoute("#/", async() => "123"),
+				home: route("#/", async() => "123"),
 			})
 			expect(hashrouter.content).is(null)
 			location.hash = "#/"
@@ -28,7 +28,7 @@ export default Science.suite({
 
 		"#/hello/world": test(async() => {
 			const {location, hashrouter} = await setup({
-				helloWorld: braceRoute("#/hello/world", async() => "123"),
+				helloWorld: route("#/hello/world", async() => "123"),
 			})
 			expect(hashrouter.content).is(null)
 			location.hash = "#/hello/world"
@@ -38,7 +38,7 @@ export default Science.suite({
 
 		"#/item/a123": test(async() => {
 			const {location, hashrouter} = await setup({
-				item: braceRoute("#/item/{id}", async({id}) => `content ${id}`),
+				item: route("#/item/{id}", async({id}) => `content ${id}`),
 			})
 			location.hash = "#/item/a123"
 			await hashrouter.update()
@@ -47,7 +47,7 @@ export default Science.suite({
 
 		"#/item/a123/lol should miss": test(async() => {
 			const {location, hashrouter} = await setup({
-				item: braceRoute("#/item/{id}", async({id}) => `content ${id}`),
+				item: route("#/item/{id}", async({id}) => `content ${id}`),
 			})
 			location.hash = "#/item/a123/lol"
 			await hashrouter.update()
@@ -56,7 +56,7 @@ export default Science.suite({
 
 		"#/left/{mid}/right extraction": test(async() => {
 			const {location, hashrouter} = await setup({
-				item: braceRoute("#/left/{mid}/right", async({mid}) => `content ${mid}`),
+				item: route("#/left/{mid}/right", async({mid}) => `content ${mid}`),
 			})
 			location.hash = "#/left/middle/right"
 			await hashrouter.update()
@@ -65,7 +65,7 @@ export default Science.suite({
 
 		"#/not-found-lol": test(async() => {
 			const {location, hashrouter} = await setup({
-				helloWorld: braceRoute("#/hello/world", async() => "123"),
+				helloWorld: route("#/hello/world", async() => "123"),
 			})
 			location.hash = "#/not-found-lol"
 			await hashrouter.update()
@@ -76,8 +76,8 @@ export default Science.suite({
 	nav: Science.suite({
 		"home to item and back": test(async() => {
 			const {location, hashrouter} = await setup({
-				home: braceRoute("#/", async() => `home`),
-				item: braceRoute("#/item/{id}", async({id}) => `item ${id}`),
+				home: route("#/", async() => `home`),
+				item: route("#/item/{id}", async({id}) => `item ${id}`),
 			})
 			location.hash = "#/"
 			await hashrouter.update()

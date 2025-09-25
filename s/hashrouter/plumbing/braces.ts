@@ -7,8 +7,7 @@ type ParamKeys<S extends string> =
 
 type ParamsOf<S extends string> = Record<ParamKeys<S>, string>
 
-export function braceHasher<S extends string>(spec: S): Hasher<[ParamsOf<S>]> {
-
+export function hasher<S extends string>(spec: S): Hasher<[ParamsOf<S>]> {
 	if (!spec.startsWith("#/"))
 		throw new Error(`hash route spec must start with "#/"`)
 
@@ -52,10 +51,14 @@ export function braceHasher<S extends string>(spec: S): Hasher<[ParamsOf<S>]> {
 	return {parse, make}
 }
 
-export function braceRoute<S extends string>(
+export function route<S extends string>(
 		spec: S,
 		fn: (params: ParamsOf<S>) => Promise<Content>,
 	): Route<[ParamsOf<S>]> {
-	return { hasher: braceHasher(spec), fn }
+
+	return {
+		hasher: hasher(spec),
+		fn,
+	}
 }
 
