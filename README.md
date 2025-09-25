@@ -663,7 +663,7 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
 > *hash router for single-page-apps*
 
 ```ts
-import {nav, html, makeLoader, view} from "@e280/sly"
+import {nav, html} from "@e280/sly"
 ```
 
 ### 🗺️ nav.Router basics
