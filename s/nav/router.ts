@@ -25,7 +25,7 @@ export class Router<R extends Routes> extends RouterCore<R> {
 			options.location ?? new HashNormalizer(window.location),
 		)
 		this.loader = options.loader ?? makeLoader()
-		this.notFound = options.notFound = () => null
+		this.notFound = options.notFound ?? (() => null)
 	}
 
 	render() {
