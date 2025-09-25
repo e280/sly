@@ -5,7 +5,7 @@ import {Navigable, normalizeHash, resolveRoute} from "./primitives.js"
 import {Hashbearer, Navigables, ResolvedRoute, Routes} from "./types.js"
 
 export class RouterCore<R extends Routes> {
-	readonly navs: Navigables<R>
+	readonly nav: Navigables<R>
 	readonly $resolved = signal<ResolvedRoute<R> | null>(null)
 
 	constructor(
@@ -13,7 +13,7 @@ export class RouterCore<R extends Routes> {
 			public readonly location: Hashbearer,
 		) {
 
-		this.navs = Navigable.all(routes, async hash => {
+		this.nav = Navigable.all(routes, async hash => {
 			this.location.hash = hash
 			const resolved = await this.refresh()
 			if (!resolved) throw new Error(`route failed "${hash}"`)

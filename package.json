@@ -10,8 +10,8 @@
 		"./dom": "./x/dom/index.js",
 		"./loaders": "./x/loaders/index.js",
 		"./loot": "./x/loot/index.js",
-		"./nav": "./x/nav/index.js",
 		"./ops": "./x/ops/index.js",
+		"./spa": "./x/spa/index.js",
 		"./ui": "./x/ui/index.js"
 	},
 	"files": [

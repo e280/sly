@@ -11,7 +11,7 @@
 - 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
 - 🫛 [**#ops**](#ops) — reactive tooling for async operations
 - ⏳ [**#loaders**](#loaders) — animated loading spinners for rendering ops
-- 🗺️ [**#nav**](#nav) — hash routing for your spa-day
+- 💅 [**#spa**](#spa) — hash routing for your spa-day
 - 🪙 [**#loot**](#loot) — drag-and-drop facilities
 - 🧪 testing page — https://sly.e280.org/
 
@@ -672,23 +672,23 @@ import {loaders} from "@e280/sly"
 
 
 <br/><br/>
-<a id="nav"></a>
+<a id="spa"></a>
 
-## 🗺️🦝 sly nav
+## 💅🦝 sly spa
 > *hash router for single-page-apps*
 
 ```ts
-import {nav, html} from "@e280/sly"
+import {spa, html} from "@e280/sly"
 ```
 
-### 🗺️ nav.Router basics
+### 💅 spa.Router basics
 - **setup your router**
     ```ts
-    const router = await nav.Router.setup({
+    const router = await spa.Router.setup({
       routes: {
-        home: nav.route("#/", async() => html`home`),
-        settings: nav.route("#/settings", async() => html`settings`),
-        user: nav.route("#/user/{userId}", async({userId}) => html`user ${userId}`),
+        home: spa.route("#/", async() => html`home`),
+        settings: spa.route("#/settings", async() => html`settings`),
+        user: spa.route("#/user/{userId}", async({userId}) => html`user ${userId}`),
       },
     })
     ```
@@ -696,7 +696,7 @@ import {nav, html} from "@e280/sly"
     - use braces like `{userId}` to accept string params
     - home-equivalent hashes like `""` and `"#"` are normalized to `"#/"`
     - the router has an effect on the appearance of the url in the browser address bar -- the home `#/` is removed, aesthetically, eg, `e280.org/#/` is rewritten to `e280.org` using history.replaceState
-    - `await nav.Router.setup(options)` automatically runs an initial refresh and listens for window hashchange events, whereas `new nav.Router(options)` doesn't
+    - `await spa.Router.setup(options)` automatically runs an initial refresh and listens for window hashchange events, whereas `new spa.Router(options)` doesn't
     - you can provide a `loader` option if you want to specify the loading spinner (defaults to `loaders.make()`)
     - you can provide a `notFound` render fn, if you want to specify what is shown on invalid routes (defaults to `() => null`)
 - **render your current page**
@@ -713,19 +713,19 @@ import {nav, html} from "@e280/sly"
 - **perform navigations**
     - go to settings page
         ```ts
-        await router.navs.settings.go()
+        await router.nav.settings.go()
           // goes to "#/settings"
         ```
     - go to user page
         ```ts
-        await router.navs.user.go("123")
+        await router.nav.user.go("123")
           // goes to "#/user/123"
         ```
 
-### 🗺️ nav.Router advanced
+### 💅 spa.Router advanced
 - **generate a route's hash string**
     ```ts
-    const hash = router.navs.user.hash("123")
+    const hash = router.nav.user.hash("123")
       // "#/user/123"
 
     return html`
