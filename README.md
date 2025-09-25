@@ -685,11 +685,15 @@ import {nav, html} from "@e280/sly"
     - you can provide a `notFound` render fn, if you want to specify what is shown on invalid routes (defaults to `() => null`)
 - **render your current page**
     ```ts
-    router.render()
+    return html`
+      <div class="my-page">
+        ${router.render()}
+      </div>
+    `
     ```
-    - return lit content
+    - returns lit content
     - shows a loading spinner when pages are loading
-    - will display the notFound page for invalid routes
+    - will display the notFound content for invalid routes (defaults to null)
 - **perform navigations**
     - go to settings page
         ```ts
