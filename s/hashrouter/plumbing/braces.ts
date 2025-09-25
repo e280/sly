@@ -15,6 +15,7 @@ export function braceHasher<S extends string>(spec: S): Hasher<[ParamsOf<S>]> {
 	// capture names in order
 	const names: string[] = []
 	spec.replace(/\{([^}]+)\}/g, (_m, name: string) => {
+		if (names.includes(name)) throw new Error(`route hasher spec "${spec}" has forbidden duplicate name "${name}"`)
 		names.push(name)
 		return ""
 	})
@@ -28,8 +29,10 @@ export function braceHasher<S extends string>(spec: S): Hasher<[ParamsOf<S>]> {
 		const m = regex.exec(hash)
 		if (!m) return null
 		const obj: Record<string, string> = {}
-		for (const [index, name] of names.entries())
-			obj[name] = decodeURIComponent(m[index + 1])
+		for (const [index, name] of names.entries()) {
+			try { obj[name] = decodeURIComponent(m[index + 1]) }
+			catch { return null }
+		}
 		return [obj as ParamsOf<S>]
 	}
 
