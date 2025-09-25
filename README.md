@@ -10,6 +10,7 @@
 - 🪵 [**#base-element**](#base-element) — for a more classical experience
 - 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
 - 🫛 [**#ops**](#ops) — tools for async operations and loading spinners
+- 🗺️ [**#nav**](#nav) — hash routing for your spa-day
 - 🪙 [**#loot**](#loot) — drag-and-drop facilities
 - 🧪 testing page — https://sly.e280.org/
 
@@ -652,6 +653,88 @@ import {Pod, podium, Op, makeLoader, anims} from "@e280/sly"
     - when the op is loading, the loading spinner will animate
     - when the op is in error, the error will be displayed
     - when the op is ready, your fn is called and given the value
+
+
+
+<br/><br/>
+<a id="nav"></a>
+
+## 🗺️🦝 sly nav
+> *hash router for single-page-apps*
+
+```ts
+import {nav, html, makeLoader, view} from "@e280/sly"
+```
+
+### 🗺️ nav.Router basics
+- **setup your router**
+    ```ts
+    const router = await nav.Router.setup({
+
+      // declare your routes
+      routes: {
+        home: nav.route("#/", async() => html`home`),
+        settings: nav.route("#/settings", async() => html`settings`),
+        user: nav.route("#/user/{userId}", async({userId}) => html`user ${userId}`),
+      },
+
+      // specify what loading animation you want
+      loader: makeLoader(),
+
+      // what to do when no routes match
+      notFound: async() => html`404 not found`,
+    })
+    ```
+    - all route strings must start with `#/`
+    - use braces like `{userId}` to accept string params
+    - home-equivalent hashes like `""` and `"#"` are normalized to `"#/"`
+- **render your current page**
+    ```ts
+    router.render()
+    ```
+    - return lit content
+    - shows a loading spinner when pages are loading
+    - will display the notFound page for invalid routes
+- **perform navigations**
+    - go to settings page
+        ```ts
+        await router.routes.settings.go()
+          // goes to "#/settings"
+        ```
+    - go to user page
+        ```ts
+        await router.routes.user.go("123")
+          // goes to "#/user/123"
+        ```
+
+### 🗺️ nav.Router advanced
+- **generate a route's hash string**
+    ```ts
+    const hash = router.routes.user.hash("123")
+      // "#/user/123"
+
+    return html`
+      <a href="${hash}">user 123</a>
+    `
+    ```
+- **force-refresh the router like this**
+    ```ts
+    await router.refresh()
+    ```
+- **force-navigate the router like this**
+    ```ts
+    await router.refresh("#/user/123")
+    ```
+- **read the current hash string like this**
+    ```ts
+    router.hash
+      // "#/user/123"
+    ```
+- **dispose the router when you're done with it**
+    ```ts
+    router.dispose()
+      // stop listening to hashchange events
+    ```
 
 
 
