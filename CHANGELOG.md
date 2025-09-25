@@ -15,6 +15,7 @@
 - 🍏 add new `loot` drag-and-drop system
 - 🍏 add new tool `dom.events` for attaching dom events
 - 🍏 add new tool `dom.el` for making dom elements
+- 🍏 add new `nav` hash router
 - 🟥 moved all loaders exports under `loaders` namespace
     - `makeLoader()` -> `loaders.make()`
     - `anims` -> `loaders.anims`
