@@ -76,10 +76,15 @@ export default Science.suite({
 				item: route("#/item/{id}", async({id}) => `item ${id}`),
 			})
 			location.hash = "#/"
+
 			await router.refresh()
 			expect(router.content).is("home")
+
 			await router.navs.item.go({id: "x234"})
 			expect(router.content).is("item x234")
+
+			await router.navs.home.go({})
+			expect(router.content).is("home")
 		}),
 	}),
 })

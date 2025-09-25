@@ -680,6 +680,7 @@ import {nav, html} from "@e280/sly"
     - all route strings must start with `#/`
     - use braces like `{userId}` to accept string params
     - home-equivalent hashes like `""` and `"#"` are normalized to `"#/"`
+    - the router has an effect on the appearance of the url in the browser address bar -- the home `#/` is removed, aesthetically, eg, `e280.org/#/` is rewritten to `e280.org` using history.replaceState
     - `await nav.Router.setup(options)` automatically runs an initial refresh and listens for window hashchange events, whereas `new nav.Router(options)` doesn't
     - you can provide a `loader` option if you want to specify the loading spinner (defaults to `makeLoader()`)
     - you can provide a `notFound` render fn, if you want to specify what is shown on invalid routes (defaults to `() => null`)

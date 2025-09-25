@@ -26,7 +26,7 @@ export class RouterCore<R extends Routes> {
 	}
 
 	get content(): Content | null {
-		return this.$resolved.value?.op.value ?? null
+		return this.$resolved.get()?.op.value ?? null
 	}
 
 	async refresh(hash?: string) {
