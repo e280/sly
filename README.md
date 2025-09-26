@@ -20,6 +20,7 @@
 <br/><br/>
 
 ## 🦝 sly and friends
+> `@e280/sly`  
 
 ```sh
 npm install @e280/sly lit @e280/strata @e280/stz
@@ -31,13 +32,17 @@ npm install @e280/sly lit @e280/strata @e280/stz
 > - 🏂 [@e280/stz](https://github.com/e280/stz), our ts standard library
 > - 🐢 [@e280/scute](https://github.com/e280/scute), our buildy-bundly-buddy
 
+> [!TIP]
+> you can import everything in sly from `@e280/sly`, or from specific subpackages like `@e280/sly/view`, `@e280/sly/dom`, etc...
+
 
 
 <br/><br/>
 <a id="views"></a>
 
 ## 🍋🦝 sly views
-> *the crown jewel of sly*
+> `@e280/sly/view`  
+> *the crown jewel of sly*  
 
 ```ts
 view(use => () => html`<p>hello world</p>`)
@@ -357,7 +362,8 @@ import {html, css} from "lit"
 <a id="base-element"></a>
 
 ## 🪵🦝 sly base element
-> *the classic experience*
+> `@e280/sly/base`  
+> *the classic experience*  
 
 ```ts
 import {BaseElement, Use, dom} from "@e280/sly"
@@ -453,7 +459,8 @@ import {html, css} from "lit"
 <a id="dom"></a>
 
 ## 🪄🦝 sly dom
-> *the "it's not jquery!" multitool*
+> `@e280/sly/dom`  
+> *the "it's not jquery!" multitool*  
 
 ```ts
 import {dom} from "@e280/sly"
@@ -542,7 +549,8 @@ import {dom} from "@e280/sly"
 <a id="ops"></a>
 
 ## 🫛🦝 sly ops
-> *tools for async operations and loading spinners*
+> `@e280/sly/ops`  
+> *tools for async operations and loading spinners*  
 
 ```ts
 import {nap} from "@e280/stz"
@@ -651,7 +659,8 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
 <a id="loaders"></a>
 
 ## ⏳🦝 sly loaders
-> *animated loading spinners for ops*
+> `@e280/sly/loaders`  
+> *animated loading spinners for ops*  
 
 ```ts
 import {loaders} from "@e280/sly"
@@ -686,7 +695,8 @@ import {loaders} from "@e280/sly"
 <a id="spa"></a>
 
 ## 💅🦝 sly spa
-> *hash router for single-page-apps*
+> `@e280/sly/spa`  
+> *hash router for single-page-apps*  
 
 ```ts
 import {spa, html} from "@e280/sly"
@@ -774,7 +784,8 @@ import {spa, html} from "@e280/sly"
 <a id="loot"></a>
 
 ## 🪙🦝 loot
-> *drag-and-drop facilities*
+> `@e280/sly/loot`  
+> *drag-and-drop facilities*  
 
 ```ts
 import {loot, view, dom} from "@e280/sly"
