@@ -698,6 +698,7 @@ import {spa, html} from "@e280/sly"
     - the router has an effect on the appearance of the url in the browser address bar -- the home `#/` is removed, aesthetically, eg, `e280.org/#/` is rewritten to `e280.org` using *history.replaceState*
     - you can provide `loader` option if you want to specify the loading spinner (defaults to `loaders.make()`)
     - you can provide `notFound` option, if you want to specify what is shown on invalid routes (defaults to `() => null`)
+    - when `auto` is true (default), the router calls `.refresh()` and `.listen()` in the constructor.. set it to `false` if you want manual control
     - you can set `auto` option false if you want to omit the default initial refresh and listen calls
 - **render your current page**
     ```ts
@@ -728,18 +729,12 @@ import {spa, html} from "@e280/sly"
     const hash = router.nav.user.hash("123")
       // "#/user/123"
 
-    return html`
-      <a href="${hash}">user 123</a>
-    `
+    html`<a href="${hash}">user 123</a>`
     ```
 - **check if a route is the currently-active one**
     ```ts
     const hash = router.nav.user.active
       // true
-
-    return html`
-      <a href="${hash}">user 123</a>
-    `
     ```
 - **force-refresh the router**
     ```ts
