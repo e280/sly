@@ -1,5 +1,5 @@
 
-export * from "../base/css-reset.js"
-export * from "../base/element.js"
-export * from "../base/use.js"
+export * from "./css-reset.js"
+export * from "./element.js"
+export * from "./use.js"
 
