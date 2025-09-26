@@ -4,9 +4,8 @@ import {defer, MapG} from "@e280/stz"
 import {signal, SignalOptions} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
-import {dom} from "../dom/dom.js"
-import {Attrs} from "../dom/types.js"
 import {Mounts} from "./utils/mounts.js"
+import {UseAttrs} from "./utils/use-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
 
 export const _wrap = Symbol()
@@ -14,7 +13,7 @@ export const _disconnect = Symbol()
 export const _reconnect = Symbol()
 
 export class Use {
-	attrs: Attrs
+	readonly attrs: UseAttrs
 
 	#runs = 0
 	#position = 0
@@ -45,7 +44,7 @@ export class Use {
 			public renderNow: () => void,
 			public render: () => Promise<void>,
 		) {
-		this.attrs = dom.attrs(this.element)
+		this.attrs = new UseAttrs(this)
 	}
 
 	get renderCount() {

@@ -73,6 +73,10 @@
         ```ts
         use.attrs.spec({count: Number})
         ```
+    - 🧐 also did some renames
+        - `.string.whatever` -> `.strings.whatever`
+        - `.number.whatever` -> `.numbers.whatever`
+        - `.boolean.whatever` -> `.booleans.whatever`
 - 🟥 upgraded to `strata` v0.2.0 (see [strata changelog](https://github.com/e280/strata/blob/main/CHANGELOG.md)
   - 🟥 using new signals integration
   - 🍏 added `use` hooks:

@@ -8,9 +8,9 @@ import {AttrProxies} from "./parts/attr-proxies.js"
 export function attrs(element: HTMLElement) {
 	const proxies = new AttrProxies(element)
 	return {
-		string: proxies.string,
-		number: proxies.number,
-		boolean: proxies.boolean,
+		strings: proxies.strings,
+		numbers: proxies.numbers,
+		booleans: proxies.booleans,
 		on: (fn: () => void) => onAttrs(element, fn),
 		spec: <A extends AttrSpec>(spec: A) => attrSpec(element, spec),
 	}

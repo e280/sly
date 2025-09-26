@@ -5,7 +5,7 @@ import {attrFns} from "./attr-fns.js"
 export class AttrProxies {
 	constructor(public element: HTMLElement) {}
 
-	string = new Proxy({}, {
+	strings = new Proxy({}, {
 		get: (_t, key: string) => (
 			attrFns.get.string(this.element, key)
 		),
@@ -14,7 +14,7 @@ export class AttrProxies {
 		),
 	}) as Record<string, string | undefined>
 
-	number = new Proxy({}, {
+	numbers = new Proxy({}, {
 		get: (_t, key: string) => (
 			attrFns.get.number(this.element, key)
 		),
@@ -23,7 +23,7 @@ export class AttrProxies {
 		),
 	}) as Record<string, number | undefined>
 
-	boolean = new Proxy({}, {
+	booleans = new Proxy({}, {
 		get: (_t, key: string) => (
 			attrFns.get.boolean(this.element, key)
 		),

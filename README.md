@@ -280,19 +280,30 @@ import {html, css} from "lit"
     v // 123
     ```
 - **use.attrs** — ergonomic typed html attribute access  
-    *(see [dom.attrs](#dom.attrs) for more details)*
-    ```ts
-    const attrs = use.attrs.spec({
-      name: String,
-      count: Number,
-      active: Boolean,
-    })
-    ```
-    ```ts
-    attrs.name // "chase"
-    attrs.count // 123
-    attrs.active // true
-    ```
+    - `use.attrs` is a bit different than `dom.attrs`, just to properly memoize .spec and .on for the render fn
+    - use.attrs.spec
+        ```ts
+        const attrs = use.attrs.spec({
+          name: String,
+          count: Number,
+          active: Boolean,
+        })
+        ```
+        ```ts
+        attrs.name // "chase"
+        attrs.count // 123
+        attrs.active // true
+        ```
+    - use.attrs.(strings/numbers/booleans)
+        ```ts
+        use.attrs.strings.name // "chase"
+        use.attrs.numbers.count // 123
+        use.attrs.booleans.active // true
+        ```
+    - use.attrs.on
+        ```ts
+        use.attrs.on(() => console.log("an attribute changed"))
+        ```
 - **use.render** — rerender the view (debounced)
     ```ts
     use.render()
@@ -520,9 +531,9 @@ import {dom} from "@e280/sly"
     ```
     or if you wanna be more loosey-goosy, skip the spec
     ```ts
-    dom.attrs(element).string.name = "pimsley"
-    dom.attrs(element).number.count = 125
-    dom.attrs(element).boolean.active = true
+    dom.attrs(element).strings.name = "pimsley"
+    dom.attrs(element).numbers.count = 125
+    dom.attrs(element).booleans.active = true
     ```
 
 
