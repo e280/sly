@@ -13,12 +13,16 @@ export class RouterCore<R extends Routes> {
 			public readonly location: Hashbearer,
 		) {
 
-		this.nav = Navigable.all(routes, async hash => {
-			this.location.hash = hash
-			const resolved = await this.refresh()
-			if (!resolved) throw new Error(`route failed "${hash}"`)
-			return resolved
-		})
+		this.nav = Navigable.all(
+			routes,
+			() => this.route,
+			async hash => {
+				this.location.hash = hash
+				const resolved = await this.refresh()
+				if (!resolved) throw new Error(`route failed "${hash}"`)
+				return resolved
+			},
+		)
 	}
 
 	get hash() {
@@ -27,6 +31,10 @@ export class RouterCore<R extends Routes> {
 
 	get content(): Content | null {
 		return this.$resolved.get()?.op.value ?? null
+	}
+
+	get route() {
+		return this.$resolved.get()?.route ?? null
 	}
 
 	async refresh(hash?: string) {

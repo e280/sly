@@ -17,6 +17,7 @@ export const AsciiAnim = view(use => ({hz, frames}: {
 
 	use.name("loading")
 	use.styles(cssReset, style)
+
 	const frame = use.signal(0)
 
 	use.mount(() => repeat(async() => {

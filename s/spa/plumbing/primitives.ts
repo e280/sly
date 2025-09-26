@@ -29,22 +29,29 @@ export class HashNormalizer {
 	}
 }
 
-export class Navigable<R extends Routes, K extends keyof R> {
+export class Navigable<R extends Routes = any, K extends keyof R = any> {
 	static all<R extends Routes>(
 			routes: R,
+			getRoute: () => Route<any> | null,
 			navigate: (hash: string) => Promise<ResolvedRoute<R>>,
 		): {[K in keyof R]: Navigable<R, K>} {
 
 		return ob(routes).map(route => new this(
 			route,
+			() => (getRoute() === route),
 			async(...params: any[]) => navigate(route.hasher.make(...params)),
 		))
 	}
 
 	constructor(
 		public route: Route<Parameters<R[K]["hasher"]["make"]>>,
+		private isActive: () => boolean,
 		public go: (...params: Parameters<R[K]["hasher"]["make"]>) => Promise<ResolvedRoute<R>>,
 	) {}
+
+	get active() {
+		return this.isActive()
+	}
 
 	hash(...params: Parameters<R[K]["hasher"]["make"]>) {
 		return this.route.hasher.make(...params)
