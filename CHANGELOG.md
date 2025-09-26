@@ -6,11 +6,19 @@
 
 
 
-<br/>
+<br/><br/>
 
 ## v0.2
 
 ### v0.2.0
+- 🍏 subpackage exports
+  - `@e280/sly`
+  - `@e280/sly/dom`
+  - `@e280/sly/loaders`
+  - `@e280/sly/loot`
+  - `@e280/sly/ops`
+  - `@e280/sly/spa`
+  - `@e280/sly/ui`
 - 🍏 add new `BaseElement`
 - 🍏 add new `loot` drag-and-drop system
 - 🍏 add new tool `dom.events` for attaching dom events
@@ -81,7 +89,7 @@
 
 
 
-<br/>
+<br/><br/>
 
 ## v0.1
 
@@ -95,7 +103,7 @@
 
 
 
-<br/>
+<br/><br/>
 
 ## v0.0
 
