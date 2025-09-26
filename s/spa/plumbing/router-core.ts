@@ -6,7 +6,7 @@ import {Hashbearer, Navigables, ResolvedRoute, Routes} from "./types.js"
 
 export class RouterCore<R extends Routes> {
 	readonly nav: Navigables<R>
-	readonly $resolved = signal<ResolvedRoute<R> | null>(null)
+	readonly $resolved = signal<ResolvedRoute | null>(null)
 
 	constructor(
 			public readonly routes: R,

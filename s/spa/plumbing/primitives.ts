@@ -1,7 +1,7 @@
 
 import {ev, ob} from "@e280/stz"
 import {Op} from "../../ops/op.js"
-import {ResolvedRoute, Route, Routes} from "./types.js"
+import {ResolvedRoute, Route, Params, Routes} from "./types.js"
 
 export function eraseWindowHash() {
 	const {pathname, search} = window.location
@@ -29,31 +29,31 @@ export class HashNormalizer {
 	}
 }
 
-export class Navigable<R extends Routes = any, K extends keyof R = any> {
+export class Navigable<P extends any[] = any[]> {
 	static all<R extends Routes>(
 			routes: R,
-			getRoute: () => Route<any> | null,
-			navigate: (hash: string) => Promise<ResolvedRoute<R>>,
-		): {[K in keyof R]: Navigable<R, K>} {
+			getRoute: () => Route | null,
+			navigate: (hash: string) => Promise<ResolvedRoute>,
+		): {[K in keyof R]: Navigable<Params<R[K]>>} {
 
 		return ob(routes).map(route => new this(
 			route,
 			() => (getRoute() === route),
 			async(...params: any[]) => navigate(route.hasher.make(...params)),
-		))
+		)) as any
 	}
 
 	constructor(
-		public route: Route<Parameters<R[K]["hasher"]["make"]>>,
+		public route: Route<P>,
 		private isActive: () => boolean,
-		public go: (...params: Parameters<R[K]["hasher"]["make"]>) => Promise<ResolvedRoute<R>>,
+		public go: (...params: P) => Promise<ResolvedRoute<P>>,
 	) {}
 
 	get active() {
 		return this.isActive()
 	}
 
-	hash(...params: Parameters<R[K]["hasher"]["make"]>) {
+	hash(...params: P) {
 		return this.route.hasher.make(...params)
 	}
 }
@@ -61,7 +61,7 @@ export class Navigable<R extends Routes = any, K extends keyof R = any> {
 export function resolveRoute<R extends Routes>(
 		hash: string,
 		routes: R,
-	): ResolvedRoute<R> | null {
+	): ResolvedRoute | null {
 
 	for (const key in routes) {
 		const route = routes[key]

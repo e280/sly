@@ -19,21 +19,27 @@ export type Hasher<Params extends any[]> = {
 	make: (...params: Params) => string
 }
 
-export type Route<Params extends any[]> = {
-	hasher: Hasher<Params>
-	fn: (...params: Params) => Promise<Content>
+export type Route<P extends any[] = any[]> = {
+	hasher: Hasher<P>
+	fn: (...params: P) => Promise<Content>
 }
 
-export type Routes = {[key: string]: Route<any>}
+export type Routes = {[key: string]: Route}
 
-export type ResolvedRoute<R extends Routes, K extends keyof R = keyof R> = {
-	key: K
-	route: R[K]
-	params: Parameters<R[K]["hasher"]["make"]>
+export type Params<X extends (Route | Navigable)> = (
+	X extends Route<infer P> ? P :
+	X extends Navigable<infer P> ? P :
+	never
+)
+
+export type ResolvedRoute<P extends any[] = any[]> = {
+	key: string
+	route: Route<P>
+	params: P
 	op: Op<Content>
 }
 
 export type Navigables<R extends Routes> = {
-	[K in keyof R]: Navigable<R, K>
+	[K in keyof R]: Navigable<Params<R[K]>>
 }
 
