@@ -1,9 +1,9 @@
 
 import {css, html} from "lit"
 import {Op} from "../../ops/op.js"
-import {view} from "../../ui/view.js"
+import {view} from "../../view/view.js"
 import {loaders} from "../../loaders/index.js"
-import {cssReset} from "../../ui/base/css-reset.js"
+import {cssReset} from "../../base/css-reset.js"
 
 export const LoadersView = view(use => () => {
 	use.name("loaders")

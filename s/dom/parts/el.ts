@@ -1,6 +1,6 @@
 
-import {AttrValue} from "../../ui/types.js"
-import {setAttrs} from "../../ui/view/parts/set-attrs.js"
+import {AttrValue} from "../../view/types.js"
+import {setAttrs} from "../../view/utils/parts/set-attrs.js"
 
 export function el<E extends HTMLElement>(
 		tagName: string,

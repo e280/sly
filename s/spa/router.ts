@@ -1,6 +1,6 @@
 
 import {disposer} from "@e280/stz"
-import {Content} from "../ui/types.js"
+import {Content} from "../view/types.js"
 import {Loader} from "../loaders/types.js"
 import {loaders} from "../loaders/index.js"
 import {RouterCore} from "./plumbing/router-core.js"

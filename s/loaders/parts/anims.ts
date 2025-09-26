@@ -1,6 +1,6 @@
 
 import {makeAsciiAnim} from "./ascii-anim.js"
-import type {Content} from "../../ui/types.js"
+import type {Content} from "../../view/types.js"
 
 const fast = 20
 const mid = 10

@@ -7,12 +7,13 @@
 	"main": "./x/index.js",
 	"exports": {
 		".": "./x/index.js",
+		"./base": "./x/base/index.js",
 		"./dom": "./x/dom/index.js",
 		"./loaders": "./x/loaders/index.js",
 		"./loot": "./x/loot/index.js",
 		"./ops": "./x/ops/index.js",
 		"./spa": "./x/spa/index.js",
-		"./ui": "./x/ui/index.js"
+		"./view": "./x/view/index.js"
 	},
 	"files": [
 		"x",

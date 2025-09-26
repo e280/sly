@@ -1,10 +1,10 @@
 
 import {css, html} from "lit"
 
-import {view} from "../../ui/view.js"
+import {view} from "../../view/view.js"
 import {CounterView} from "./counter.js"
 import {LoadersView} from "./loaders.js"
-import {cssReset} from "../../ui/base/css-reset.js"
+import {cssReset} from "../../base/css-reset.js"
 
 export class DemoComponent extends (view.component(use => {
 	use.name("demo")

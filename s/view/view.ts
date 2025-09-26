@@ -1,8 +1,8 @@
 
 import {Content, ViewFn} from "./types.js"
-import {makeView} from "./view/make-view.js"
-import {BaseElement} from "./base-element.js"
-import {_disconnect, _reconnect, Use} from "./base/use.js"
+import {makeView} from "./utils/make-view.js"
+import {BaseElement} from "../base/element.js"
+import {_disconnect, _reconnect, Use} from "../base/use.js"
 
 export function view<Props extends any[]>(fn: ViewFn<Props>) {
 	return makeView(fn, {mode: "open"})

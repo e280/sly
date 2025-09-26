@@ -3,8 +3,8 @@ import {css, html} from "lit"
 import {nap, repeat} from "@e280/stz"
 
 import {dom} from "../../dom/dom.js"
-import {Use} from "../../ui/base/use.js"
-import {BaseElement} from "../../ui/base-element.js"
+import {Use} from "../../base/use.js"
+import {BaseElement} from "../../base/element.js"
 
 export class FastcountElement extends BaseElement {
 	static styles = css`span{color:orange}`

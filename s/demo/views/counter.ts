@@ -2,9 +2,9 @@
 import {css, html} from "lit"
 
 import {dom} from "../../dom/dom.js"
-import {view} from "../../ui/view.js"
-import {cssReset} from "../../ui/base/css-reset.js"
-import {BaseElement} from "../../ui/base-element.js"
+import {view} from "../../view/view.js"
+import {cssReset} from "../../base/css-reset.js"
+import {BaseElement} from "../../base/element.js"
 
 export const CounterView = view(use => (start: number, step: number) => {
 	use.name("counter")

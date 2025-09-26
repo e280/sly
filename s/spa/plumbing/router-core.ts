@@ -1,6 +1,6 @@
 
 import {signal} from "@e280/strata"
-import type {Content} from "../../ui/types.js"
+import type {Content} from "../../view/types.js"
 import {Navigable, normalizeHash, resolveRoute} from "./primitives.js"
 import {Hashbearer, Navigables, ResolvedRoute, Routes} from "./types.js"
 

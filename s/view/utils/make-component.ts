@@ -1,9 +1,9 @@
 
 import {Constructor} from "@e280/stz"
-import {Use} from "../base/use.js"
+import {Use} from "../../base/use.js"
 import {makeView} from "./make-view.js"
-import {BaseElement} from "../base-element.js"
-import {Reactor} from "../base/utils/reactor.js"
+import {BaseElement} from "../../base/element.js"
+import {Reactor} from "../../base/utils/reactor.js"
 import {ComponentClass, ViewFn} from "../types.js"
 
 /** make a component from a BaseElement and a view. */

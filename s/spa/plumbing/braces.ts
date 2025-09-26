@@ -1,6 +1,6 @@
 
 import {Hasher, Route} from "./types.js"
-import type {Content} from "../../ui/types.js"
+import type {Content} from "../../view/types.js"
 
 type ParamKeys<S extends string> =
 	S extends `${string}{${infer P}}${infer R}` ? (string & P) | ParamKeys<R> : never

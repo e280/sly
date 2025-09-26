@@ -1,7 +1,7 @@
 
 import type {Op} from "../../ops/op.js"
 import type {Navigable} from "./primitives.js"
-import type {Content} from "../../ui/types.js"
+import type {Content} from "../../view/types.js"
 import type {Loader} from "../../loaders/types.js"
 
 export type RouterOptions<R extends Routes> = {

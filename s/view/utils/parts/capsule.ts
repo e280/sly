@@ -5,9 +5,9 @@ import {SlyView} from "./sly-view.js"
 import {dom} from "../../../dom/dom.js"
 import {setAttrs} from "./set-attrs.js"
 import {ViewContext} from "./context.js"
-import {Reactor} from "../../base/utils/reactor.js"
-import {AttrWatcher} from "../../base/utils/attr-watcher.js"
-import {_disconnect, _reconnect, _wrap, Use} from "../../base/use.js"
+import {Reactor} from "../../../base/utils/reactor.js"
+import {AttrWatcher} from "../../../base/utils/attr-watcher.js"
+import {_disconnect, _reconnect, _wrap, Use} from "../../../base/use.js"
 
 /** controls the rendering of view context into an element. */
 export class ViewCapsule<Props extends any[]> {

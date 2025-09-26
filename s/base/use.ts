@@ -3,9 +3,9 @@ import {CSSResultGroup} from "lit"
 import {defer, MapG} from "@e280/stz"
 import {signal, SignalOptions} from "@e280/strata/signals"
 
-import {Op} from "../../ops/op.js"
-import {dom} from "../../dom/dom.js"
-import {Attrs} from "../../dom/types.js"
+import {Op} from "../ops/op.js"
+import {dom} from "../dom/dom.js"
+import {Attrs} from "../dom/types.js"
 import {Mounts} from "./utils/mounts.js"
 import {applyStyles} from "./utils/apply-styles.js"
 

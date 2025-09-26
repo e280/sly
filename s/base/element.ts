@@ -3,11 +3,11 @@ import {debounce} from "@e280/stz"
 import {CSSResultGroup} from "lit"
 
 import {dom} from "../dom/dom.js"
-import {Content} from "./types.js"
-import {Reactor} from "./base/utils/reactor.js"
-import {AttrWatcher} from "./base/utils/attr-watcher.js"
-import {applyStyles} from "./base/utils/apply-styles.js"
-import {Use, _disconnect, _reconnect, _wrap} from "./base/use.js"
+import {Content} from "../view/types.js"
+import {Reactor} from "./utils/reactor.js"
+import {AttrWatcher} from "./utils/attr-watcher.js"
+import {applyStyles} from "./utils/apply-styles.js"
+import {Use, _disconnect, _reconnect, _wrap} from "./use.js"
 
 export class BaseElement extends HTMLElement {
 	static styles: CSSResultGroup | undefined
