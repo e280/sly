@@ -33,7 +33,8 @@ npm install @e280/sly lit @e280/strata @e280/stz
 > - 🐢 [@e280/scute](https://github.com/e280/scute), our buildy-bundly-buddy
 
 > [!TIP]
-> you can import everything in sly from `@e280/sly`, or from specific subpackages like `@e280/sly/view`, `@e280/sly/dom`, etc...
+> you can import everything in sly from `@e280/sly`,  
+> or from specific subpackages like `@e280/sly/view`, `@e280/sly/dom`, etc...
 
 
 
