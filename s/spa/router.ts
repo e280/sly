@@ -8,13 +8,6 @@ import {RouterOptions, Routes} from "./plumbing/types.js"
 import {HashNormalizer, onHashChange} from "./plumbing/primitives.js"
 
 export class Router<R extends Routes> extends RouterCore<R> {
-	static async setup<R extends Routes>(options: RouterOptions<R>) {
-		const router = new this(options)
-		await router.refresh()
-		router.listen()
-		return router
-	}
-
 	loader: Loader
 	notFound: () => Content
 	readonly dispose = disposer()
@@ -25,9 +18,14 @@ export class Router<R extends Routes> extends RouterCore<R> {
 			options.routes,
 			options.location ?? new HashNormalizer(window.location),
 		)
+		const {auto = true} = options
 		this.loader = options.loader ?? loaders.make()
 		this.notFound = options.notFound ?? (() => null)
 		this.#lastHash = this.hash
+		if (auto) {
+			this.listen()
+			this.refresh()
+		}
 	}
 
 	render() {

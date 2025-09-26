@@ -6,6 +6,7 @@ import type {Loader} from "../../loaders/types.js"
 
 export type RouterOptions<R extends Routes> = {
 	routes: R
+	auto?: boolean
 	location?: Hashbearer
 	loader?: Loader
 	notFound?: () => Content

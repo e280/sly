@@ -682,9 +682,9 @@ import {spa, html} from "@e280/sly"
 ```
 
 ### 💅 spa.Router basics
-- **setup your router**
+- **make a spa router**
     ```ts
-    const router = await spa.Router.setup({
+    const router = new spa.Router({
       routes: {
         home: spa.route("#/", async() => html`home`),
         settings: spa.route("#/settings", async() => html`settings`),
@@ -695,10 +695,10 @@ import {spa, html} from "@e280/sly"
     - all route strings must start with `#/`
     - use braces like `{userId}` to accept string params
     - home-equivalent hashes like `""` and `"#"` are normalized to `"#/"`
-    - the router has an effect on the appearance of the url in the browser address bar -- the home `#/` is removed, aesthetically, eg, `e280.org/#/` is rewritten to `e280.org` using history.replaceState
-    - `await spa.Router.setup(options)` automatically runs an initial refresh and listens for window hashchange events, whereas `new spa.Router(options)` doesn't
-    - you can provide a `loader` option if you want to specify the loading spinner (defaults to `loaders.make()`)
-    - you can provide a `notFound` render fn, if you want to specify what is shown on invalid routes (defaults to `() => null`)
+    - the router has an effect on the appearance of the url in the browser address bar -- the home `#/` is removed, aesthetically, eg, `e280.org/#/` is rewritten to `e280.org` using *history.replaceState*
+    - you can provide `loader` option if you want to specify the loading spinner (defaults to `loaders.make()`)
+    - you can provide `notFound` option, if you want to specify what is shown on invalid routes (defaults to `() => null`)
+    - you can set `auto` option false if you want to omit the default initial refresh and listen calls
 - **render your current page**
     ```ts
     return html`
@@ -732,15 +732,24 @@ import {spa, html} from "@e280/sly"
       <a href="${hash}">user 123</a>
     `
     ```
-- **force-refresh the router like this**
+- **check if a route is the currently-active one**
+    ```ts
+    const hash = router.nav.user.active
+      // true
+
+    return html`
+      <a href="${hash}">user 123</a>
+    `
+    ```
+- **force-refresh the router**
     ```ts
     await router.refresh()
     ```
-- **force-navigate the router by hash like this**
+- **force-navigate the router by hash**
     ```ts
     await router.refresh("#/user/123")
     ```
-- **normalize the current hash string like this**
+- **get the current hash string (normalized)**
     ```ts
     router.hash
       // "#/user/123"
