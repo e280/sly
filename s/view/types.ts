@@ -19,6 +19,7 @@ export type ViewFn<Props extends any[]> = (
 export type View<Props extends any[]> = {
 	(...props: Props): DirectiveResult
 	props: (...props: Props) => ViewChain<Props>
+	transmute: <PropsB extends any[]>(convert: (...propsB: PropsB) => Props) => View<PropsB>
 	component: <B extends Constructor<BaseElement>>(Base?: B) => {
 		props: (propFn: (component: InstanceType<B>) => Props) => (
 			ComponentClass<B, Props>

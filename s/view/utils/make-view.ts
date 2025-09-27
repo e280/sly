@@ -24,6 +24,14 @@ export function makeView<Props extends any[]>(
 		renderDirective,
 	)
 
+	v.transmute = <PropsB extends any[]>(convert: (...propsB: PropsB) => Props) => {
+		const viewFnB: ViewFn<PropsB> = use => {
+			const viewFnA2 = viewFn(use)
+			return (...propsB) => viewFnA2(...convert(...propsB))
+		}
+		return makeView<PropsB>(viewFnB, settings)
+	}
+
 	v.component = <B extends Constructor<BaseElement>>(Base: B = BaseElement as any) => ({
 		props: (propFn: (component: InstanceType<B>) => Props) => (
 			makeComponent<B, Props>(
