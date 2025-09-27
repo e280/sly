@@ -27,6 +27,12 @@ export type View<Props extends any[]> = {
 	}
 }
 
+export type ViewProps<V extends View<any>> = (
+	V extends View<infer Props>
+		? Props
+		: never
+)
+
 export type ComponentClass<B extends Constructor<BaseElement>, Props extends any[]> = {
 	view: View<Props>
 	new(): InstanceType<B>
