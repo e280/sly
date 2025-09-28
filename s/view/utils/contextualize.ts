@@ -36,10 +36,10 @@ export function contextualizeComponents<
 		context = context
 		static view = contextualizeView(context, super.view) as any
 	}) as any as {
-		[K in keyof Cs]: ComponentClass<
-			Cs[K],
-			DropFirst<ViewProps<Cs[K]["view"]>>
-		>
+		[K in keyof Cs]: {
+			view: View<DropFirst<ViewProps<Cs[K]["view"]>>>
+			new(): InstanceType<{context: C} & Cs[K]>
+		} & Cs[K]
 	}
 }
 

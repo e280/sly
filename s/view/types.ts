@@ -1,11 +1,11 @@
 
 import {TemplateResult} from "lit"
-import {Constructor, DropFirst} from "@e280/stz"
+import {Constructor} from "@e280/stz"
 import {DirectiveResult} from "lit/directive.js"
 
 import {Use} from "../base/use.js"
-import {ViewChain} from "./utils/parts/chain.js"
 import {BaseElement} from "../base/element.js"
+import {ViewChain} from "./utils/parts/chain.js"
 
 export type Content = TemplateResult | DirectiveResult | HTMLElement | string | null | undefined | void | Content[]
 export type AttrValue = string | boolean | number | undefined | null | void
