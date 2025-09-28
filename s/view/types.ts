@@ -33,10 +33,6 @@ export type ViewProps<V extends View<any>> = (
 		: never
 )
 
-export type ViewsDropFirstParam<Vs extends {[key: string]: View<any[]>}> = {
-	[K in keyof Vs]: View<DropFirst<ViewProps<Vs[K]>>>
-}
-
 export type ComponentClass<B extends Constructor<BaseElement>, Props extends any[]> = {
 	view: View<Props>
 	new(): InstanceType<B>
