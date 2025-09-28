@@ -1,6 +1,6 @@
 
 import {TemplateResult} from "lit"
-import {Constructor} from "@e280/stz"
+import {Constructor, DropFirst} from "@e280/stz"
 import {DirectiveResult} from "lit/directive.js"
 
 import {Use} from "../base/use.js"
@@ -32,6 +32,10 @@ export type ViewProps<V extends View<any>> = (
 		? Props
 		: never
 )
+
+export type ViewsDropFirstParam<Vs extends {[key: string]: View<any[]>}> = {
+	[K in keyof Vs]: View<DropFirst<ViewProps<Vs[K]>>>
+}
 
 export type ComponentClass<B extends Constructor<BaseElement>, Props extends any[]> = {
 	view: View<Props>
