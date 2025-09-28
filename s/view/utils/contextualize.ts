@@ -2,14 +2,14 @@
 import {DropFirst, ob} from "@e280/stz"
 import {ComponentClass, View, ViewProps} from "../types.js"
 
-export function contextualizeView<C, V extends View<any[]>>(
+export function contextualizeView<C, V extends View<any>>(
 		context: C,
 		view: V,
 	): View<DropFirst<ViewProps<V>>> {
 	return view.transmute((...p: any[]) => [context, ...p]) as any
 }
 
-export function contextualizeViews<C, Vs extends Record<string, View<any[]>>>(
+export function contextualizeViews<C, Vs extends Record<string, View<any>>>(
 		context: C,
 		views: Vs,
 	): {[K in keyof Vs]: View<DropFirst<ViewProps<Vs[K]>>>} {
