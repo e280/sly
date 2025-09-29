@@ -24,7 +24,7 @@
 	},
 	"dependencies": {
 		"@e280/strata": "^0.2.0-14",
-		"@e280/stz": "^0.2.7"
+		"@e280/stz": "^0.2.9"
 	},
 	"devDependencies": {
 		"@e280/science": "^0.1.2",
