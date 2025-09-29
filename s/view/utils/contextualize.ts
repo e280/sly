@@ -23,7 +23,7 @@ export function getViews<
 	>(components: Cs) {
 
 	return ob(components).map(C => C.view as any) as {
-		[K in keyof Cs]: View<DropFirst<ViewProps<Cs[K]["view"]>>>
+		[K in keyof Cs]: Cs[K]["view"]
 	}
 }
 
