@@ -16,7 +16,7 @@ export class ViewChain<Props extends any[]> {
 		this.#render = renderDirective
 	}
 
-	attr(key: string, value: AttrValue) {
+	attr(key: string, value: AttrValue = true) {
 		this.#context.attrs.set(key, value)
 		return this
 	}
