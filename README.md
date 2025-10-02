@@ -286,6 +286,13 @@ import {html, css} from "lit"
 
     v // 123
     ```
+- **use.events** — attach event listeners to the element (auto-cleaned up)  
+    ```ts
+    use.events({
+      keydown: (e: KeyboardEvent) => console.log("keydown", e.code),
+      keyup: (e: KeyboardEvent) => console.log("keyup", e.code),
+    })
+    ```
 - **use.attrs** — ergonomic typed html attribute access  
     - `use.attrs` is a bit different than [#dom.attrs](#dom.attrs), just to properly memoize .spec and .on for the render fn
     - use.attrs.spec
