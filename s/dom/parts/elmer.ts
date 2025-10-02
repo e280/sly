@@ -2,11 +2,11 @@
 import {AttrValue} from "../types.js"
 import {attrSet} from "../attrs/parts/attr-fns.js"
 
-export function elmer<E extends HTMLElement>(tagName: string) {
+export function elmer<E extends HTMLElement = HTMLElement>(tagName: string) {
 	return new Elmer<E>(tagName)
 }
 
-export class Elmer<E extends HTMLElement> {
+export class Elmer<E extends HTMLElement = HTMLElement> {
 	#attrs = new Map<string, AttrValue>()
 	#children: (Node | string)[] = []
 
