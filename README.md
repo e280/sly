@@ -287,7 +287,7 @@ import {html, css} from "lit"
     v // 123
     ```
 - **use.attrs** — ergonomic typed html attribute access  
-    - `use.attrs` is a bit different than `dom.attrs`, just to properly memoize .spec and .on for the render fn
+    - `use.attrs` is a bit different than [#dom.attrs](#dom.attrs), just to properly memoize .spec and .on for the render fn
     - use.attrs.spec
         ```ts
         const attrs = use.attrs.spec({
@@ -525,6 +525,11 @@ import {dom} from "@e280/sly"
     ```
     ```ts
     dom.in(".demo").render(html`<p>hello world</p>`)
+    ```
+- `el` little element builder
+    ```ts
+    const div = dom.el("div", {"data-whatever": 123, "data-active": true})
+      // <div data-whatever="123" data-active></div>
     ```
 - `events` <a id="dom.events"></a> to attach event listeners
     ```ts

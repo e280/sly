@@ -24,6 +24,9 @@
 - 🍏 add new tool `dom.events` for attaching dom events
 - 🍏 add new tool `dom.el` for making dom elements
 - 🍏 add new `spa` hash routing tools
+- 🟥 dom multitool changes
+  - `dom(element)` replaced by `dom.in(element)`
+  - `dom.in(element).attrs()` replaced by `dom.in(element).attrs` (now a getter)
 - 🟥 moved all loaders exports under `loaders` namespace
     - `makeLoader()` -> `loaders.make()`
     - `anims` -> `loaders.anims`
