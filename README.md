@@ -474,6 +474,11 @@ import {dom} from "@e280/sly"
     dom(".demo")
       // HTMLElement (or throws)
     ```
+    ```ts
+    // alias
+    dom.require(".demo")
+      // HTMLElement (or throws)
+    ```
 - `maybe` get an element
     ```ts
     dom.maybe(".demo")
@@ -484,18 +489,26 @@ import {dom} from "@e280/sly"
     dom.all(".demo ul li")
       // HTMLElement[]
     ```
-- scoped to an element
+
+### 🪄 dom.in scope
+- make a scope
     ```ts
-    dom(element).require("li")
-      // HTMLElement (or throws)
+    dom.in(".demo") // selector
+      // Dom instance
     ```
     ```ts
-    dom(element).maybe("li")
-      // HTMLElement | undefined
+    dom.in(demoElement) // element
+      // Dom instance
+    ```
+- run queries in that scope
+    ```ts
+    dom.in(demoElement).require(".button")
     ```
     ```ts
-    dom(element).all("li")
-      // HTMLElement[]
+    dom.in(demoElement).maybe(".button")
+    ```
+    ```ts
+    dom.in(demoElement).all("ol li")
     ```
 
 ### 🪄 dom utilities
@@ -508,17 +521,38 @@ import {dom} from "@e280/sly"
     - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
 - `render` content into an element
     ```ts
-    dom(element).render(html`<p>hello world</p>`)
+    dom.render(element, html`<p>hello world</p>`)
     ```
     ```ts
     dom.in(".demo").render(html`<p>hello world</p>`)
     ```
+- `events` <a id="dom.events"></a> to attach event listeners
     ```ts
-    dom.render(element, html`<p>hello world</p>`)
+    const detach = dom.events(element, {
+      keydown: (e: KeyboardEvent) => console.log("keydown", e.code),
+      keyup: (e: KeyboardEvent) => console.log("keyup", e.code),
+    })
+    ```
+    ```ts
+    const detach = dom.in(".demo").events({
+      keydown: (e: KeyboardEvent) => console.log("keydown", e.code),
+      keyup: (e: KeyboardEvent) => console.log("keyup", e.code),
+    })
+    ```
+    ```ts
+    // unattach those event listeners when you're done
+    detach()
     ```
 - `attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper
     ```ts
     const attrs = dom.attrs(element).spec({
+      name: String,
+      count: Number,
+      active: Boolean,
+    })
+    ```
+    ```ts
+    const attrs = dom.in(".demo").attrs.spec({
       name: String,
       count: Number,
       active: Boolean,

@@ -1,6 +1,9 @@
 
 import {attrs} from "./attrs/attrs.js"
 
+export type Renderable = HTMLElement | ShadowRoot | DocumentFragment
+export type Queryable = HTMLElement | ShadowRoot | Element | Document | DocumentFragment
+
 // attrs
 
 export type AttrKind = (
