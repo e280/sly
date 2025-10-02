@@ -7,6 +7,7 @@ import {Op} from "../ops/op.js"
 import {Mounts} from "./utils/mounts.js"
 import {UseAttrs} from "./utils/use-attrs.js"
 import {applyStyles} from "./utils/apply-styles.js"
+import { eve, EveSpec } from "../dom/parts/eve.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()
@@ -88,6 +89,10 @@ export class Use {
 
 	wake<V>(fn: () => V) {
 		return this.life(() => [fn(), () => {}])
+	}
+
+	events(spec: EveSpec) {
+		return this.mount(() => eve(this.element, spec))
 	}
 
 	op = (() => {
