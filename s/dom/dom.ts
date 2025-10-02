@@ -3,6 +3,7 @@ import {render} from "lit"
 import {el} from "./parts/el.js"
 import {eve} from "./parts/eve.js"
 import {attrs} from "./attrs/attrs.js"
+import {elmer} from "./parts/elmer.js"
 import {Content} from "../view/types.js"
 import {Dom} from "./parts/dom-scope.js"
 import {register} from "./parts/register.js"
@@ -22,6 +23,7 @@ dom.maybe = queryMaybe
 dom.all = queryAll
 
 dom.el = el
+dom.elmer = elmer
 dom.events = eve
 dom.attrs = attrs
 dom.register = register

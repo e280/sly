@@ -6,6 +6,8 @@ export type Queryable = HTMLElement | ShadowRoot | Element | Document | Document
 
 // attrs
 
+export type AttrValue = string | boolean | number | undefined | null | void
+
 export type AttrKind = (
 	| typeof String
 	| typeof Number

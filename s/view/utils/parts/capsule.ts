@@ -3,9 +3,9 @@ import {debounce} from "@e280/stz"
 import {ViewFn} from "../../types.js"
 import {SlyView} from "./sly-view.js"
 import {dom} from "../../../dom/dom.js"
-import {setAttrs} from "./set-attrs.js"
 import {ViewContext} from "./context.js"
 import {Reactor} from "../../../base/utils/reactor.js"
+import {attrSet} from "../../../dom/attrs/parts/attr-fns.js"
 import {AttrWatcher} from "../../../base/utils/attr-watcher.js"
 import {_disconnect, _reconnect, _wrap, Use} from "../../../base/use.js"
 
@@ -44,7 +44,7 @@ export class ViewCapsule<Props extends any[]> {
 				() => this.viewFn(this.#use)(...this.#context.props),
 				() => this.#renderDebounced(),
 			)
-			setAttrs(this.#element, [...this.#context.attrs])
+			attrSet.entries(this.#element, this.#context.attrs)
 			dom.render(this.#shadow, content)
 			dom.render(this.#element, this.#context.children)
 			this.#attrWatcher.start()

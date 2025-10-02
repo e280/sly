@@ -8,7 +8,6 @@ import {BaseElement} from "../base/element.js"
 import {ViewChain} from "./utils/parts/chain.js"
 
 export type Content = TemplateResult | DirectiveResult | HTMLElement | string | null | undefined | void | Content[]
-export type AttrValue = string | boolean | number | undefined | null | void
 
 export type ViewFn<Props extends any[]> = (
 	(use: Use) =>

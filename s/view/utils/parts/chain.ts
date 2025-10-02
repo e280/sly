@@ -1,7 +1,8 @@
 
-import {DirectiveResult} from "lit/async-directive.js"
+import {Content} from "../../types.js"
 import {ViewContext} from "./context.js"
-import {AttrValue, Content} from "../../types.js"
+import {AttrValue} from "../../../dom/types.js"
+import {DirectiveResult} from "lit/async-directive.js"
 
 /** provides fluent chaining interface for adding context to rendering a view, think view.props().attr().children().render() */
 export class ViewChain<Props extends any[]> {

@@ -1,6 +1,6 @@
 
-import {AttrValue} from "../../view/types.js"
-import {setAttrs} from "../../view/utils/parts/set-attrs.js"
+import {AttrValue} from "../types.js"
+import {attrSet} from "../attrs/parts/attr-fns.js"
 
 export function el<E extends HTMLElement>(
 		tagName: string,
@@ -8,7 +8,7 @@ export function el<E extends HTMLElement>(
 	) {
 
 	const element = document.createElement(tagName) as E
-	setAttrs(element, Object.entries(attrs))
+	attrSet.record(element, attrs)
 	return element
 }
 
