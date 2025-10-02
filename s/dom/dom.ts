@@ -1,6 +1,7 @@
 
 import {render} from "lit"
 import {el} from "./parts/el.js"
+import {mk} from "./parts/mk.js"
 import {eve} from "./parts/eve.js"
 import {attrs} from "./attrs/attrs.js"
 import {elmer} from "./parts/elmer.js"
@@ -24,6 +25,7 @@ dom.all = queryAll
 
 dom.el = el
 dom.elmer = elmer
+dom.mk = mk
 dom.events = eve
 dom.attrs = attrs
 dom.register = register
