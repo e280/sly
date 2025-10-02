@@ -21,6 +21,12 @@ export class ViewChain<Props extends any[]> {
 		return this
 	}
 
+	attrs(record: Record<string, AttrValue>) {
+		for (const [key, value] of Object.entries(record))
+			this.#context.attrs.set(key, value)
+		return this
+	}
+
 	children(...contents: Content[]) {
 		this.#context.children.push(...contents)
 		return this
