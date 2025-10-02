@@ -1,5 +1,5 @@
 
-import {attrFns} from "./attr-fns.js"
+import {attrGet, attrSet} from "./attr-fns.js"
 
 /** a typed proxy accessor for html attributes */
 export class AttrProxies {
@@ -7,28 +7,28 @@ export class AttrProxies {
 
 	strings = new Proxy({}, {
 		get: (_t, key: string) => (
-			attrFns.get.string(this.element, key)
+			attrGet.string(this.element, key)
 		),
 		set: (_t, key: string, value: string | undefined) => (
-			attrFns.set.string(this.element, key, value)
+			attrSet.string(this.element, key, value)
 		),
 	}) as Record<string, string | undefined>
 
 	numbers = new Proxy({}, {
 		get: (_t, key: string) => (
-			attrFns.get.number(this.element, key)
+			attrGet.number(this.element, key)
 		),
 		set: (_t, key: string, value: number | undefined) => (
-			attrFns.set.number(this.element, key, value)
+			attrSet.number(this.element, key, value)
 		),
 	}) as Record<string, number | undefined>
 
 	booleans = new Proxy({}, {
 		get: (_t, key: string) => (
-			attrFns.get.boolean(this.element, key)
+			attrGet.boolean(this.element, key)
 		),
 		set: (_t, key: string, value: boolean | undefined) => (
-			attrFns.set.boolean(this.element, key, value)
+			attrSet.boolean(this.element, key, value)
 		),
 	}) as Record<string, boolean | undefined>
 }

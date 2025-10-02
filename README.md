@@ -572,11 +572,12 @@ import {dom} from "@e280/sly"
     attrs.name = undefined // removes the attr
     attrs.count = undefined // removes the attr
     ```
-    or if you wanna be more loosey-goosy, skip the spec
+    or if you wanna be more loosey-goosey, skip the spec
     ```ts
-    dom.attrs(element).strings.name = "pimsley"
-    dom.attrs(element).numbers.count = 125
-    dom.attrs(element).booleans.active = true
+    const a = dom.in(".demo").attrs
+    a.strings.name = "pimsley"
+    a.numbers.count = 125
+    a.booleans.active = true
     ```
 
 

@@ -1,6 +1,6 @@
 
+import {attrGet, attrSet} from "./attr-fns.js"
 import {AttrSpec, AttrTypes} from "../../types.js"
-import {attrFns} from "./attr-fns.js"
 
 /** specify available html attributes and their types and create a proxy accessor */
 export const attrSpec = <A extends AttrSpec>(
@@ -10,18 +10,18 @@ export const attrSpec = <A extends AttrSpec>(
 
 	get: (_target, key: string) => {
 		switch (spec[key]) {
-			case String: return attrFns.get.string(e, key)
-			case Number: return attrFns.get.number(e, key)
-			case Boolean: return attrFns.get.boolean(e, key)
+			case String: return attrGet.string(e, key)
+			case Number: return attrGet.number(e, key)
+			case Boolean: return attrGet.boolean(e, key)
 			default: throw new Error(`invalid attribute type for "${key}"`)
 		}
 	},
 
 	set: (_target, key: string, value: any) => {
 		switch (spec[key]) {
-			case String: return attrFns.set.string(e, key, value)
-			case Number: return attrFns.set.number(e, key, value)
-			case Boolean: return attrFns.set.boolean(e, key, value)
+			case String: return attrSet.string(e, key, value)
+			case Number: return attrSet.number(e, key, value)
+			case Boolean: return attrSet.boolean(e, key, value)
 			default: throw new Error(`invalid attribute type for "${key}"`)
 		}
 	},

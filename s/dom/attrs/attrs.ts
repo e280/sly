@@ -1,9 +1,9 @@
 
 import {AttrSpec} from "../types.js"
 import {onAttrs} from "./parts/on-attrs.js"
-import {attrFns} from "./parts/attr-fns.js"
 import {attrSpec} from "./parts/attr-spec.js"
 import {AttrProxies} from "./parts/attr-proxies.js"
+import {attrGet, attrSet} from "./parts/attr-fns.js"
 
 export function attrs(element: HTMLElement) {
 	const proxies = new AttrProxies(element)
@@ -16,6 +16,6 @@ export function attrs(element: HTMLElement) {
 	}
 }
 
-attrs.get = attrFns.get
-attrs.set = attrFns.set
+attrs.get = attrGet
+attrs.set = attrSet
 
