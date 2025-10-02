@@ -512,26 +512,43 @@ import {dom} from "@e280/sly"
     ```
 
 ### 🪄 dom utilities
-- `register` web components
+- `dom.register` web components
     ```ts
     dom.register({MyComponent, AnotherCoolComponent})
       // <my-component>
       // <another-cool-component>
     ```
     - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
-- `render` content into an element
+- `dom.render` content into an element
     ```ts
     dom.render(element, html`<p>hello world</p>`)
     ```
     ```ts
     dom.in(".demo").render(html`<p>hello world</p>`)
     ```
-- `el` little element builder
+- `dom.el` little element builder
     ```ts
     const div = dom.el("div", {"data-whatever": 123, "data-active": true})
       // <div data-whatever="123" data-active></div>
     ```
-- `events` <a id="dom.events"></a> to attach event listeners
+- `dom.elmer` make an element with a fluent chain
+    ```ts
+    const div = dom.elmer("div")
+      .attr("data-whatever", 123)
+      .attr("data-active")
+      .children("lol")
+      .done()
+        // HTMLElement
+    ```
+- `dom.mk` make an element with a lit template
+    ```ts
+    const div = dom.mk(html`
+      <div data-whatever="123" data-active>
+        lol
+      </div>
+    `) // HTMLElement
+    ```
+- `dom.events` <a id="dom.events"></a> to attach event listeners
     ```ts
     const detach = dom.events(element, {
       keydown: (e: KeyboardEvent) => console.log("keydown", e.code),
@@ -548,7 +565,7 @@ import {dom} from "@e280/sly"
     // unattach those event listeners when you're done
     detach()
     ```
-- `attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper
+- `dom.attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper
     ```ts
     const attrs = dom.attrs(element).spec({
       name: String,

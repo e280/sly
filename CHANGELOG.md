@@ -22,8 +22,11 @@
 - 🍏 add new `BaseElement`
 - 🍏 add new `loot` drag-and-drop system
 - 🍏 add new tool `dom.events` for attaching dom events
-- 🍏 add new tool `dom.el` for making dom elements
+- 🍏 add new tool `dom.el` for making a dom element
+- 🍏 add new tool `dom.mk` for making a dom element with lit templates
+- 🍏 add new tool `dom.elmer` for making a dom element with a fluent chain
 - 🍏 add new `spa` hash routing tools
+- 🍏 add new `use.events` tool
 - 🟥 dom multitool changes
   - `dom(element)` replaced by `dom.in(element)`
   - `dom.in(element).attrs()` replaced by `dom.in(element).attrs` (now a getter)
