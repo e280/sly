@@ -543,15 +543,15 @@ import {dom} from "@e280/sly"
     const div = dom.elmer("div")
       .attr("data-whatever", 123)
       .attr("data-active")
-      .children("lol")
+      .children("hello world")
       .done()
         // HTMLElement
     ```
-- `dom.mk` make an element with a lit template
+- `dom.mk` make an element with a lit template (returns the first)
     ```ts
     const div = dom.mk(html`
       <div data-whatever="123" data-active>
-        lol
+        hello world
       </div>
     `) // HTMLElement
     ```
