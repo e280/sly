@@ -294,10 +294,9 @@ import {html, css} from "lit"
     })
     ```
 - **use.attrs** — ergonomic typed html attribute access  
-    - `use.attrs` is a bit different than [#dom.attrs](#dom.attrs), just to properly memoize .spec and .on for the render fn
-    - use.attrs.spec
+    - `use.attrs` is similar to [#dom.attrs](#dom.attrs)
         ```ts
-        const attrs = use.attrs.spec({
+        const attrs = use.attrs({
           name: String,
           count: Number,
           active: Boolean,
@@ -308,7 +307,7 @@ import {html, css} from "lit"
         attrs.count // 123
         attrs.active // true
         ```
-    - use.attrs.(strings/numbers/booleans)
+    - use.attrs.{strings/numbers/booleans}
         ```ts
         use.attrs.strings.name // "chase"
         use.attrs.numbers.count // 123

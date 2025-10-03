@@ -1,27 +1,36 @@
 
 import {Use} from "../use.js"
 import {dom} from "../../dom/dom.js"
-import {Attrs, AttrSpec} from "../../dom/types.js"
+import {AttrSpec, AttrTypes} from "../../dom/types.js"
 
-export class UseAttrs {
-	#use: Use
-	#attrs: Attrs
+export type UseAttrs = {
+	<A extends AttrSpec>(spec: A): AttrTypes<A>
+	strings: Record<string, undefined | string>
+	numbers: Record<string, undefined | number>
+	booleans: Record<string, undefined | boolean>
+	spec<A extends AttrSpec>(spec: A): AttrTypes<A>
+	on(fn: () => void): void
+}
 
-	constructor(use: Use) {
-		this.#use = use
-		this.#attrs = dom.attrs(use.element)
+export function useAttrs(use: Use): UseAttrs {
+	const attrs = dom.attrs(use.element)
+
+	function attrsFn<A extends AttrSpec>(spec: A) {
+		return use.once(() => attrs.spec<A>(spec))
 	}
 
-	get strings() { return this.#attrs.strings }
-	get numbers() { return this.#attrs.numbers }
-	get booleans() { return this.#attrs.booleans }
+	attrsFn.strings = attrs.strings
+	attrsFn.numbers = attrs.numbers
+	attrsFn.booleans = attrs.booleans
 
-	spec<A extends AttrSpec>(spec: A) {
-		return this.#use.once(() => this.#attrs.spec(spec))
+	attrsFn.spec = <A extends AttrSpec>(spec: A) => {
+		return use.once(() => attrs.spec<A>(spec))
 	}
 
-	on(fn: () => void) {
-		return this.#use.mount(() => this.#attrs.on(fn))
+	attrsFn.on = (fn: () => void) => {
+		return use.mount(() => attrs.on(fn))
 	}
+
+	return attrsFn
 }
 

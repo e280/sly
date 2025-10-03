@@ -5,9 +5,9 @@ import {signal, SignalOptions} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
 import {Mounts} from "./utils/mounts.js"
-import {UseAttrs} from "./utils/use-attrs.js"
+import {eve, EveSpec} from "../dom/parts/eve.js"
 import {applyStyles} from "./utils/apply-styles.js"
-import { eve, EveSpec } from "../dom/parts/eve.js"
+import {useAttrs, UseAttrs} from "./utils/use-attrs.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()
@@ -45,7 +45,7 @@ export class Use {
 			public renderNow: () => void,
 			public render: () => Promise<void>,
 		) {
-		this.attrs = new UseAttrs(this)
+		this.attrs = useAttrs(this)
 	}
 
 	get renderCount() {

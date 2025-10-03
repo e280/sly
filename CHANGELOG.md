@@ -70,15 +70,7 @@
           .props(() => [a])
         ```
 - 🟥 replaced `onAttrChange(el, fn)` with `dom.attrs(el).on(fn)`
-- 🟥 reworked `use.attrs` and `dom.attrs`
-    - 😡 old bad
-        ```ts
-        use.attrs({count: Number})
-        ```
-    - 🤗 new good
-        ```ts
-        use.attrs.spec({count: Number})
-        ```
+- 🟥 renames on `use.attrs` and `dom.attrs`
     - 🧐 also did some renames
         - `.string.whatever` -> `.strings.whatever`
         - `.number.whatever` -> `.numbers.whatever`
