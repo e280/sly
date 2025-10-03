@@ -1,6 +1,6 @@
 
 import {css} from "lit"
-import {nap, repeat} from "@e280/stz"
+import {nap, cycle} from "@e280/stz"
 
 import {view} from "../../view/view.js"
 import {Content} from "../../view/types.js"
@@ -20,7 +20,7 @@ export const AsciiAnim = view(use => ({hz, frames}: {
 
 	const frame = use.signal(0)
 
-	use.mount(() => repeat(async() => {
+	use.mount(() => cycle(async() => {
 		await nap(1000 / hz)
 		const next = frame.get() + 1
 		frame.set(next >= frames.length ? 0 : next)

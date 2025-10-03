@@ -346,14 +346,14 @@ import {html, css} from "lit"
     ```
 
 ### 🍋 "use" recipes
-- make a ticker — mount, repeat, and nap
+- make a ticker — mount, cycle, and nap
     ```ts
-    import {repeat, nap} from "@e280/stz"
+    import {cycle, nap} from "@e280/stz"
     ```
     ```ts
     const $seconds = use.signal(0)
 
-    use.mount(() => repeat(async() => {
+    use.mount(() => cycle(async() => {
       await nap(1000)
       $seconds.value++
     }))
