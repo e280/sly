@@ -8,6 +8,7 @@ import {Mounts} from "./utils/mounts.js"
 import {eve, EveSpec} from "../dom/parts/eve.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {useAttrs, UseAttrs} from "./utils/use-attrs.js"
+import { States } from "./utils/states.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()
@@ -93,6 +94,10 @@ export class Use {
 
 	events(spec: EveSpec) {
 		return this.mount(() => eve(this.element, spec))
+	}
+
+	states() {
+		return this.once(() => new States(this.element))
 	}
 
 	op = (() => {

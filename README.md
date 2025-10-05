@@ -293,6 +293,15 @@ import {html, css} from "lit"
       keyup: (e: KeyboardEvent) => console.log("keyup", e.code),
     })
     ```
+- **use.states** — [internal states](https://developer.mozilla.org/en-US/docs/Web/API/ElementInternals/states) helper  
+    ```ts
+    const states = use.states()
+    states.assign("active", "cool")
+    ```
+    ```css
+    [view="my-view"]::state(active) { color: yellow; }
+    [view="my-view"]::state(cool) { outline: 1px solid cyan; }
+    ```
 - **use.attrs** — ergonomic typed html attribute access  
     - `use.attrs` is similar to [#dom.attrs](#dom.attrs)
         ```ts

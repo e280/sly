@@ -27,6 +27,7 @@
 - 🍏 add new tool `dom.elmer` for making a dom element with a fluent chain
 - 🍏 add new `spa` hash routing tools
 - 🍏 add new `use.events` tool
+- 🍏 add new `use.states` tool, export `States` too
 - 🟥 dom multitool changes
   - `dom(element)` replaced by `dom.in(element)`
   - `dom.in(element).attrs()` replaced by `dom.in(element).attrs` (now a getter)
