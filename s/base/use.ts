@@ -96,8 +96,8 @@ export class Use {
 		return this.mount(() => eve(this.element, spec))
 	}
 
-	states() {
-		return this.once(() => new States(this.element))
+	states<S extends string = string>() {
+		return this.once(() => new States<S>(this.element))
 	}
 
 	op = (() => {
