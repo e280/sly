@@ -19,6 +19,14 @@ export class States<S extends string = string> {
 		return this
 	}
 
+	get size() {
+		return this.#states.size
+	}
+
+	has(state: S) {
+		return this.#states.has(state)
+	}
+
 	add(...states: S[]) {
 		for (const s of states) this.#states.add(s)
 		return this
@@ -35,9 +43,7 @@ export class States<S extends string = string> {
 	}
 
 	assign(...states: S[]) {
-		this.#states.forEach(s => this.#states.delete(s))
-		for (const s of states) this.#states.add(s)
-		return this
+		return this.clear().add(...states)
 	}
 }
 
