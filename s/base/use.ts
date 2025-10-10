@@ -1,14 +1,14 @@
 
 import {CSSResultGroup} from "lit"
-import {defer, MapG} from "@e280/stz"
+import {defer, GMap} from "@e280/stz"
 import {signal, SignalOptions} from "@e280/strata/signals"
 
 import {Op} from "../ops/op.js"
 import {Mounts} from "./utils/mounts.js"
+import {States} from "./utils/states.js"
 import {eve, EveSpec} from "../dom/parts/eve.js"
 import {applyStyles} from "./utils/apply-styles.js"
 import {useAttrs, UseAttrs} from "./utils/use-attrs.js"
-import { States } from "./utils/states.js"
 
 export const _wrap = Symbol()
 export const _disconnect = Symbol()
@@ -19,7 +19,7 @@ export class Use {
 
 	#runs = 0
 	#position = 0
-	#values = new MapG<number, any>()
+	#values = new GMap<number, any>()
 	#rendered = defer()
 	#mounts = new Mounts()
 

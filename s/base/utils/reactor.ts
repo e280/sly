@@ -1,9 +1,9 @@
 
-import {MapG} from "@e280/stz"
+import {GMap} from "@e280/stz"
 import {tracker} from "@e280/strata"
 
 export class Reactor {
-	#map = new MapG<any, () => void>()
+	#map = new GMap<any, () => void>()
 
 	effect<R>(collect: () => R, respond: () => Promise<void>) {
 		const {seen, result} = tracker.observe(collect)
