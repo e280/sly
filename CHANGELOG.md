@@ -10,6 +10,12 @@
 
 ## v0.2
 
+### v0.2.2
+- 🍏 add "naked" views, which are for advanced custom integrations and adapters
+
+### v0.2.1
+- 🍏 update deps
+
 ### v0.2.0
 - 🍏 subpackage exports
   - `@e280/sly`
