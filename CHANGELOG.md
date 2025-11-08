@@ -12,6 +12,7 @@
 
 ### v0.2.2
 - 🍏 add "naked" views, which are for advanced custom integrations and adapters
+- 🍏 update deps
 
 ### v0.2.1
 - 🍏 update deps
