@@ -1,12 +1,14 @@
 
 import {Constructor} from "@e280/stz"
 import {DirectiveResult} from "lit/async-directive.js"
-import {View, ViewFn} from "../types.js"
+
+import {NakedView, View, ViewFn} from "../types.js"
 import {ViewChain} from "./parts/chain.js"
-import {BaseElement} from "../../base/element.js"
 import {ViewContext} from "./parts/context.js"
+import {BaseElement} from "../../base/element.js"
 import {makeComponent} from "./make-component.js"
 import {makeViewDirective} from "./parts/directive.js"
+import {NakedContext, NakedCapsule} from "./parts/naked.js"
 
 export function makeView<Props extends any[]>(
 		viewFn: ViewFn<Props>,
@@ -42,6 +44,14 @@ export function makeView<Props extends any[]>(
 			)
 		)
 	})
+
+	v.naked = (host: HTMLElement): NakedView<Props> => {
+		const naked = new NakedCapsule(host, viewFn, settings)
+		return {
+			host,
+			render: (...props: Props) => naked.update(new NakedContext(props)),
+		}
+	}
 
 	return v
 }

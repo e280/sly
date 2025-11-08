@@ -2,20 +2,26 @@
 import {debounce} from "@e280/stz"
 import {ViewFn} from "../../types.js"
 import {dom} from "../../../dom/dom.js"
-import {ViewContext} from "./context.js"
+import {AttrValue} from "../../../dom/types.js"
 import {Reactor} from "../../../base/utils/reactor.js"
 import {attrSet} from "../../../dom/attrs/parts/attr-fns.js"
 import {AttrWatcher} from "../../../base/utils/attr-watcher.js"
 import {_disconnect, _reconnect, _wrap, Use} from "../../../base/use.js"
 
+/** the information we need to render a view. */
+export class NakedContext<Props extends any[]> {
+	attrs = new Map<string, AttrValue>()
+	constructor(public props: Props) {}
+}
+
 /** controls the rendering of view context into an element. */
-export class ViewCapsule<Props extends any[]> {
+export class NakedCapsule<Props extends any[]> {
 	#element: HTMLElement
 	#reactor = new Reactor()
 
 	#use: Use
 	#shadow: ShadowRoot
-	#context!: ViewContext<Props>
+	#context!: NakedContext<Props>
 	#attrWatcher: AttrWatcher
 
 	constructor(
@@ -34,7 +40,7 @@ export class ViewCapsule<Props extends any[]> {
 		this.#attrWatcher = new AttrWatcher(this.#element, () => this.#renderDebounced())
 	}
 
-	update(context: ViewContext<Props>) {
+	update(context: NakedContext<Props>) {
 		this.#context = context
 		this.#renderNow()
 		return this.#element
@@ -48,7 +54,6 @@ export class ViewCapsule<Props extends any[]> {
 			)
 			attrSet.entries(this.#element, this.#context.attrs)
 			dom.render(this.#shadow, content)
-			dom.render(this.#element, this.#context.children)
 			this.#attrWatcher.start()
 		})
 	}

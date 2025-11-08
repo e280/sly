@@ -24,6 +24,7 @@ export type View<Props extends any[]> = {
 			ComponentClass<B, Props>
 		)
 	}
+	naked: (host: HTMLElement) => NakedView<Props>
 }
 
 export type ViewProps<V extends View<any>> = (
@@ -36,4 +37,9 @@ export type ComponentClass<B extends Constructor<BaseElement>, Props extends any
 	view: View<Props>
 	new(): InstanceType<B>
 } & B
+
+export type NakedView<Props extends any[]> = {
+	host: HTMLElement
+	render: (...props: Props) => void
+}
 

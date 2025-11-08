@@ -1,5 +1,7 @@
 
 import {AsyncDirective, directive, DirectiveResult} from "lit/async-directive.js"
+
+import {SlyView} from "./sly-view.js"
 import {ViewFn} from "../../types.js"
 import {ViewCapsule} from "./capsule.js"
 import {ViewContext} from "./context.js"
@@ -11,7 +13,8 @@ export function makeViewDirective<Props extends any[]>(
 	) {
 
 	return directive(class ViewDirective extends AsyncDirective {
-		#capsule = new ViewCapsule(viewFn, settings)
+		#host = SlyView.make()
+		#capsule = new ViewCapsule(this.#host, viewFn, settings)
 
 		render(context: ViewContext<Props>) {
 			return this.#capsule.update(context)
