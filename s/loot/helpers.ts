@@ -13,19 +13,9 @@ export function files(event: DragEvent) {
 }
 
 export function outsideCurrentTarget(event: DragEvent) {
-	const isCursorOutsideViewport = !event.relatedTarget || (
-		event.clientX === 0 &&
-		event.clientY === 0
-	)
-
-	if (isCursorOutsideViewport)
-		return true
-
-	const rect = (event.currentTarget as any).getBoundingClientRect()
-	const withinX = event.clientX >= rect.left && event.clientX <= rect.right
-	const withinY = event.clientY >= rect.top && event.clientY <= rect.bottom
-	const cursorOutsideCurrentTarget = !(withinX && withinY)
-
-	return cursorOutsideCurrentTarget
+	const currentTarget = event.currentTarget as HTMLElement
+	const relatedTarget = event.relatedTarget as HTMLElement
+	const nulled = !currentTarget || !relatedTarget
+	return nulled || !currentTarget.contains(relatedTarget)
 }
 
