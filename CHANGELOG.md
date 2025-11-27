@@ -10,6 +10,9 @@
 
 ## v0.2
 
+### v0.2.4
+- 🍏 fix a bug in `use.life` hooks
+
 ### v0.2.3
 - 🔶 reimplement behavior of `loot.outsideCurrentTarget` to fix a bug
 - 🍏 added `Life<V>` type and `asLife` and `asLifeFn` helpers
