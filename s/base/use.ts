@@ -49,35 +49,47 @@ export class Use {
 		this.attrs = useAttrs(this)
 	}
 
+	/** number of times this view has been rendered */
 	get renderCount() {
 		return this.#runs
 	}
 
+	/** promise that resolves when this view next renders */
 	get rendered() {
 		return this.#rendered.promise
 	}
 
+	/** set the 'name' html attribute on the host element */
 	name(name: string) {
 		this.once(() => this.element.setAttribute("view", name))
 	}
 
+	/** attach stylesheets into the view's shadow dom */
 	styles(...styles: CSSResultGroup[]) {
 		this.once(() => applyStyles(this.shadow, styles))
 	}
 	
-	/** alias for 'styles' */
+	/** attach stylesheets into the view's shadow dom (alias for 'styles') */
 	css(...styles: CSSResultGroup[]) {
 		return this.styles(...styles)
 	}
 
+	/** run a fn at initialization, and return a value */
 	once<V>(fn: () => V) {
 		return this.#values.guarantee(this.#position++, fn) as V
 	}
 
+	/** setup a mount/unmount lifecycle (your mount fn returns an unmount fn) */
 	mount(fn: () => () => void) {
 		return this.once(() => this.#mounts.mount(fn))
 	}
 
+	/** run fn each time mounted, return a value */
+	wake<V>(fn: () => V) {
+		return this.life(() => [fn(), () => {}])
+	}
+
+	/** mount/unmount lifecycle, but also return a value */
 	life<V>(fn: () => [result: V, dispose: () => void]) {
 		let r: V | undefined
 		this.mount(() => {
@@ -88,18 +100,17 @@ export class Use {
 		return r as V
 	}
 
-	wake<V>(fn: () => V) {
-		return this.life(() => [fn(), () => {}])
-	}
-
+	/** attach event listeners on mount (they get cleaned up on unmount) */
 	events(spec: EveSpec) {
 		return this.mount(() => eve(this.element, spec))
 	}
 
+	/** helper for setting up internal states (its a dom api, look up `ElementInternals: states`) */
 	states<S extends string = string>() {
 		return this.once(() => new States<S>(this.element))
 	}
 
+	/** setup typed html attribute access */
 	op = (() => {
 		const that = this
 		function op<V>(f: () => Promise<V>) {
@@ -110,6 +121,7 @@ export class Use {
 		return op
 	})()
 
+	/** use a strata signal */
 	signal = (() => {
 		const that = this
 		function sig<V>(value: V, options?: Partial<SignalOptions>) {
@@ -124,10 +136,12 @@ export class Use {
 		return sig
 	})()
 
+	/** use a derived strata signal */
 	derived<V>(formula: () => V, options?: Partial<SignalOptions>) {
 		return this.once(() => signal.derived<V>(formula, options))
 	}
 
+	/** use a lazy strata signal */
 	lazy<V>(formula: () => V, options?: Partial<SignalOptions>) {
 		return this.once(() => signal.lazy<V>(formula, options))
 	}
