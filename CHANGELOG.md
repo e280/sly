@@ -13,6 +13,8 @@
 ### v0.2.3
 - 🔶 reimplement behavior of `loot.outsideCurrentTarget` to fix a bug
 - 🍏 added `Life<V>` type and `asLife` and `asLifeFn` helpers
+- 🍏 allow ShadowRoot in `dom.in(shadow)`
+- 🍏 add doc comments to `Use` methods
 
 ### v0.2.2
 - 🍏 add "naked" views, which are for advanced custom integrations and adapters
