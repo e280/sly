@@ -90,14 +90,14 @@ export class Use {
 	}
 
 	/** mount/unmount lifecycle, but also return a value */
-	life<V>(fn: () => [result: V, dispose: () => void]) {
-		let r: V | undefined
+	life<V>(fn: () => [value: V, dispose: () => void]) {
+		const box = this.once(() => ({value: undefined as V}))
 		this.mount(() => {
-			const [result, dispose] = fn()
-			r = result
+			const [value, dispose] = fn()
+			box.value = value
 			return dispose
 		})
-		return r as V
+		return box.value
 	}
 
 	/** attach event listeners on mount (they get cleaned up on unmount) */
