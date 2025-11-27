@@ -15,7 +15,7 @@ export function dom<E extends Element>(selector: string, container: Queryable = 
 	return queryRequire<E>(selector, container)
 }
 
-dom.in = <E extends HTMLElement>(selectorOrElement: string | E, container: Queryable = document) => {
+dom.in = <E extends Queryable>(selectorOrElement: string | E, container: Queryable = document) => {
 	return new Dom(container).in(selectorOrElement)
 }
 

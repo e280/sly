@@ -11,7 +11,7 @@ export class Dom<C extends Queryable> {
 
 	constructor(public element: C) {}
 
-	in<E extends HTMLElement>(selectorOrElement: string | E) {
+	in<E extends Queryable>(selectorOrElement: string | E) {
 		return new Dom<E>(
 			(typeof selectorOrElement === "string")
 				? queryRequire(selectorOrElement, this.element) as E
