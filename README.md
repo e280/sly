@@ -4,9 +4,8 @@
 # 🦝 sly
 > *mischievous shadow views*
 
-[@e280](https://e280.org/)'s new [lit](https://lit.dev/)-based frontend webdev library. *(sly replaces its predecessor, [slate](https://github.com/benevolent-games/slate))*
+[@e280](https://e280.org/)'s new [lit](https://lit.dev/)-based frontend webdev library.
 
-- **✨[shiny](https://shiny.e280.org/)✨** — our wip component library https://shiny.e280.org/
 - 🍋 [**#views**](#views) — shadow-dom'd, hooks-based, componentizable
 - 🪵 [**#base-element**](#base-element) — for a more classical experience
 - 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
@@ -14,7 +13,8 @@
 - ⏳ [**#loaders**](#loaders) — animated loading spinners for rendering ops
 - 💅 [**#spa**](#spa) — hash routing for your spa-day
 - 🪙 [**#loot**](#loot) — drag-and-drop facilities
-- 🧪 testing page — https://sly.e280.org/
+- 🧪 https://sly.e280.org/ — our testing page
+- **✨[shiny](https://shiny.e280.org/)✨** — our wip component library
 
 
 
