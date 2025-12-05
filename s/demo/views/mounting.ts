@@ -25,10 +25,10 @@ export const TestAlpha = view(() => () => {
 
 export const TestCharlie = view(use => () => {
 	use.mount(() => {
-		console.log("mount")
-
-		// TODO error, this unmount is never called!
-		return () => console.log("unmount")
+		// console.log("mount")
+		return () => {
+			// console.log("unmount")
+		}
 	})
 
 	return html`charlie`
