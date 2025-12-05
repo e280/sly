@@ -10,6 +10,9 @@
 
 ## v0.2
 
+### v0.2.5
+- 🍏 fix subview mount/unmount
+
 ### v0.2.4
 - 🍏 fix a bug in `use.life` hooks
 

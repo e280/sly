@@ -1,4 +1,5 @@
 
+import {RootPart} from "lit"
 import {debounce} from "@e280/stz"
 import {ViewFn} from "../../types.js"
 import {dom} from "../../../dom/dom.js"
@@ -17,6 +18,8 @@ export class ViewCapsule<Props extends any[]> {
 	#shadow: ShadowRoot
 	#context!: ViewContext<Props>
 	#attrWatcher: AttrWatcher
+	#partShadow?: RootPart
+	#partElement?: RootPart
 
 	constructor(
 			host: HTMLElement,
@@ -47,8 +50,8 @@ export class ViewCapsule<Props extends any[]> {
 				() => this.#renderDebounced(),
 			)
 			attrSet.entries(this.#element, this.#context.attrs)
-			dom.render(this.#shadow, content)
-			dom.render(this.#element, this.#context.children)
+			this.#partShadow = dom.render(this.#shadow, content)
+			this.#partElement = dom.render(this.#element, this.#context.children)
 			this.#attrWatcher.start()
 		})
 	}
@@ -56,6 +59,8 @@ export class ViewCapsule<Props extends any[]> {
 	#renderDebounced = debounce(0, this.#renderNow)
 
 	disconnected() {
+		this.#partShadow?.setConnected(false)
+		this.#partElement?.setConnected(false)
 		this.#use[_disconnect]()
 		this.#reactor.clear()
 		this.#attrWatcher.stop()
@@ -64,6 +69,8 @@ export class ViewCapsule<Props extends any[]> {
 	reconnected() {
 		this.#use[_reconnect]()
 		this.#attrWatcher.start()
+		this.#partShadow?.setConnected(true)
+		this.#partElement?.setConnected(true)
 	}
 }
 

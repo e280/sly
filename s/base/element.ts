@@ -1,5 +1,6 @@
 
 import {debounce} from "@e280/stz"
+import type {RootPart} from "lit-html"
 import {CSSResultGroup} from "lit"
 
 import {dom} from "../dom/dom.js"
@@ -18,6 +19,7 @@ export class BaseElement extends HTMLElement {
 	#mountCount = 0
 	#reactor = new Reactor()
 	#attrWatcher = new AttrWatcher(this, () => this.update())
+	#part?: RootPart
 
 	/** create the shadow root. override this if you want to change the shadow root settings. */
 	createShadow() {
@@ -41,7 +43,7 @@ export class BaseElement extends HTMLElement {
 	/** immediately perform a fresh render into the shadow root. */
 	updateNow = () => {
 		this.#use[_wrap](() => {
-			dom.render(
+			this.#part = dom.render(
 				this.shadow,
 				this.#reactor.effect(
 					() => this.render(this.#use),
@@ -62,15 +64,16 @@ export class BaseElement extends HTMLElement {
 		}
 		else {
 			this.#use[_reconnect]()
+			this.#part?.setConnected(true)
 		}
 		this.#attrWatcher.start()
 		this.#mountCount++
 	}
 
 	disconnectedCallback() {
+		this.#part?.setConnected(false)
 		this.#use[_disconnect]()
 		this.#reactor.clear()
 		this.#attrWatcher.stop()
 	}
 }
-
