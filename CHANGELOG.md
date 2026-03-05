@@ -3,12 +3,16 @@
 - 🟥 breaking change
 - 🔶 deprecation or possible breaking change
 - 🍏 harmless addition, fix, or enhancement
+- 🎉 wonderful
 
 
 
 <br/><br/>
 
 ## v0.2
+
+### v0.2.6
+- 🍏 **BIG!!** add new experimental `light()` view and react-style hooks!
 
 ### v0.2.5
 - 🍏 fix subview mount/unmount
