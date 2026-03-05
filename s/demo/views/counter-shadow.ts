@@ -1,8 +1,9 @@
 
 import {css, html} from "lit"
-import {shadow, useCss, useSignal} from "../../ui/index.js"
+import {shadow, useCss, useName, useSignal} from "../../ui/index.js"
 
 export const CounterShadow = shadow((start: number) => {
+	useName("counter-shadow")
 	useCss(css`button { color: cyan; }`)
 
 	const $count = useSignal(start)
