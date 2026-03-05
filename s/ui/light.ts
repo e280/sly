@@ -2,24 +2,23 @@
 import {tracker} from "@e280/strata"
 import {microbounce} from "@e280/stz"
 
-import {RenderFn, Viewy} from "./types.js"
+import {ContentFn, LightCx} from "./types.js"
 import {Scope} from "./hooks/plumbing/scope.js"
 import {station} from "./hooks/plumbing/station.js"
 import {AsyncDirective, directive} from "lit/async-directive.js"
 
-export function light<Props extends any[]>(render: RenderFn<Props>) {
+export function light<Props extends any[]>(render: ContentFn<Props>) {
 	return directive(class D extends AsyncDirective {
 		#props!: Props
-		#view: Viewy = {
-			render: microbounce(() => {
-				if (!this.#props) throw new Error("cannot render before props")
-				if (this.isConnected) {
-					const content = this.render(...this.#props)
-					this.setValue(content)
-				}
-			}),
-		}
-		#scope = new Scope(this.#view)
+		#rerender = microbounce(() => {
+			if (!this.#props) throw new Error("cannot render before props")
+			if (this.isConnected) {
+				const content = this.render(...this.#props)
+				this.setValue(content)
+			}
+		})
+		#cx = new LightCx(this.#rerender)
+		#scope = new Scope(this.#cx)
 		#stoppers: (() => void)[] = []
 
 		#stop() {
@@ -34,7 +33,7 @@ export function light<Props extends any[]>(render: RenderFn<Props>) {
 				return station.wrap(this.#scope, () => render(...this.#props))
 			})
 			for (const item of seen) {
-				const stop = tracker.subscribe(item, this.#view.render)
+				const stop = tracker.subscribe(item, this.#cx.render)
 				this.#stoppers.push(stop)
 			}
 			return result
@@ -47,8 +46,8 @@ export function light<Props extends any[]>(render: RenderFn<Props>) {
 
 		reconnected() {
 			this.#scope.mounts.remountAll()
-			this.#view.render()
+			this.#cx.render()
 		}
-	}) as RenderFn<Props>
+	}) as ContentFn<Props>
 }
 

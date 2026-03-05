@@ -1,9 +1,9 @@
 
 import {useRef} from "./use-ref.js"
-import {useView} from "./use-view.js"
+import {useRender} from "./use-cx.js"
 
 export function useState<Value>(value: Value) {
-	const {render} = useView()
+	const render = useRender()
 	const ref = useRef(value)
 
 	const set = (next: Value | ((prev: Value) => Value)) => {
