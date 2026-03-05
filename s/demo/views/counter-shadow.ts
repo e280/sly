@@ -2,7 +2,7 @@
 import {css, html} from "lit"
 import {shadow, useCss, useSignal} from "../../ui/index.js"
 
-export const CounterBeta = shadow((start: number) => {
+export const CounterShadow = shadow((start: number) => {
 	useCss(css`button { color: cyan; }`)
 
 	const $count = useSignal(start)
