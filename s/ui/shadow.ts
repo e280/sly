@@ -39,6 +39,7 @@ const rawShadow = <Props extends any[]>(
 		if (this.isConnected) {
 			const content = this.#renderContent(this.#props)
 			render(content, this.#cx.shadow)
+			this.#cx.doneRender()
 		}
 	})
 
@@ -68,9 +69,12 @@ const rawShadow = <Props extends any[]>(
 	}
 
 	render(...props: Props) {
-		const content = this.#renderContent(props)
-		render(content, this.#cx.shadow)
-		return this.#cx.host
+		const {host} = this.#cx
+		if (!this.isConnected)
+			return host
+		render(this.#renderContent(props), this.#cx.shadow)
+		this.#cx.doneRender()
+		return host
 	}
 
 	disconnected() {
