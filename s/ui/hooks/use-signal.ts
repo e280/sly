@@ -14,6 +14,3 @@ export function useLazy<Value>(fn: () => Value) {
 	return useOnce(() => signal.lazy(fn))
 }
 
-useSignal.derived = useDerived
-useSignal.lazy = useLazy
-
