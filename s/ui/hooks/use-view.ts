@@ -1,8 +1,8 @@
 
 import {station} from "./plumbing/station.js"
 
-export function useHeart() {
+export function useView() {
 	const {scope} = station.increment()
-	return scope.heart
+	return scope.view
 }
 

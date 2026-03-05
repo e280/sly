@@ -1,9 +1,8 @@
 
-import {station} from "./plumbing/station.js"
+import {useOnce} from "./use-once.js"
 
 export function useRef<Value>(value: Value) {
-	const {scope, position} = station.increment()
-	return scope.refs.guarantee(position, () => new Ref(value))
+	return useOnce(() => new Ref(value))
 }
 
 export class Ref<Value> {

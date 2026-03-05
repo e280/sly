@@ -1,10 +1,9 @@
 
 import {html} from "lit"
-import {signal} from "@e280/strata"
-import {light, useOnce} from "../../ui/index.js"
+import {light, useSignal} from "../../ui/index.js"
 
 export const CounterAlpha = light((start: number) => {
-	const $count = useOnce(() => signal(start))
+	const $count = useSignal(start)
 	const add = () => { $count.value++ }
 
 	return html`
