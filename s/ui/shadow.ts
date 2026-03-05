@@ -3,9 +3,10 @@ import {render} from "lit"
 import {tracker} from "@e280/strata"
 import {microbounce} from "@e280/stz"
 
+import {ShadowCx} from "./parts/cx.js"
 import {Scope} from "./hooks/plumbing/scope.js"
+import {ContentFn, ShadowSetup} from "./types.js"
 import {station} from "./hooks/plumbing/station.js"
-import {ContentFn, ShadowCx, ShadowSetup} from "./types.js"
 import {AsyncDirective, directive, PartInfo} from "lit/async-directive.js"
 
 export function shadow<Props extends any[]>(viewFn: ContentFn<Props>) {

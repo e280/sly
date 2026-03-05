@@ -2,7 +2,8 @@
 import {tracker} from "@e280/strata"
 import {microbounce} from "@e280/stz"
 
-import {ContentFn, LightCx} from "./types.js"
+import {ContentFn} from "./types.js"
+import {LightCx} from "./parts/cx.js"
 import {Scope} from "./hooks/plumbing/scope.js"
 import {station} from "./hooks/plumbing/station.js"
 import {AsyncDirective, directive} from "lit/async-directive.js"

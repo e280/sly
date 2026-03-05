@@ -1,5 +1,5 @@
 
-import {ShadowCx} from "../types.js"
+import {ShadowCx} from "../parts/cx.js"
 import {station} from "./plumbing/station.js"
 
 function useCx() {
