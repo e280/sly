@@ -5,6 +5,7 @@ import {view} from "../../view/view.js"
 import {CounterView} from "./counter.js"
 import {LoadersView} from "./loaders.js"
 import {MountingTest} from "./mounting.js"
+import {CounterBeta} from "./counter-beta.js"
 import {CounterAlpha} from "./counter-alpha.js"
 import {cssReset} from "../../base/css-reset.js"
 
@@ -18,6 +19,11 @@ export class DemoComponent extends (view.component(use => {
 		<div>
 			<span>new light view:</span>
 			${CounterAlpha(123)}
+		</div>
+
+		<div>
+			<span>new shadow view:</span>
+			${CounterBeta(234)}
 		</div>
 
 		${CounterView
