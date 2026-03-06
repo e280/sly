@@ -64,6 +64,11 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       ${MyCounter(123)}
     `)
     ```
+    - light views have no host element, rendered output looks like:
+        ```html
+        <h1>my cool counter demo</h1>
+        <button>123</button>
+        ```
 - **light views are naked,** they don't have a containing host element
 
 ### 🌚 shadow views
@@ -75,7 +80,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     import {shadow, useName, useCss, useSignal} from "@e280/sly"
 
     export const MyShadowCounter = shadow((start: number) => {
-      useName("shadow-counter")
+      useName("counter")
       useCss(css`button { color: cyan }`)
 
       const $count = useSignal(start)
@@ -94,6 +99,11 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       ${MyShadowCounter(234)}
     `)
     ```
+    - shadow views have a host element, rendered output looks like:
+        ```html
+        <h1>my cool counter demo</h1>
+        <sly-shadow view="counter"></sly-shadow>
+        ```
 - **.with to nest children or set attrs**
     ```ts
     dom.render(dom(".demo"), html`
@@ -108,17 +118,19 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       })}
     `)
     ```
-- **you can do custom shadow config if needed**
+- **you can do custom shadow config if needed** (default shown)
     ```ts
+    import {SlyShadow} from "@e280/sly"
+
     const customShadow = shadow.config(() => {
-      const host = document.createElement("div")
+      SlyShadow.register()
+      const host = document.createElement("sly-shadow")
       const shadow = host.attachShadow({mode: "open"})
       return {host, shadow}
     })
 
     const MyShadowView = customShadow(() => html`<p>shrouded in darkness</p>`)
     ```
-- **shadow views are rendered inside** a `<sly-shadow>` host element by default
 
 
 
