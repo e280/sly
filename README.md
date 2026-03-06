@@ -177,12 +177,10 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     // write the signal
     $count(2)
     ```
-    - see [strata readme](https://github.com/e280/strata)
 - **useDerived,** create a [strata](https://github.com/e280/strata) derived signal
     ```ts
     const $product = useDerived(() => $count() * $whatever())
     ```
-    - see [strata readme](https://github.com/e280/strata)
 - **useOnce,** run fn at initialization, and return a value
     ```ts
     const whatever = useOnce(() => {
