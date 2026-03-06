@@ -4,46 +4,26 @@
 # 🦝 sly
 > *mischievous shadow views*
 
+```sh
+npm install lit @e280/sly @e280/strata @e280/stz
+```
+
 [@e280](https://e280.org/)'s new [lit](https://lit.dev/)-based frontend webdev library.
 
 - 🍋 [**#views**](#views) — hooks-based, shadow-dom'd, template-literal'd
-- 🪵 [**#base-element**](#base-element) — for a more classical experience
 - 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
 - 🫛 [**#ops**](#ops) — reactive tooling for async operations
 - ⏳ [**#loaders**](#loaders) — animated loading spinners for rendering ops
-- 💅 [**#spa**](#spa) — hash routing for your spa-day
 - 🪙 [**#loot**](#loot) — drag-and-drop facilities
 - 🧪 https://sly.e280.org/ — our testing page
-- **✨[shiny](https://shiny.e280.org/)✨** — our wip component library
-
-
-
-<br/><br/>
-
-## 🦝 sly and friends
-> `@e280/sly`  
-
-```sh
-npm install @e280/sly lit @e280/strata @e280/stz
-```
-
-> [!NOTE]
-> - 🔥 [lit](https://lit.dev/), for html rendering
-> - ⛏️ [@e280/strata](https://github.com/e280/strata), for state management (signals, state trees)
-> - 🏂 [@e280/stz](https://github.com/e280/stz), our ts standard library
-> - 🐢 [@e280/scute](https://github.com/e280/scute), our buildy-bundly-buddy
-
-> [!TIP]
-> you can import everything in sly from `@e280/sly`,  
-> or from specific subpackages like `@e280/sly/view`, `@e280/sly/dom`, etc...
 
 
 
 <br/><br/>
 <a id="views"></a>
 
-## 🍋🦝 sly views
-> *modern views, in lightness, or darkness...*  
+## 🍋🦝 sly views — `@e280/sly/view`
+> *modern views.. in lightness, or darkness..*  
 
 - 🪶 **no compile step** — just god's honest javascript, via [lit](https://lit.dev/)-html tagged-template-literals
 - 🪝 **hooks-based** — declarative rendering with [modern hooks](#hooks) familiar to react devs
@@ -273,8 +253,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 <br/><br/>
 <a id="dom"></a>
 
-## 🪄🦝 sly dom
-> `@e280/sly/dom`  
+## 🪄🦝 sly dom — `@e280/sly/dom`
 > *the "it's not jquery!" multitool*  
 
 ```ts
@@ -420,8 +399,7 @@ import {dom} from "@e280/sly"
 <br/><br/>
 <a id="ops"></a>
 
-## 🫛🦝 sly ops
-> `@e280/sly/ops`  
+## 🫛🦝 sly ops — `@e280/sly/ops`
 > *tools for async operations and loading spinners*  
 
 ```ts
@@ -530,8 +508,7 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
 <br/><br/>
 <a id="loaders"></a>
 
-## ⏳🦝 sly loaders
-> `@e280/sly/loaders`  
+## ⏳🦝 sly loaders — `@e280/sly/loaders`
 > *animated loading spinners for ops*  
 
 ```ts
@@ -566,8 +543,7 @@ import {loaders} from "@e280/sly"
 <br/><br/>
 <a id="loot"></a>
 
-## 🪙🦝 loot
-> `@e280/sly/loot`  
+## 🪙🦝 loot — `@e280/sly/loot`
 > *drag-and-drop facilities*  
 
 ```ts
