@@ -1,14 +1,14 @@
 
 import {microbounce} from "@e280/stz"
 
-import {ContentFn} from "./types.js"
+import {View} from "./types.js"
 import {LightCx} from "./parts/cx.js"
 import {hooks} from "./hooks/plumbing/hooks.js"
 import {Reactivity} from "./parts/reactivity.js"
 import {Hookscope} from "./hooks/plumbing/hookscope.js"
 import {AsyncDirective, directive, Part} from "lit/async-directive.js"
 
-export function light<Props extends any[]>(contentFn: ContentFn<Props>) {
+export function light<Props extends any[]>(view: View<Props>) {
 	return directive(class D extends AsyncDirective {
 		#props!: Props
 		#cx = new LightCx(microbounce(() => {
@@ -31,7 +31,7 @@ export function light<Props extends any[]>(contentFn: ContentFn<Props>) {
 		render(...props: Props) {
 			this.#props = props
 			return this.#reactivity.observe(
-				() => hooks.wrap(this.#hookscope, () => contentFn(...this.#props)),
+				() => hooks.wrap(this.#hookscope, () => view(...this.#props)),
 				this.#cx.render,
 			)
 		}
@@ -45,6 +45,6 @@ export function light<Props extends any[]>(contentFn: ContentFn<Props>) {
 			this.#hookscope.mounts.remountAll()
 			this.#cx.render()
 		}
-	}) as ContentFn<Props>
+	}) as View<Props>
 }
 

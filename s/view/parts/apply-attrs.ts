@@ -1,12 +1,12 @@
 
-import {PrimitiveAttr, PrimitiveAttrs} from "../types.js"
+import {ViewAttr, ViewAttrs} from "../types.js"
 
-export function applyAttrs(element: HTMLElement, attrs: PrimitiveAttrs) {
+export function applyAttrs(element: HTMLElement, attrs: ViewAttrs) {
 	for (const [name, value] of Object.entries(attrs))
 		applyAttr(element, name, value)
 }
 
-function applyAttr(element: HTMLElement, name: string, value: PrimitiveAttr) {
+function applyAttr(element: HTMLElement, name: string, value: ViewAttr) {
 	const existing = element.getAttribute(name)
 	const v = coerce(value)
 	if (v === existing) return
@@ -14,7 +14,7 @@ function applyAttr(element: HTMLElement, name: string, value: PrimitiveAttr) {
 	else element.setAttribute(name, v)
 }
 
-function coerce(value: PrimitiveAttr) {
+function coerce(value: ViewAttr) {
 	if (typeof value === "string") return value
 	else if (typeof value === "number") return value.toString()
 	return value ? "" : null

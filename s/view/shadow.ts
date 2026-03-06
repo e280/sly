@@ -9,28 +9,28 @@ import {hooks} from "./hooks/plumbing/hooks.js"
 import {Reactivity} from "./parts/reactivity.js"
 import {applyAttrs} from "./parts/apply-attrs.js"
 import {Hookscope} from "./hooks/plumbing/hookscope.js"
-import {ContentFn, Placement, ShadowSetup, ShadowView} from "./types.js"
+import {View, Placement, ShadowSetup, ShadowView} from "./types.js"
 import {AsyncDirective, directive, PartInfo} from "lit/async-directive.js"
 
-export function shadow<Props extends any[]>(viewFn: ContentFn<Props>) {
+export function shadow<Props extends any[]>(view: View<Props>) {
 	const setupFn = (): ShadowSetup => {
 		dom.register({SlyShadow}, {soft: true})
 		const host = document.createElement("sly-shadow")
 		const shadow = host.attachShadow({mode: "open"})
 		return {host, shadow}
 	}
-	return rawShadow(setupFn, viewFn)
+	return rawShadow(setupFn, view)
 }
 
 shadow.config = (setupFn: () => ShadowSetup) => (
-	<Props extends any[]>(contentFn: ContentFn<Props>) => (
-		rawShadow(setupFn, contentFn)
+	<Props extends any[]>(view: View<Props>) => (
+		rawShadow(setupFn, view)
 	)
 )
 
 export function rawShadow<Props extends any[]>(
 		setup: () => ShadowSetup,
-		contentFn: ContentFn<Props>,
+		view: View<Props>,
 	) {
 
 	const directiveFn = directive(class extends AsyncDirective {
@@ -56,7 +56,7 @@ export function rawShadow<Props extends any[]>(
 		#renderContent(props: Props) {
 			this.#props = props
 			return this.#reactivity.observe(
-				() => hooks.wrap(this.#hookscope, () => contentFn(...this.#props)),
+				() => hooks.wrap(this.#hookscope, () => view(...this.#props)),
 				this.#cx.render,
 			)
 		}

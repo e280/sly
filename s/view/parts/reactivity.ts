@@ -9,8 +9,8 @@ export class Reactivity {
 		this.#stoppers = []
 	}
 
-	observe<X>(contentFn: () => X, rerender: () => Promise<void>) {
-		const {seen, result} = tracker.observe(contentFn)
+	observe<X>(fn: () => X, rerender: () => Promise<void>) {
+		const {seen, result} = tracker.observe(fn)
 		this.clear()
 		for (const item of seen) {
 			const stop = tracker.subscribe(item, rerender)
