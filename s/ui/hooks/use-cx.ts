@@ -1,9 +1,9 @@
 
 import {ShadowCx} from "../parts/cx.js"
-import {station} from "./plumbing/station.js"
+import {hooks} from "./plumbing/hooks.js"
 
 function useCx() {
-	const {scope} = station.increment()
+	const {scope} = hooks.increment()
 	return scope.cx
 }
 

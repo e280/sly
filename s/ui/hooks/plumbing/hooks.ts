@@ -1,8 +1,8 @@
 
-import {Scope} from "./scope.js"
+import {Hookscope} from "./hookscope.js"
 
-export class Station {
-	#scopes: Scope[] = []
+export class Hooks {
+	#scopes: Hookscope[] = []
 
 	get scope() {
 		const scope = this.#scopes.at(-1)
@@ -16,7 +16,7 @@ export class Station {
 		return {scope, position}
 	}
 
-	wrap<Ret>(scope: Scope, fn: () => Ret) {
+	wrap<Ret>(scope: Hookscope, fn: () => Ret) {
 		scope.position = 0
 		this.#scopes.push(scope)
 		try { return fn() }
@@ -24,5 +24,5 @@ export class Station {
 	}
 }
 
-export const station: Station = (globalThis as any)[Symbol.for("e280.station")] ??= new Station()
+export const hooks: Hooks = (globalThis as any)[Symbol.for("e280.hooks")] ??= new Hooks()
 

@@ -1,9 +1,9 @@
 
 import {useOnce} from "./use-once.js"
-import {station} from "./plumbing/station.js"
+import {hooks} from "./plumbing/hooks.js"
 
 export function useMount(fn: () => () => void) {
-	const {scope} = station.increment()
+	const {scope} = hooks.increment()
 	return useOnce(() => scope.mounts.mount(fn))
 }
 

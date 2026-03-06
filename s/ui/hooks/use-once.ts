@@ -1,9 +1,9 @@
 
-import {station} from "./plumbing/station.js"
+import {hooks} from "./plumbing/hooks.js"
 
 /** run the fn only one time */
 export function useOnce<Value>(fn: () => Value) {
-	const {scope, position} = station.increment()
+	const {scope, position} = hooks.increment()
 	return scope.values.guarantee(position, fn) as Value
 }
 

@@ -1,12 +1,12 @@
 
-import {render} from "lit"
-import {tracker} from "@e280/strata"
 import {microbounce} from "@e280/stz"
+import {render as litRender} from "lit"
 
 import {ShadowCx} from "./parts/cx.js"
-import {Scope} from "./hooks/plumbing/scope.js"
+import {hooks} from "./hooks/plumbing/hooks.js"
+import {Reactivity} from "./parts/reactivity.js"
 import {ContentFn, ShadowSetup} from "./types.js"
-import {station} from "./hooks/plumbing/station.js"
+import {Hookscope} from "./hooks/plumbing/hookscope.js"
 import {AsyncDirective, directive, PartInfo} from "lit/async-directive.js"
 
 export function shadow<Props extends any[]>(viewFn: ContentFn<Props>) {
@@ -30,61 +30,48 @@ const rawShadow = <Props extends any[]>(
 	) => directive(class extends AsyncDirective {
 
 	#cx
-	#scope
+	#hookscope
 	#props!: Props
-	#stoppers: (() => void)[] = []
-
-	#rerender = microbounce(() => {
-		if (!this.#props) throw new Error("cannot render before props")
-		if (this.isConnected) {
-			const content = this.#renderContent(this.#props)
-			render(content, this.#cx.shadow)
-			this.#cx.doneRender()
-		}
-	})
+	#reactivity = new Reactivity()
 
 	constructor(part: PartInfo) {
 		super(part)
 		const {host, shadow} = setup()
-		this.#cx = new ShadowCx(this.#rerender, host, shadow)
-		this.#scope = new Scope(this.#cx)
-	}
-
-	#stop() {
-		this.#stoppers.forEach(stop => stop())
-		this.#stoppers = []
+		const rerender = microbounce(() => {
+			if (!this.#props) throw new Error("cannot render before props")
+			if (!this.isConnected) return
+			const content = this.#renderContent(this.#props)
+			litRender(content, this.#cx.shadow)
+			this.#cx.doneRender()
+		})
+		this.#cx = new ShadowCx(rerender, host, shadow)
+		this.#hookscope = new Hookscope(this.#cx)
 	}
 
 	#renderContent(props: Props) {
 		this.#props = props
-		this.#stop()
-		const {seen, result: content} = tracker.observe(() => {
-			return station.wrap(this.#scope, () => contentFn(...this.#props))
-		})
-		for (const item of seen) {
-			const stop = tracker.subscribe(item, this.#cx.render)
-			this.#stoppers.push(stop)
-		}
-		return content
+		return this.#reactivity.observe(
+			() => hooks.wrap(this.#hookscope, () => contentFn(...this.#props)),
+			this.#cx.render,
+		)
 	}
 
 	render(...props: Props) {
 		const {host} = this.#cx
-		if (!this.isConnected)
-			return host
-		render(this.#renderContent(props), this.#cx.shadow)
+		if (!this.isConnected) return host
+		litRender(this.#renderContent(props), this.#cx.shadow)
 		this.#cx.doneRender()
 		return host
 	}
 
 	disconnected() {
-		this.#scope.mounts.unmountAll()
-		this.#stop()
+		this.#hookscope.mounts.unmountAll()
+		this.#reactivity.clear()
 	}
 
 	reconnected() {
-		this.#scope.mounts.remountAll()
-		this.#rerender()
+		this.#hookscope.mounts.remountAll()
+		this.#cx.render()
 	}
 }) as ContentFn<Props>
 
