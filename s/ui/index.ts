@@ -14,4 +14,5 @@ export * from "./hooks/use-wake.js"
 
 export * from "./light.js"
 export * from "./shadow.js"
+export * from "./types.js"
 
