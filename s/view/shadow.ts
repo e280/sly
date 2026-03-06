@@ -4,7 +4,7 @@ import {render as litRender} from "lit"
 
 import {dom} from "../dom/dom.js"
 import {ShadowCx} from "./parts/cx.js"
-import {SlyView} from "./parts/sly-view.js"
+import {SlyShadow} from "./parts/sly-shadow.js"
 import {hooks} from "./hooks/plumbing/hooks.js"
 import {Reactivity} from "./parts/reactivity.js"
 import {applyAttrs} from "./parts/apply-attrs.js"
@@ -14,8 +14,8 @@ import {AsyncDirective, directive, PartInfo} from "lit/async-directive.js"
 
 export function shadow<Props extends any[]>(viewFn: ContentFn<Props>) {
 	const setupFn = (): ShadowSetup => {
-		dom.register({SlyView}, {soft: true})
-		const host = document.createElement("sly-view")
+		dom.register({SlyShadow}, {soft: true})
+		const host = document.createElement("sly-shadow")
 		const shadow = host.attachShadow({mode: "open"})
 		return {host, shadow}
 	}
