@@ -1,11 +1,11 @@
 
 import {css, html} from "lit"
-import {view} from "../../view/view.js"
-import {cssReset} from "../../base/css-reset.js"
+import {shadow} from "../../view/shadow.js"
+import {cssReset, useName, useStyles} from "../../view/index.js"
 
-export const ErrorDisplay = view(use => (error: any) => {
-	use.name("error")
-	use.styles(cssReset, style)
+export const ErrorDisplay = shadow((error: any) => {
+	useName("error")
+	useStyles(cssReset, style)
 
 	if (typeof error === "string")
 		return error
@@ -18,9 +18,9 @@ export const ErrorDisplay = view(use => (error: any) => {
 })
 
 const style = css`
-:host {
-	font-family: monospace;
-	color: red;
-}
+	:host {
+		font-family: monospace;
+		color: red;
+	}
 `
 

@@ -1,17 +1,17 @@
 
 import {css, html} from "lit"
 import {Op} from "../../ops/op.js"
-import {view} from "../../view/view.js"
+import {shadow} from "../../view/shadow.js"
 import {loaders} from "../../loaders/index.js"
-import {cssReset} from "../../base/css-reset.js"
+import {cssReset, useName, useOnce, useStyles} from "../../view/index.js"
 
-export const LoadersView = view(use => () => {
-	use.name("loaders")
-	use.styles(cssReset, styles)
+export const LoadersView = shadow(() => {
+	useName("loaders")
+	useStyles(cssReset, styles)
 
-	const op = use.once(() => Op.loading())
+	const op = useOnce(() => Op.loading())
 
-	const library = use.once(() =>
+	const library = useOnce(() =>
 		Object.entries(loaders.anims).map(([key, anim]) => ({
 			key,
 			loader: loaders.make(anim)

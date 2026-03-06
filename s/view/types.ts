@@ -1,7 +1,8 @@
 
-import {Content} from "../view/types.js"
+import {TemplateResult} from "lit"
+import {DirectiveResult} from "lit/async-directive.js"
 
-export {Content}
+export type Content = TemplateResult | DirectiveResult | HTMLElement | string | null | undefined | void | Content[]
 
 export type ContentFn<Props extends any[]> = (...props: Props) => Content
 

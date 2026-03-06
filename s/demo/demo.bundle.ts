@@ -1,14 +1,7 @@
 
 import {dom} from "../dom/dom.js"
-import {CounterComponent} from "./views/counter.js"
-import {DemoComponent} from "./views/demo.js"
-import {FastcountElement} from "./views/fastcount.js"
+import {Demo} from "./views/demo.js"
 
-dom.register({
-	DemoComponent,
-	CounterComponent,
-	FastcountElement,
-})
-
+dom.in(".demo").render(Demo())
 console.log("🦝 sly")
 

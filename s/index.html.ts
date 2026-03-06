@@ -1,38 +1,35 @@
 
-import {ssg, html} from "@e280/scute"
+import {template, html, socialCard} from "@e280/scute"
 
-const title = "sly"
-const description = "mischievous shadow views"
-const domain = "sly.e280.org"
-const favicon = "/assets/favicon.png"
+export default template(import.meta.url, async orb => html`
+	<!doctype html>
+	<html>
+		<head>
+			<meta charset="utf-8"/>
+			<meta name="viewport" content="width=device-width,initial-scale=1"/>
+			<meta name="darkreader-lock"/>
+			<style>@layer base{html{background:#000}}</style>
 
-export default ssg.page(import.meta.url, async orb => ({
-	title,
-	js: "demo/demo.bundle.min.js",
-	css: "demo/demo.css",
-	favicon,
-	dark: true,
-	socialCard: {
-		themeColor: "#95ff7b",
-		title,
-		description,
-		siteName: "@e280/sly",
-		image: "https://" + domain + favicon,
-	},
+			<title>sly</title>
+			<link rel="icon" href="/assets/favicon.png"/>
+			<link rel="stylesheet" href="${orb.hashurl("demo/demo.css")}"/>
+			<script type="module" src="${orb.hashurl("demo/demo.bundle.min.js")}"></script>
 
-	head: html`
-		<meta name="example" value="whatever"/>
-	`,
-
-	body: html`
-		<img class=icon alt="" src="/assets/favicon.png"/>
-		<h1>sly testing page</h1>
-		<p><a href="https://github.com/e280/sly">github.com/e280/sly</a></p>
-		<p class=lil>v${orb.packageVersion()}</p>
-
-		<fastcount-element></fastcount-element>
-		<counter-component start=280 step=2>component</counter-component>
-		<demo-component></demo-component>
-	`,
-}))
+			${socialCard({
+				themeColor: "#95ff7b",
+				title: "sly",
+				description: "mischievous shadow views",
+				siteName: "@e280/sly",
+				image: "https://sly.e280.org/assets/favicon.png",
+			})}
+		</head>
+		<body>
+			<img class=icon alt="" src="/assets/favicon.png"/>
+			<h1>sly testing page</h1>
+			<p><a href="https://github.com/e280/sly">github.com/e280/sly</a></p>
+			<p class=lil>v${orb.packageVersion()}</p>
+			<div class="demo"></div>
+		</body>
+	</html>
+`)
 

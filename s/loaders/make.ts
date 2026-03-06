@@ -1,7 +1,7 @@
 
 import {Loader} from "./types.js"
 import {earth} from "./parts/anims.js"
-import type {Content} from "../view/types.js"
+import {Content} from "../view/types.js"
 import {ErrorDisplay} from "./parts/error-display.js"
 
 export function make(

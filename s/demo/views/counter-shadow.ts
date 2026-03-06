@@ -1,10 +1,10 @@
 
 import {css, html} from "lit"
-import {shadow, useName, useCss, useSignal} from "../../ui/index.js"
+import {shadow, useName, useCss, useSignal} from "../../view/index.js"
 
 export const CounterShadow = shadow((start: number) => {
 	useName("counter-shadow")
-	useCss(css`button { color: cyan }`)
+	useCss(css`:host{display:inline-block} button{color:cyan}`)
 
 	const $count = useSignal(start)
 	const increment = () => $count.value++
