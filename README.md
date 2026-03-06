@@ -661,10 +661,10 @@ import {dom} from "@e280/sly"
     ```
     or if you wanna be more loosey-goosey, skip the spec
     ```ts
-    const a = dom.in(".demo").attrs
-    a.strings.name = "pimsley"
-    a.numbers.count = 125
-    a.booleans.active = true
+    const {attrs} = dom.in(".demo")
+    attrs.strings.name = "pimsley"
+    attrs.numbers.count = 125
+    attrs.booleans.active = true
     ```
 
 
