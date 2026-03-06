@@ -23,5 +23,5 @@ jobs:
     - run: npm ci
     - run: npm run build -s
     - run: npm test
-    - run: npm publish --ignore-scripts
+    - run: npm publish --ignore-scripts --tag latest
 
