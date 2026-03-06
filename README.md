@@ -173,7 +173,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     - see [strata readme](https://github.com/e280/strata)
 - **useOnce** — run fn at initialization, and return a value
     ```ts
-    const whatever = use.once(() => {
+    const whatever = useOnce(() => {
       console.log("happens one time")
       return 123
     })
@@ -189,7 +189,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **useWake** — run fn each time mounted, and return value
     ```ts
-    const whatever = use.wake(() => {
+    const whatever = useWake(() => {
       console.log("mounted")
       return 123
     })
@@ -198,7 +198,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **useLife** — mount/unmount lifecycle, but also return a value
     ```ts
-    const whatever = use.life(() => {
+    const whatever = useLife(() => {
       console.log("mounted")
       const value = 123
       return [value, () => console.log("unmounted")]
@@ -225,7 +225,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **useOpPromise** — start loading an op based on a promise
     ```ts
-    const op = use.op.promise(doAsyncWork())
+    const op = useOpPromise(doAsyncWork())
     ```
 
 ### 🍋 happy hooks recipes
@@ -566,7 +566,7 @@ import {ev} from "@e280/stz"
 - **attach event listeners to your dropzone,** one of these ways:
   - **view example**
       ```ts
-      view(() => () => html`
+      light(() => html`
         <div
           ?data-indicator="${drops.$indicator()}"
           @dragover="${drops.dragover}"
@@ -622,9 +622,9 @@ import {ev} from "@e280/stz"
     ```
 - **attach dragzone listeners** (there can be many dragzones...)
     ```ts
-    view(use => () => {
-      const money = use.once((): Money => ({value: 280}))
-      const dragzone = use.once(() => dnd.dragzone(() => money))
+    light(() => {
+      const money = useOnce((): Money => ({value: 280}))
+      const dragzone = useOnce(() => dnd.dragzone(() => money))
 
       return html`
         <div
@@ -638,9 +638,9 @@ import {ev} from "@e280/stz"
     ```
 - **attach dropzone listeners** (there can be many dropzones...)
     ```ts
-    view(use => () => {
-      const bag = use.once((): Bag => ({id: 1}))
-      const dropzone = use.once(() => dnd.dropzone(() => bag))
+    light(() => {
+      const bag = useOnce((): Bag => ({id: 1}))
+      const dropzone = useOnce(() => dnd.dropzone(() => bag))
       const indicator = !!(dnd.dragging && dnd.hovering === bag)
 
       return html`
