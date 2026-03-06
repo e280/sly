@@ -9,10 +9,19 @@
 
 <br/><br/>
 
-## v0.2
+## v0.3
 
-### v0.2.6
-- 🍏 **BIG!!** add new experimental `light()` view and react-style hooks!
+### v0.3.0
+- 🍏🎉 all-new `view` system featuring `light` and `shadow` with new hooks system
+- 🟥 deleted `spa` routing system!
+- 🟥 deleted `base` element system!
+- 🟥 deleted legacy `view` system!
+
+
+
+<br/><br/>
+
+## v0.2
 
 ### v0.2.5
 - 🍏 fix subview mount/unmount
