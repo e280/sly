@@ -1,5 +1,6 @@
 
 export * from "./common/css-reset.js"
+export * from "./common/sly-shadow.js"
 
 export * from "./hooks/use-css.js"
 export * from "./hooks/use-cx.js"

@@ -2,29 +2,29 @@
 import {microbounce} from "@e280/stz"
 import {render as litRender} from "lit"
 
-import {dom} from "../dom/dom.js"
 import {ShadowCx} from "./parts/cx.js"
-import {SlyShadow} from "./parts/sly-shadow.js"
 import {hooks} from "./hooks/plumbing/hooks.js"
+import {SlyShadow} from "./common/sly-shadow.js"
 import {Reactivity} from "./parts/reactivity.js"
 import {applyAttrs} from "./parts/apply-attrs.js"
 import {Hookscope} from "./hooks/plumbing/hookscope.js"
 import {View, Placement, ShadowSetup, ShadowView} from "./types.js"
 import {AsyncDirective, directive, PartInfo} from "lit/async-directive.js"
 
-export function shadow<Props extends any[]>(view: View<Props>) {
-	const setupFn = (): ShadowSetup => {
-		dom.register({SlyShadow}, {soft: true})
-		const host = document.createElement("sly-shadow")
-		const shadow = host.attachShadow({mode: "open"})
-		return {host, shadow}
-	}
-	return rawShadow(setupFn, view)
+export function shadowSetup(): ShadowSetup {
+	SlyShadow.register()
+	const host = document.createElement("sly-shadow")
+	const shadow = host.attachShadow({mode: "open"})
+	return {host, shadow}
 }
 
-shadow.config = (setupFn: () => ShadowSetup) => (
+export function shadow<Props extends any[]>(view: View<Props>) {
+	return rawShadow(shadowSetup, view)
+}
+
+shadow.setup = (setup: () => ShadowSetup) => (
 	<Props extends any[]>(view: View<Props>) => (
-		rawShadow(setupFn, view)
+		rawShadow(setup, view)
 	)
 )
 
