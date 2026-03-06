@@ -11,7 +11,7 @@ import {register} from "./parts/register.js"
 import {Queryable, Renderable} from "./types.js"
 import {queryAll, queryMaybe, queryRequire} from "./parts/queries.js"
 
-export function dom<E extends Element>(selector: string, container: Queryable = document): E {
+export function dom<E extends HTMLElement>(selector: string, container: Queryable = document) {
 	return queryRequire<E>(selector, container)
 }
 

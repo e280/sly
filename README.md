@@ -10,7 +10,7 @@ npm install lit @e280/sly @e280/strata @e280/stz
 
 [@e280](https://e280.org/)'s new [lit](https://lit.dev/)-based frontend webdev library.
 
-- 🍋 [**#views**](#views) — hooks-based, shadow-dom'd, template-literal'd
+- 🎭 [**#views**](#views) — light-dom or shadow-dom reactive lit views
 - 🪝 [**#hooks**](#hooks) — full reference of available view hooks
 - 🫛 [**#ops**](#ops) — reactive tooling for async operations
 - ⏳ [**#loaders**](#loaders) — animated loading spinners for rendering ops
@@ -23,12 +23,13 @@ npm install lit @e280/sly @e280/strata @e280/stz
 <br/><br/>
 <a id="views"></a>
 
-## 🍋 views
-> *modern views.. in lightness, or darkness..*  
+## 🎭 views
+> *reactive views, light or shadow*  
 
 - 🪶 **no compile step** — just god's honest javascript, via [lit](https://lit.dev/)-html tagged-template-literals
 - ⚡ **reactive** — views auto-rerender whenever any [strata](https://github.com/e280/strata)-compatible state changes
-- 🪝 **hooks-based** — declarative rendering with [modern hooks](#hooks) familiar to react devs
+- 🪝 **hooks-based** — familiar react-style [hooks](#hooks)
+- 🌗 **light or shadow** — render directly in the dom, or inside a shadow-dom bubble
 
 ```ts
 import {html} from "lit"
@@ -58,7 +59,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **render it into the dom**
     ```ts
-    dom.in(".demo").render(html`
+    dom.render(dom(".demo"), html`
       <h1>my cool counter demo</h1>
       ${MyCounter(123)}
     `)
@@ -87,14 +88,14 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **render it into the dom**
     ```ts
-    dom.in(".demo").render(html`
+    dom.render(dom(".demo"), html`
       <h1>my cool counter demo</h1>
       ${MyShadowCounter(234)}
     `)
     ```
 - **.with to nest children or set attrs**
     ```ts
-    dom.in(".demo").render(html`
+    dom.render(dom(".demo"), html`
       <h1>my cool counter demo</h1>
 
       ${MyShadowCounter.with({
@@ -106,9 +107,9 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       })}
     `)
     ```
-- **oh, you can do custom shadow config if needed**
+- **you can do custom shadow config if needed**
     ```ts
-    const MyCustomShadow = shadow.config(() => {
+    const MyShadowView = shadow.config(() => {
       const host = document.createElement("div")
       const shadow = host.attachShadow({mode: "open"})
       return {host, shadow}
