@@ -6,7 +6,7 @@
 
 [@e280](https://e280.org/)'s new [lit](https://lit.dev/)-based frontend webdev library.
 
-- 🍋 [**#views**](#views) — shadow-dom'd, hooks-based, componentizable
+- 🍋 [**#views**](#views) — hooks-based, shadow-dom'd, template-literal'd
 - 🪵 [**#base-element**](#base-element) — for a more classical experience
 - 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
 - 🫛 [**#ops**](#ops) — reactive tooling for async operations
@@ -43,6 +43,237 @@ npm install @e280/sly lit @e280/strata @e280/stz
 <a id="views"></a>
 
 ## 🍋🦝 sly views
+> *modern views, in lightness, or darkness...*  
+
+- 🪶 **no compile step** — just god's honest javascript, via [lit](https://lit.dev/)-html tagged-template-literals
+- 🪝 **hooks-based** — declarative rendering with [modern hooks](#hooks) familiar to react devs
+- ⚡ **reactive** — views auto-rerender whenever any [strata](https://github.com/e280/strata)-compatible state changes
+
+```ts
+import {html} from "lit"
+import {light, shadow, dom} from "@e280/sly"
+
+export const MyLightView = light(() => html`<p>blinded by the light</p>`)
+
+export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
+```
+
+### 🍋 light views
+> *just pretend it's react*
+
+- **define a light view**
+    ```ts
+    import {html} from "lit"
+    import {light, useSignal} from "@e280/sly"
+
+    export const MyCounter = light((start: number) => {
+      const $count = useSignal(start)
+      const increment = () => $count.value++
+
+      return html`
+        <button @click="${increment}">${$count.value}</button>
+      `
+    })
+    ```
+- **render it into the dom**
+    ```ts
+    dom.in(".demo").render(html`
+      <h1>my cool counter demo</h1>
+      ${MyCounter(123)}
+    `)
+    ```
+
+### 🍋 shadow views
+> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble and supports [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
+
+- **define a shadow view**
+    ```ts
+    import {css, html} from "lit"
+    import {shadow, useName, useCss, useSignal} from "@e280/sly"
+
+    export const MyShadowCounter = shadow((start: number) => {
+      useName("shadow-counter")
+      useCss(css`button { color: cyan }`)
+
+      const $count = useSignal(start)
+      const increment = () => $count.value++
+
+      return html`
+        <button @click="${increment}">${$count()}</button>
+        <slot></slot>
+      `
+    })
+    ```
+- **render it into the dom**
+    ```ts
+    dom.in(".demo").render(html`
+      <h1>my cool counter demo</h1>
+      ${MyShadowCounter(234)}
+    `)
+    ```
+- **.with to nest children or set attrs**
+    ```ts
+    dom.in(".demo").render(html`
+      <h1>my cool counter demo</h1>
+
+      ${MyShadowCounter.with({
+        props: [234],
+        attrs: {"data-whatever": 555},
+        children: html`
+          <p>woah, slotting support!</p>
+        `,
+      })}
+    `)
+    ```
+- **oh, you can do custom shadow config if needed**
+    ```ts
+    const MyCustomShadow = shadow.config(() => {
+      const host = document.createElement("div")
+      const shadow = host.attachShadow({mode: "open"})
+      return {host, shadow}
+    })(() => html`<p>shrouded in darkness</p>`)
+    ```
+
+<a id="hooks"></a>
+
+### 🍋 hooks reference
+
+#### 👮 follow the hooks rules
+> just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of sly's `use` hooks actually matters..  
+> you must not call these hooks under `if` conditionals, or `for` loops, or in callbacks, or after a conditional `return` statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
+
+#### 🌚 shadow-only hooks
+- **useName** — *(shadow only)* — set the "data-view" attr value
+    ```ts
+    useName("squarepants")
+      // <div data-view="squarepants">
+    ```
+- **useCss** — *(shadow only)*  — attach stylesheets (use lit's `css`!) to the shadow root
+    ```ts
+    useCss(css1, css2, css3)
+    ```
+- **useHost** — *(shadow only)*  — get the host element
+    ```ts
+    const host = useHost()
+    ```
+- **useShadow** — *(shadow only)*  — get the shadow root
+    ```ts
+    const shadow = useShadow()
+    ```
+
+#### 🌞 universal hooks
+- **useState** — react-like hook to create some reactive state (we prefer signals)
+    ```ts
+    const [count, setCount] = useState(0)
+
+    const increment = () => setCount(n => n + 1)
+    ```
+- **useRef** — react-like hook to make a non-reactive box for a value
+    ```ts
+    const ref = useRef(0)
+
+    ref.current // 0
+    ref.current = 1 // does not trigger rerender
+    ```
+- **useSignal** — create a [strata](https://github.com/e280/strata) signal
+    ```ts
+    const $count = useSignal(1)
+
+    // read the signal
+    $count()
+
+    // write the signal
+    $count(2)
+    ```
+    - see [strata readme](https://github.com/e280/strata)
+- **useDerived** — create a [strata](https://github.com/e280/strata) derived signal
+    ```ts
+    const $product = useDerived(() => $count() * $whatever())
+    ```
+    - see [strata readme](https://github.com/e280/strata)
+- **useOnce** — run fn at initialization, and return a value
+    ```ts
+    const whatever = use.once(() => {
+      console.log("happens one time")
+      return 123
+    })
+
+    whatever // 123
+    ```
+- **useMount** — setup mount/unmount lifecycle
+    ```ts
+    useMount(() => {
+      console.log("mounted")
+      return () => console.log("unmounted")
+    })
+    ```
+- **useWake** — run fn each time mounted, and return value
+    ```ts
+    const whatever = use.wake(() => {
+      console.log("mounted")
+      return 123
+    })
+
+    whatever // 123
+    ```
+- **useLife** — mount/unmount lifecycle, but also return a value
+    ```ts
+    const whatever = use.life(() => {
+      console.log("mounted")
+      const value = 123
+      return [value, () => console.log("unmounted")]
+    })
+
+    whatever // 123
+    ```
+- **useRender** — returns a fn to rerender the view (debounced)
+    ```ts
+    const render = useRender()
+
+    render().then(() => console.log("render done"))
+    ```
+- **useRendered** — get a promise that resolves *after* the next render
+    ```ts
+    useRendered().then(() => console.log("rendered"))
+    ```
+- **useOp** — start loading an op based on an async fn
+    ```ts
+    const op = useOp(async() => {
+      await nap(5000)
+      return 123
+    })
+    ```
+- **useOpPromise** — start loading an op based on a promise
+    ```ts
+    const op = use.op.promise(doAsyncWork())
+    ```
+
+### 🍋 happy hooks recipes
+- make a ticker — mount, cycle, and nap
+    ```ts
+    import {cycle, nap} from "@e280/stz"
+    ```
+    ```ts
+    const $seconds = useSignal(0)
+
+    useMount(() => cycle(async() => {
+      await nap(1000)
+      $seconds.value++
+    }))
+    ```
+- wake + rendered, to do something after each mount's first render
+    ```ts
+    useWake(() => useRendered.then(() => {
+      console.log("after first render")
+    }))
+    ```
+
+
+
+<br/><br/>
+<a id="legacy-views"></a>
+
+## 🍋🦝 LEGACY sly views
 > `@e280/sly/view`  
 > *the crown jewel of sly*  
 

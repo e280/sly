@@ -3,7 +3,7 @@ import {useHost} from "./use-cx.js"
 import {useOnce} from "./use-once.js"
 
 /** sets the host element's "data-view" attribute */
-export function useName(name: string) {
+export function useName(name: string = "") {
 	const host = useHost()
 	useOnce(() => host.setAttribute("data-view", name))
 }
