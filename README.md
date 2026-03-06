@@ -11,10 +11,11 @@ npm install lit @e280/sly @e280/strata @e280/stz
 [@e280](https://e280.org/)'s new [lit](https://lit.dev/)-based frontend webdev library.
 
 - 🍋 [**#views**](#views) — hooks-based, shadow-dom'd, template-literal'd
-- 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
+- 🪝 [**#hooks**](#hooks) — full reference of available view hooks
 - 🫛 [**#ops**](#ops) — reactive tooling for async operations
 - ⏳ [**#loaders**](#loaders) — animated loading spinners for rendering ops
 - 🪙 [**#loot**](#loot) — drag-and-drop facilities
+- 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
 - 🧪 https://sly.e280.org/ — our testing page
 
 
@@ -22,12 +23,12 @@ npm install lit @e280/sly @e280/strata @e280/stz
 <br/><br/>
 <a id="views"></a>
 
-## 🍋🦝 sly views — `@e280/sly/view`
+## 🍋 views
 > *modern views.. in lightness, or darkness..*  
 
 - 🪶 **no compile step** — just god's honest javascript, via [lit](https://lit.dev/)-html tagged-template-literals
-- 🪝 **hooks-based** — declarative rendering with [modern hooks](#hooks) familiar to react devs
 - ⚡ **reactive** — views auto-rerender whenever any [strata](https://github.com/e280/strata)-compatible state changes
+- 🪝 **hooks-based** — declarative rendering with [modern hooks](#hooks) familiar to react devs
 
 ```ts
 import {html} from "lit"
@@ -38,7 +39,7 @@ export const MyLightView = light(() => html`<p>blinded by the light</p>`)
 export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 ```
 
-### 🍋 light views
+### 🌞 light views
 > *just pretend it's react*
 
 - **define a light view**
@@ -63,7 +64,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     `)
     ```
 
-### 🍋 shadow views
+### 🌚 shadow views
 > *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble and supports [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
 
 - **define a shadow view**
@@ -114,15 +115,21 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     })(() => html`<p>shrouded in darkness</p>`)
     ```
 
+
+
+<br/><br/>
 <a id="hooks"></a>
 
-### 🍋 hooks reference
+## 🪝 hooks
+> *composable view state and utilities*  
 
-#### 👮 follow the hooks rules
-> just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of sly's `use` hooks actually matters..  
-> you must not call these hooks under `if` conditionals, or `for` loops, or in callbacks, or after a conditional `return` statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
+### 👮 follow the hooks rules
 
-#### 🌚 shadow-only hooks
+just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of sly's `use` hooks actually matters.
+
+you must not call these hooks under `if` conditionals, or `for` loops, or in callbacks, or after a conditional `return` statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
+
+### 🌚 shadow-only hooks
 - **useName** — *(shadow only)* — set the "view" attribute value
     ```ts
     useName("squarepants")
@@ -141,7 +148,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     const shadow = useShadow()
     ```
 
-#### 🌞 universal hooks
+### 🌞 universal hooks
 - **useState** — react-like hook to create some reactive state (we prefer signals)
     ```ts
     const [count, setCount] = useState(0)
@@ -228,7 +235,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     const op = useOpPromise(doAsyncWork())
     ```
 
-### 🍋 happy hooks recipes
+### 🧑‍🍳 happy hooks recipes
 - make a ticker — mount, cycle, and nap
     ```ts
     import {cycle, nap} from "@e280/stz"
@@ -251,9 +258,275 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 
 
 <br/><br/>
+<a id="ops"></a>
+
+## 🫛 ops
+> *tools for async operations and loading spinners*  
+
+```ts
+import {nap} from "@e280/stz"
+import {Pod, podium, Op, loaders} from "@e280/sly"
+```
+
+### 🫛 pods: loading/ready/error
+- a pod represents an async operation in terms of json-serializable data
+- there are three kinds of `Pod<V>`
+    ```ts
+    // loading pod
+    ["loading"]
+
+    // ready pod contains value 123
+    ["ready", 123]
+
+    // error pod contains an error
+    ["error", new Error()]
+    ```
+
+### 🫛 podium: helps you work with pods
+- get pod status
+    ```ts
+    podium.status(["ready", 123])
+      // "ready"
+    ```
+- get pod ready value (or undefined)
+    ```ts
+    podium.value(["loading"])
+      // undefined
+
+    podium.value(["ready", 123])
+      // 123
+    ```
+- see more at [podium.ts](./s/ops/podium.ts)
+
+### 🫛 ops: nice pod ergonomics
+- an `Op<V>` wraps a pod with a signal for reactivity
+- create an op
+    ```ts
+    const op = new Op<number>() // loading status by default
+    ```
+    ```ts
+    const op = Op.loading<number>()
+    ```
+    ```ts
+    const op = Op.ready<number>(123)
+    ```
+    ```ts
+    const op = Op.error<number>(new Error())
+    ```
+- 🔥 create an op that calls and tracks an async fn
+    ```ts
+    const op = Op.load(async() => {
+      await nap(4000)
+      return 123
+    })
+    ```
+- await for the next ready value (or thrown error)
+    ```ts
+    await op // 123
+    ```
+- get pod info
+    ```ts
+    op.pod // ["loading"]
+    op.status // "loading"
+    op.value // undefined (or value if ready)
+    ```
+    ```ts
+    op.isLoading // true
+    op.isReady // false
+    op.isError // false
+    ```
+- select executes a fn based on the status
+    ```ts
+    const result = op.select({
+      loading: () => "it's loading...",
+      ready: value => `dude, it's ready! ${value}`,
+      error: err => `dude, there's an error!`,
+    })
+
+    result
+      // "dude, it's ready! 123"
+    ```
+- morph returns a new pod, transforming the value if ready
+    ```ts
+    op.morph(n => n + 1)
+      // ["ready", 124]
+    ```
+- you can combine a number of ops into a single pod like this
+    ```ts
+    Op.all(Op.ready(123), Op.loading())
+      // ["loading"]
+    ```
+    ```ts
+    Op.all(Op.ready(1), Op.ready(2), Op.ready(3))
+      // ["ready", [1, 2, 3]]
+    ```
+    - error if any ops are in error, otherwise
+    - loading if any ops are in loading, otherwise
+    - ready if all the ops are ready
+
+
+
+<br/><br/>
+<a id="loaders"></a>
+
+## ⏳ loaders
+> *animated loading spinners for ops*  
+
+```ts
+import {loaders} from "@e280/sly"
+```
+
+### ⏳ make a loader, choose an anim
+- create a loader fn
+    ```ts
+    const loader = loaders.make(loaders.anims.dots)
+    ```
+    - see all the anims available on the testing page https://sly.e280.org/
+    - ngl, i made too many.. *i was having fun, okay?*
+
+### ⏳ render an op with it
+- use your loader to render an op
+    ```ts
+    return html`
+      <h2>cool stuff</h2>
+
+      ${loader(op, value => html`
+        <div>${value}</div>
+      `)}
+    `
+    ```
+    - when the op is loading, the loading spinner will animate
+    - when the op is in error, the error will be displayed
+    - when the op is ready, your fn is called and given the value
+
+
+
+<br/><br/>
+<a id="loot"></a>
+
+## 🪙 loot
+> *drag-and-drop facilities*  
+
+```ts
+import {loot, view, dom} from "@e280/sly"
+import {ev} from "@e280/stz"
+```
+
+### 🪙 `loot.Drops`
+> *accept the user dropping stuff like files onto the page*
+- **setup drops**
+    ```ts
+    const drops = new loot.Drops({
+      predicate: loot.hasFiles,
+      acceptDrop: event => {
+        const files = loot.files(event)
+        console.log("files dropped", files)
+      },
+    })
+    ```
+- **attach event listeners to your dropzone,** one of these ways:
+  - **view example**
+      ```ts
+      light(() => html`
+        <div
+          ?data-indicator="${drops.$indicator()}"
+          @dragover="${drops.dragover}"
+          @dragleave="${drops.dragleave}"
+          @drop="${drops.drop}">
+            my dropzone
+        </div>
+      `)
+      ```
+  - **vanilla-js whole-page example**
+      ```ts
+      // attach listeners to the body
+      ev(document.body, {
+        dragover: drops.dragover,
+        dragleave: drops.dragleave,
+        drop: drops.drop,
+      })
+
+      // sly attribute handler for the body
+      const attrs = dom.attrs(document.body).spec({
+        "data-indicator": Boolean,
+      })
+
+      // sync the data-indicator attribute
+      drops.$indicator.on(bool => attrs["data-indicator"] = bool)
+      ```
+- **flashy css indicator for the dropzone,** so the user knows your app is eager to accept the drop
+    ```css
+    [data-indicator] {
+      border: 0.5em dashed cyan;
+    }
+    ```
+
+### 🪙 `loot.DragAndDrops`
+> *setup drag-and-drops between items within your page*
+- **declare types for your draggy and droppy things**
+    ```ts
+    // money that can be picked up and dragged
+    type Money = {value: number}
+      // dnd will call this a "draggy"
+
+    // bag that money can be dropped into
+    type Bag = {id: number}
+      // dnd will call this a "droppy"
+    ```
+- **make your dnd**
+    ```ts
+    const dnd = new loot.DragAndDrops<Money, Bag>({
+      acceptDrop: (event, money, bag) => {
+        console.log("drop!", {money, bag})
+      },
+    })
+    ```
+- **attach dragzone listeners** (there can be many dragzones...)
+    ```ts
+    light(() => {
+      const money = useOnce((): Money => ({value: 280}))
+      const dragzone = useOnce(() => dnd.dragzone(() => money))
+
+      return html`
+        <div
+          draggable="${dragzone.draggable}"
+          @dragstart="${dragzone.dragstart}"
+          @dragend="${dragzone.dragend}">
+            money ${money.value}
+        </div>
+      `
+    })
+    ```
+- **attach dropzone listeners** (there can be many dropzones...)
+    ```ts
+    light(() => {
+      const bag = useOnce((): Bag => ({id: 1}))
+      const dropzone = useOnce(() => dnd.dropzone(() => bag))
+      const indicator = !!(dnd.dragging && dnd.hovering === bag)
+
+      return html`
+        <div
+          ?data-indicator="${indicator}"
+          @dragenter="${dropzone.dragenter}"
+          @dragleave="${dropzone.dragleave}"
+          @dragover="${dropzone.dragover}"
+          @drop="${dropzone.drop}">
+            bag ${bag.id}
+        </div>
+      `
+    })
+    ```
+
+### 🪙 loot helpers
+- **`loot.hasFiles(event)`** — return true if `DragEvent` contains any files (useful in `predicate`)
+- **`loot.files(event)`** — returns an array of files in a drop's `DragEvent` (useful in `acceptDrop`)
+
+
+
+<br/><br/>
 <a id="dom"></a>
 
-## 🪄🦝 sly dom — `@e280/sly/dom`
+## 🪄 dom
 > *the "it's not jquery!" multitool*  
 
 ```ts
@@ -397,275 +670,9 @@ import {dom} from "@e280/sly"
 
 
 <br/><br/>
-<a id="ops"></a>
-
-## 🫛🦝 sly ops — `@e280/sly/ops`
-> *tools for async operations and loading spinners*  
-
-```ts
-import {nap} from "@e280/stz"
-import {Pod, podium, Op, loaders} from "@e280/sly"
-```
-
-### 🫛 pods: loading/ready/error
-- a pod represents an async operation in terms of json-serializable data
-- there are three kinds of `Pod<V>`
-    ```ts
-    // loading pod
-    ["loading"]
-
-    // ready pod contains value 123
-    ["ready", 123]
-
-    // error pod contains an error
-    ["error", new Error()]
-    ```
-
-### 🫛 podium: helps you work with pods
-- get pod status
-    ```ts
-    podium.status(["ready", 123])
-      // "ready"
-    ```
-- get pod ready value (or undefined)
-    ```ts
-    podium.value(["loading"])
-      // undefined
-
-    podium.value(["ready", 123])
-      // 123
-    ```
-- see more at [podium.ts](./s/ops/podium.ts)
-
-### 🫛 ops: nice pod ergonomics
-- an `Op<V>` wraps a pod with a signal for reactivity
-- create an op
-    ```ts
-    const op = new Op<number>() // loading status by default
-    ```
-    ```ts
-    const op = Op.loading<number>()
-    ```
-    ```ts
-    const op = Op.ready<number>(123)
-    ```
-    ```ts
-    const op = Op.error<number>(new Error())
-    ```
-- 🔥 create an op that calls and tracks an async fn
-    ```ts
-    const op = Op.load(async() => {
-      await nap(4000)
-      return 123
-    })
-    ```
-- await for the next ready value (or thrown error)
-    ```ts
-    await op // 123
-    ```
-- get pod info
-    ```ts
-    op.pod // ["loading"]
-    op.status // "loading"
-    op.value // undefined (or value if ready)
-    ```
-    ```ts
-    op.isLoading // true
-    op.isReady // false
-    op.isError // false
-    ```
-- select executes a fn based on the status
-    ```ts
-    const result = op.select({
-      loading: () => "it's loading...",
-      ready: value => `dude, it's ready! ${value}`,
-      error: err => `dude, there's an error!`,
-    })
-
-    result
-      // "dude, it's ready! 123"
-    ```
-- morph returns a new pod, transforming the value if ready
-    ```ts
-    op.morph(n => n + 1)
-      // ["ready", 124]
-    ```
-- you can combine a number of ops into a single pod like this
-    ```ts
-    Op.all(Op.ready(123), Op.loading())
-      // ["loading"]
-    ```
-    ```ts
-    Op.all(Op.ready(1), Op.ready(2), Op.ready(3))
-      // ["ready", [1, 2, 3]]
-    ```
-    - error if any ops are in error, otherwise
-    - loading if any ops are in loading, otherwise
-    - ready if all the ops are ready
-
-
-
-<br/><br/>
-<a id="loaders"></a>
-
-## ⏳🦝 sly loaders — `@e280/sly/loaders`
-> *animated loading spinners for ops*  
-
-```ts
-import {loaders} from "@e280/sly"
-```
-
-### ⏳ make a loader, choose an anim
-- create a loader fn
-    ```ts
-    const loader = loaders.make(loaders.anims.dots)
-    ```
-    - see all the anims available on the testing page https://sly.e280.org/
-    - ngl, i made too many.. *i was having fun, okay?*
-
-### ⏳ render an op with it
-- use your loader to render an op
-    ```ts
-    return html`
-      <h2>cool stuff</h2>
-
-      ${loader(op, value => html`
-        <div>${value}</div>
-      `)}
-    `
-    ```
-    - when the op is loading, the loading spinner will animate
-    - when the op is in error, the error will be displayed
-    - when the op is ready, your fn is called and given the value
-
-
-
-<br/><br/>
-<a id="loot"></a>
-
-## 🪙🦝 loot — `@e280/sly/loot`
-> *drag-and-drop facilities*  
-
-```ts
-import {loot, view, dom} from "@e280/sly"
-import {ev} from "@e280/stz"
-```
-
-### 🪙 `loot.Drops`
-> *accept the user dropping stuff like files onto the page*
-- **setup drops**
-    ```ts
-    const drops = new loot.Drops({
-      predicate: loot.hasFiles,
-      acceptDrop: event => {
-        const files = loot.files(event)
-        console.log("files dropped", files)
-      },
-    })
-    ```
-- **attach event listeners to your dropzone,** one of these ways:
-  - **view example**
-      ```ts
-      light(() => html`
-        <div
-          ?data-indicator="${drops.$indicator()}"
-          @dragover="${drops.dragover}"
-          @dragleave="${drops.dragleave}"
-          @drop="${drops.drop}">
-            my dropzone
-        </div>
-      `)
-      ```
-  - **vanilla-js whole-page example**
-      ```ts
-      // attach listeners to the body
-      ev(document.body, {
-        dragover: drops.dragover,
-        dragleave: drops.dragleave,
-        drop: drops.drop,
-      })
-
-      // sly attribute handler for the body
-      const attrs = dom.attrs(document.body).spec({
-        "data-indicator": Boolean,
-      })
-
-      // sync the data-indicator attribute
-      drops.$indicator.on(bool => attrs["data-indicator"] = bool)
-      ```
-- **flashy css indicator for the dropzone,** so the user knows your app is eager to accept the drop
-    ```css
-    [data-indicator] {
-      border: 0.5em dashed cyan;
-    }
-    ```
-
-### 🪙 `loot.DragAndDrops`
-> *setup drag-and-drops between items within your page*
-- **declare types for your draggy and droppy things**
-    ```ts
-    // money that can be picked up and dragged
-    type Money = {value: number}
-      // dnd will call this a "draggy"
-
-    // bag that money can be dropped into
-    type Bag = {id: number}
-      // dnd will call this a "droppy"
-    ```
-- **make your dnd**
-    ```ts
-    const dnd = new loot.DragAndDrops<Money, Bag>({
-      acceptDrop: (event, money, bag) => {
-        console.log("drop!", {money, bag})
-      },
-    })
-    ```
-- **attach dragzone listeners** (there can be many dragzones...)
-    ```ts
-    light(() => {
-      const money = useOnce((): Money => ({value: 280}))
-      const dragzone = useOnce(() => dnd.dragzone(() => money))
-
-      return html`
-        <div
-          draggable="${dragzone.draggable}"
-          @dragstart="${dragzone.dragstart}"
-          @dragend="${dragzone.dragend}">
-            money ${money.value}
-        </div>
-      `
-    })
-    ```
-- **attach dropzone listeners** (there can be many dropzones...)
-    ```ts
-    light(() => {
-      const bag = useOnce((): Bag => ({id: 1}))
-      const dropzone = useOnce(() => dnd.dropzone(() => bag))
-      const indicator = !!(dnd.dragging && dnd.hovering === bag)
-
-      return html`
-        <div
-          ?data-indicator="${indicator}"
-          @dragenter="${dropzone.dragenter}"
-          @dragleave="${dropzone.dragleave}"
-          @dragover="${dropzone.dragover}"
-          @drop="${dropzone.drop}">
-            bag ${bag.id}
-        </div>
-      `
-    })
-    ```
-
-### 🪙 loot helpers
-- **`loot.hasFiles(event)`** — return true if `DragEvent` contains any files (useful in `predicate`)
-- **`loot.files(event)`** — returns an array of files in a drop's `DragEvent` (useful in `acceptDrop`)
-
-
-
-<br/><br/>
 <a id="e280"></a>
 
-## 🧑‍💻🦝 sly is by e280
+## 🧑‍💻 sly is by e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
 
