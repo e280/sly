@@ -28,7 +28,7 @@ shadow.config = (setupFn: () => ShadowSetup) => (
 	)
 )
 
-export function rawShadow<Props extends any[]>(
+function rawShadow<Props extends any[]>(
 		setup: () => ShadowSetup,
 		view: View<Props>,
 	) {
