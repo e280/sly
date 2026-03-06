@@ -2,11 +2,12 @@
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly
-> *[@e280's](https://e280.org/) [lit-based](https://lit.dev/) frontend webdev library.*
 
 ```sh
 npm install lit @e280/sly @e280/strata @e280/stz
 ```
+
+#### [@e280](https://e280.org/)'s [lit-based](https://lit.dev/) web library for reactive light or shadow views
 
 - 🎭 [**#views,**](#views) reactive lit views, light-dom or shadow-dom
 - 🪝 [**#hooks,**](#hooks) react-like composable hooks
@@ -14,7 +15,7 @@ npm install lit @e280/sly @e280/strata @e280/stz
 - ⏳ [**#loaders,**](#loaders) render ops with animated loading spinners
 - 🪙 [**#loot,**](#loot) drag-and-drop facilities
 - 🪄 [**#dom,**](#dom) the "it's not jquery" multitool
-- 🧪 **https://sly.e280.org/** our testing page
+- 🧪 **https://sly.e280.org/** sly's testing page
 
 
 
@@ -22,12 +23,13 @@ npm install lit @e280/sly @e280/strata @e280/stz
 <a id="views"></a>
 
 ## 🎭 views
-> *reactive views, light or shadow*  
+> *"flourish in the light.. or thrive in the darkness"*
 
-- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-template-literals
-- ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes
+- 🌗 **light or shadow,** render nakedly on the page, or within a cozy shadow bubble
 - 🪝 **hooks-based,** familiar react-style [hooks](#hooks)
-- 🌗 **light or shadow,** render directly to dom, or in a cozy shadow bubble
+- ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes
+- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-template-literals
+- 🧩 **not web components,** no dom registration needed, just vibes and good typings
 
 ```ts
 import {html} from "lit"
@@ -39,7 +41,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 ```
 
 ### 🌞 light views
-> *"just pretend it's react"*
+> *"just pretend it's react, without jsx"*
 
 - **define a light view**
     ```ts
@@ -62,9 +64,10 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       ${MyCounter(123)}
     `)
     ```
+- **light views are naked,** they don't have a containing host element
 
 ### 🌚 shadow views
-> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble and supports [slots](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
+> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble and supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
 
 - **define a shadow view**
     ```ts
@@ -79,7 +82,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       const increment = () => $count.value++
 
       return html`
-        <button @click="${increment}">${$count()}</button>
+        <button @click="${increment}">${$count.value}</button>
         <slot></slot>
       `
     })
@@ -115,6 +118,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 
     const MyShadowView = customShadow(() => html`<p>shrouded in darkness</p>`)
     ```
+- **shadow views are rendered inside** a `<sly-shadow>` host element by default
 
 
 
@@ -122,13 +126,13 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 <a id="hooks"></a>
 
 ## 🪝 hooks
-> *composable view state and utilities*  
+> *composable view state and utilities*
 
 ### 👮 follow the hooks rules
 
-just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of sly's `use` hooks actually matters.
+just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of hooks seriously matters.
 
-you must not call these hooks under `if` conditionals, or `for` loops, or in callbacks, or after a conditional `return` statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
+you must not call these hooks under if-conditionals, or for-loops, or inside callback functions, or after a conditional return statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
 
 ### 🌚 shadow-only hooks
 - **useName,** set the "view" attribute value
@@ -264,7 +268,7 @@ you must not call these hooks under `if` conditionals, or `for` loops, or in cal
 <a id="ops"></a>
 
 ## 🫛 ops
-> *tools for async operations and loading spinners*  
+> *helpers for async operations*
 
 ```ts
 import {nap} from "@e280/stz"
@@ -372,7 +376,7 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
 <a id="loaders"></a>
 
 ## ⏳ loaders
-> *animated loading spinners for ops*  
+> *animated loading spinners for ops*
 
 ```ts
 import {loaders} from "@e280/sly"
@@ -529,7 +533,7 @@ import {ev} from "@e280/stz"
 <a id="dom"></a>
 
 ## 🪄 dom
-> *the "it's not jquery!" multitool*  
+> *the "it's not jquery!" multitool*
 
 ```ts
 import {dom} from "@e280/sly"
