@@ -23,7 +23,11 @@ export class DemoComponent extends (view.component(use => {
 
 		<div>
 			<span>new shadow view:</span>
-			${CounterShadow(234)}
+			${CounterShadow.with({
+				props: [234],
+				attrs: {"data-lol": 555},
+				children: html`<p>hello</p>`,
+			})}
 		</div>
 
 		${CounterView
