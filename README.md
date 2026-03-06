@@ -2,21 +2,19 @@
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly
-> *mischievous shadow views*
+> *[@e280's](https://e280.org/) [lit-based](https://lit.dev/) frontend webdev library.*
 
 ```sh
 npm install lit @e280/sly @e280/strata @e280/stz
 ```
 
-[@e280](https://e280.org/)'s new [lit](https://lit.dev/)-based frontend webdev library.
-
-- 🎭 [**#views**](#views) — light-dom or shadow-dom reactive lit views
-- 🪝 [**#hooks**](#hooks) — full reference of available view hooks
-- 🫛 [**#ops**](#ops) — reactive tooling for async operations
-- ⏳ [**#loaders**](#loaders) — animated loading spinners for rendering ops
-- 🪙 [**#loot**](#loot) — drag-and-drop facilities
-- 🪄 [**#dom**](#dom) — the "it's not jquery" multitool
-- 🧪 https://sly.e280.org/ — our testing page
+- 🎭 [**#views,**](#views) reactive lit views, light-dom or shadow-dom
+- 🪝 [**#hooks,**](#hooks) react-like composable hooks
+- 🫛 [**#ops,**](#ops) tooling for async operations ui
+- ⏳ [**#loaders,**](#loaders) render ops with animated loading spinners
+- 🪙 [**#loot,**](#loot) drag-and-drop facilities
+- 🪄 [**#dom,**](#dom) the "it's not jquery" multitool
+- 🧪 **https://sly.e280.org/** our testing page
 
 
 
@@ -26,10 +24,10 @@ npm install lit @e280/sly @e280/strata @e280/stz
 ## 🎭 views
 > *reactive views, light or shadow*  
 
-- 🪶 **no compile step** — just god's honest javascript, via [lit](https://lit.dev/)-html tagged-template-literals
-- ⚡ **reactive** — views auto-rerender whenever any [strata](https://github.com/e280/strata)-compatible state changes
-- 🪝 **hooks-based** — familiar react-style [hooks](#hooks)
-- 🌗 **light or shadow** — render directly in the dom, or inside a shadow-dom bubble
+- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-template-literals
+- ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes
+- 🪝 **hooks-based,** familiar react-style [hooks](#hooks)
+- 🌗 **light or shadow,** render directly to dom, or in a cozy shadow bubble
 
 ```ts
 import {html} from "lit"
@@ -41,7 +39,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 ```
 
 ### 🌞 light views
-> *just pretend it's react*
+> *"just pretend it's react"*
 
 - **define a light view**
     ```ts
@@ -109,11 +107,13 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **you can do custom shadow config if needed**
     ```ts
-    const MyShadowView = shadow.config(() => {
+    const customShadow = shadow.config(() => {
       const host = document.createElement("div")
       const shadow = host.attachShadow({mode: "open"})
       return {host, shadow}
-    })(() => html`<p>shrouded in darkness</p>`)
+    })
+
+    const MyShadowView = customShadow(() => html`<p>shrouded in darkness</p>`)
     ```
 
 
@@ -131,39 +131,39 @@ just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), t
 you must not call these hooks under `if` conditionals, or `for` loops, or in callbacks, or after a conditional `return` statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
 
 ### 🌚 shadow-only hooks
-- **useName** — *(shadow only)* — set the "view" attribute value
+- **useName,** set the "view" attribute value
     ```ts
     useName("squarepants")
       // <sly-shadow view="squarepants">
     ```
-- **useCss** — *(shadow only)*  — attach stylesheets (use lit's `css`!) to the shadow root
+- **useCss,** attach stylesheets (use lit's `css`!) to the shadow root
     ```ts
     useCss(css1, css2, css3)
     ```
-- **useHost** — *(shadow only)*  — get the host element
+- **useHost,** get the host element
     ```ts
     const host = useHost()
     ```
-- **useShadow** — *(shadow only)*  — get the shadow root
+- **useShadow,** get the shadow root
     ```ts
     const shadow = useShadow()
     ```
 
 ### 🌞 universal hooks
-- **useState** — react-like hook to create some reactive state (we prefer signals)
+- **useState,** react-like hook to create some reactive state (we prefer signals)
     ```ts
     const [count, setCount] = useState(0)
 
     const increment = () => setCount(n => n + 1)
     ```
-- **useRef** — react-like hook to make a non-reactive box for a value
+- **useRef,** react-like hook to make a non-reactive box for a value
     ```ts
     const ref = useRef(0)
 
     ref.current // 0
     ref.current = 1 // does not trigger rerender
     ```
-- **useSignal** — create a [strata](https://github.com/e280/strata) signal
+- **useSignal,** create a [strata](https://github.com/e280/strata) signal
     ```ts
     const $count = useSignal(1)
 
@@ -174,12 +174,12 @@ you must not call these hooks under `if` conditionals, or `for` loops, or in cal
     $count(2)
     ```
     - see [strata readme](https://github.com/e280/strata)
-- **useDerived** — create a [strata](https://github.com/e280/strata) derived signal
+- **useDerived,** create a [strata](https://github.com/e280/strata) derived signal
     ```ts
     const $product = useDerived(() => $count() * $whatever())
     ```
     - see [strata readme](https://github.com/e280/strata)
-- **useOnce** — run fn at initialization, and return a value
+- **useOnce,** run fn at initialization, and return a value
     ```ts
     const whatever = useOnce(() => {
       console.log("happens one time")
@@ -188,14 +188,14 @@ you must not call these hooks under `if` conditionals, or `for` loops, or in cal
 
     whatever // 123
     ```
-- **useMount** — setup mount/unmount lifecycle
+- **useMount,** setup mount/unmount lifecycle
     ```ts
     useMount(() => {
       console.log("mounted")
       return () => console.log("unmounted")
     })
     ```
-- **useWake** — run fn each time mounted, and return value
+- **useWake,** run fn each time mounted, and return value
     ```ts
     const whatever = useWake(() => {
       console.log("mounted")
@@ -204,7 +204,7 @@ you must not call these hooks under `if` conditionals, or `for` loops, or in cal
 
     whatever // 123
     ```
-- **useLife** — mount/unmount lifecycle, but also return a value
+- **useLife,** mount/unmount lifecycle, but also return a value
     ```ts
     const whatever = useLife(() => {
       console.log("mounted")
@@ -214,30 +214,30 @@ you must not call these hooks under `if` conditionals, or `for` loops, or in cal
 
     whatever // 123
     ```
-- **useRender** — returns a fn to rerender the view (debounced)
+- **useRender,** returns a fn to rerender the view (debounced)
     ```ts
     const render = useRender()
 
     render().then(() => console.log("render done"))
     ```
-- **useRendered** — get a promise that resolves *after* the next render
+- **useRendered,** get a promise that resolves *after* the next render
     ```ts
     useRendered().then(() => console.log("rendered"))
     ```
-- **useOp** — start loading an op based on an async fn
+- **useOp,** start loading an op based on an async fn
     ```ts
     const op = useOp(async() => {
       await nap(5000)
       return 123
     })
     ```
-- **useOpPromise** — start loading an op based on a promise
+- **useOpPromise,** start loading an op based on a promise
     ```ts
     const op = useOpPromise(doAsyncWork())
     ```
 
 ### 🧑‍🍳 happy hooks recipes
-- make a ticker — mount, cycle, and nap
+- make a ticker, mount, cycle, and nap
     ```ts
     import {cycle, nap} from "@e280/stz"
     ```
@@ -251,7 +251,9 @@ you must not call these hooks under `if` conditionals, or `for` loops, or in cal
     ```
 - wake + rendered, to do something after each mount's first render
     ```ts
-    useWake(() => useRendered.then(() => {
+    const rendered = useRendered()
+
+    useWake(() => rendered.then(() => {
       console.log("after first render")
     }))
     ```
@@ -300,19 +302,19 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
 - see more at [podium.ts](./s/ops/podium.ts)
 
 ### 🫛 ops: nice pod ergonomics
-- an `Op<V>` wraps a pod with a signal for reactivity
+- an `Op<V>` wraps a pod with a strata signal for reactivity
 - create an op
     ```ts
-    const op = new Op<number>() // loading status by default
+    new Op<number>() // loading status by default
     ```
     ```ts
-    const op = Op.loading<number>()
+    Op.loading<number>()
     ```
     ```ts
-    const op = Op.ready<number>(123)
+    Op.ready<number>(123)
     ```
     ```ts
-    const op = Op.error<number>(new Error())
+    Op.error<number>(new Error())
     ```
 - 🔥 create an op that calls and tracks an async fn
     ```ts
@@ -339,13 +341,12 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
 - select executes a fn based on the status
     ```ts
     const result = op.select({
-      loading: () => "it's loading...",
+      loading: () => "still loading...",
       ready: value => `dude, it's ready! ${value}`,
-      error: err => `dude, there's an error!`,
+      error: err => `ack! an error!`,
     })
 
-    result
-      // "dude, it's ready! 123"
+    result // "dude, it's ready! 123"
     ```
 - morph returns a new pod, transforming the value if ready
     ```ts
