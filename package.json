@@ -21,7 +21,7 @@
 		"lit": "^3.3.2"
 	},
 	"dependencies": {
-		"@e280/strata": "^0.3.0-0",
+		"@e280/strata": "^0.3.0-1",
 		"@e280/stz": "^0.2.22"
 	},
 	"devDependencies": {
