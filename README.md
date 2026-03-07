@@ -118,11 +118,11 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       })}
     `)
     ```
-- **you can do custom shadow config if needed** (default shown)
+- **you can do custom shadow setup if needed** (default shown)
     ```ts
     import {SlyShadow} from "@e280/sly"
 
-    const customShadow = shadow.config(() => {
+    const customShadow = shadow.setup(() => {
       SlyShadow.register()
       const host = document.createElement("sly-shadow")
       const shadow = host.attachShadow({mode: "open"})
