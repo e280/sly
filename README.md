@@ -23,12 +23,13 @@ npm install lit @e280/sly @e280/strata @e280/stz
 <a id="views"></a>
 
 ## 🎭 views
-> *"flourish in the light.. or thrive in the darkness"*
+> *reactive lit-html views*
 
+- 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html (no build!)
 - 🌗 **light or shadow,** render nakedly on the page, or within a cozy shadow bubble
 - 🪝 **hooks-based,** familiar react-style [hooks](#hooks)
 - ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes
-- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-template-literals
+- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-templates
 - 🧩 **not web components,** no dom registration needed, just vibes and good typings
 
 ```ts
@@ -41,7 +42,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 ```
 
 ### 🌞 light views
-> *"just pretend it's react, without jsx"*
+> *just pretend it's like react!*
 
 - **define a light view**
     ```ts
@@ -64,12 +65,9 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       ${MyCounter(123)}
     `)
     ```
-    - light views have no host element, rendered output looks like:
-        ```html
-        <h1>my cool counter demo</h1>
-        <button>123</button>
-        ```
-- **light views are naked,** they don't have a containing host element
+- **remember, light views are naked.**  
+    so they don't have a containing host element,  
+    and they can't have their own styles.  
 
 ### 🌚 shadow views
 > *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble and supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
