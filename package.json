@@ -21,29 +21,22 @@
 		"lit": "^3.3.2"
 	},
 	"dependencies": {
-		"@e280/strata": "^0.3.0-1",
+		"@e280/strata": "^0.3.0-2",
 		"@e280/stz": "^0.2.24"
 	},
 	"devDependencies": {
+		"@e280/octo": "^0.1.0-12",
 		"@e280/science": "^0.1.8",
-		"@e280/scute": "^0.2.2",
+		"@e280/scute": "^0.3.0-1",
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^5.9.3"
 	},
 	"scripts": {
-		"build": "run-s _clean _ln _tsc _scute",
-		"start": "octo 'scute -vw' 'tsc -w' 'node --watch x/tests.test.js' 'http-server x'",
+		"build": "rm -rf x && mkdir x && ln -s '$(realpath s)' x/s && ln -s '$(realpath assets)' x/assets && tsc && scute -v",
+		"start": "octo 'tsc -w' 'scute -wv' 'node --watch x/test.js' 'http-server x'",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"test": "node x/tests.test.js",
-		"test-inspect": "node inspect x/tests.test.js",
-		"_clean": "rm -rf x && mkdir x",
-		"_tsc": "tsc",
-		"_scute": "scute -v",
-		"_ln": "run-s _ln:s _ln:assets",
-		"_ln:s": "ln -s \"$(realpath s)\" x/s",
-		"_ln:assets": "ln -s \"$(realpath assets)\" x/assets",
-		"_lnx:stz": "rm -rf node_modules/@e280/stz && ln -s \"$(realpath ../stz)\" node_modules/@e280/stz"
+		"test": "node x/test.js"
 	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"homepage": "https://github.com/e280/sly#readme",
@@ -55,9 +48,10 @@
 		"url": "https://github.com/e280/sly/issues"
 	},
 	"keywords": [
+		"lit",
+		"views",
 		"shadow views",
 		"shadow dom",
-		"components",
-		"lit"
+		"components"
 	]
 }
