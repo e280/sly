@@ -4,6 +4,10 @@
 	"description": "web shadow views",
 	"license": "MIT",
 	"type": "module",
+	"files": [
+		"x",
+		"s"
+	],
 	"main": "./x/index.js",
 	"exports": {
 		".": "./x/index.js",
@@ -13,10 +17,12 @@
 		"./ops": "./x/ops/index.js",
 		"./view": "./x/view/index.js"
 	},
-	"files": [
-		"x",
-		"s"
-	],
+	"scripts": {
+		"build": "rm -rf x && mkdir x && ln -s '$(realpath s)' x/s && ln -s '$(realpath assets)' x/assets && tsc && scute -v",
+		"start": "octo 'tsc -w' 'scute -wv' 'node --watch x/test.js' 'http-server x'",
+		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
+		"test": "node x/test.js"
+	},
 	"peerDependencies": {
 		"lit": "^3.3.2"
 	},
@@ -31,12 +37,6 @@
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"typescript": "^5.9.3"
-	},
-	"scripts": {
-		"build": "rm -rf x && mkdir x && ln -s '$(realpath s)' x/s && ln -s '$(realpath assets)' x/assets && tsc && scute -v",
-		"start": "octo 'tsc -w' 'scute -wv' 'node --watch x/test.js' 'http-server x'",
-		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"test": "node x/test.js"
 	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"homepage": "https://github.com/e280/sly#readme",
