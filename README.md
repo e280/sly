@@ -132,6 +132,24 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     const MyShadowView = customShadow(() => html`<p>shrouded in darkness</p>`)
     ```
 
+### 🍨 web components
+> *web-native custom elements*
+
+- **they use hooks like the views, but they don't take props**
+    ```ts
+    import {html} from "lit"
+    import {lightElement, shadowElement} from "@e280/sly"
+
+    const MyLight = lightElement(() => html`hello`)
+    const MyShadow = shadowElement(() => html`hello`)
+
+    dom.register({MyLight, MyShadow})
+    ```
+    ```html
+    <my-light></my-light>
+    <my-shadow></my-shadow>
+    ```
+
 
 
 <br/><br/>

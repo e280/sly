@@ -20,6 +20,9 @@ export const Demo = shadow(() => {
 			})}
 		</p>
 
+		<time-shadow></time-shadow>
+		<time-light></time-light>
+
 		${LoadersView()}
 	`
 })
