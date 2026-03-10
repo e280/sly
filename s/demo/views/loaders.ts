@@ -1,8 +1,8 @@
 
 import {css, html} from "lit"
-import {Op} from "../../ops/op.js"
+import {Op} from "../../op/op.js"
 import {shadow} from "../../view/shadow.js"
-import {loaders} from "../../loaders/index.js"
+import {loaders} from "../../loader/index.js"
 import {cssReset, useName, useOnce, useStyles} from "../../view/index.js"
 
 export const LoadersView = shadow(() => {

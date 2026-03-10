@@ -13,9 +13,11 @@
 
 ### v0.3.0
 - 🍏🎉 all-new `view` system featuring `light` and `shadow` with new hooks system
+- 🟥 deleted legacy `view` system!
 - 🟥 deleted `spa` routing system!
 - 🟥 deleted `base` element system!
-- 🟥 deleted legacy `view` system!
+- 🟥 rename `@e280/sly/loaders` to `@e280/sly/loader`
+- 🟥 rename `@e280/sly/ops` to `@e280/sly/op`
 
 
 

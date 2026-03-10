@@ -12,9 +12,9 @@
 	"exports": {
 		".": "./x/index.js",
 		"./dom": "./x/dom/index.js",
-		"./loaders": "./x/loaders/index.js",
+		"./loader": "./x/loader/index.js",
 		"./loot": "./x/loot/index.js",
-		"./ops": "./x/ops/index.js",
+		"./op": "./x/op/index.js",
 		"./view": "./x/view/index.js"
 	},
 	"scripts": {

@@ -1,5 +1,5 @@
 
-import {Op} from "../../ops/op.js"
+import {Op} from "../../op/op.js"
 import {useOnce} from "./use-once.js"
 
 export function useOp<Value>(fn: () => Promise<Value>) {

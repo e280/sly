@@ -331,7 +331,7 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
     podium.value(["ready", 123])
       // 123
     ```
-- see more at [podium.ts](./s/ops/podium.ts)
+- see more at [podium.ts](./s/op/podium.ts)
 
 ### 🫛 ops: nice pod ergonomics
 - an `Op<V>` wraps a pod with a strata signal for reactivity
