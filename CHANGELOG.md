@@ -18,6 +18,7 @@
 - 🟥 deleted `base` element system!
 - 🟥 rename `@e280/sly/loaders` to `@e280/sly/loader`
 - 🟥 rename `@e280/sly/ops` to `@e280/sly/op`
+- 🟥 cssReset is no longer wrapped in a `@layer` rule
 
 
 
