@@ -180,6 +180,16 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     ```ts
     const shadow = useShadow()
     ```
+- **useAttrs,** access host element attributes (and rerender on attr changes)
+    ```ts
+    const attrs = useAttrs({
+      name: String,
+      count: Number,
+      active: Boolean,
+    })
+
+    attrs.count = 123 // set the attr
+    ```
 
 ### 🌞 universal hooks
 - **useState,** react-like hook to create some reactive state (we prefer signals)

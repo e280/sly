@@ -5,6 +5,7 @@ export * from "./common/sly-shadow.js"
 export * from "./elements/light.js"
 export * from "./elements/shadow.js"
 
+export * from "./hooks/use-attrs.js"
 export * from "./hooks/use-css.js"
 export * from "./hooks/use-cx.js"
 export * from "./hooks/use-life.js"
