@@ -8,13 +8,13 @@ export function useState<Value>(value: Value) {
 
 	const set = (next: Value | ((prev: Value) => Value)) => {
 		const value = typeof next === "function"
-			? (next as (prev: Value) => Value)(ref.value)
+			? (next as (prev: Value) => Value)(ref.current)
 			: next
-		if (Object.is(value, ref.value)) return
-		ref.value = value
+		if (Object.is(value, ref.current)) return
+		ref.current = value
 		render()
 	}
 
-	return [ref.value, set] as const
+	return [ref.current, set] as const
 }
 

@@ -8,10 +8,10 @@ export function useLife<Value>(fn: () => [value: Value, dispose: () => void]) {
 
 	useMount(() => {
 		const [value, dispose] = fn()
-		ref.value = value
+		ref.current = value
 		return dispose
 	})
 
-	return ref.value
+	return ref.current
 }
 
