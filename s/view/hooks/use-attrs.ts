@@ -1,14 +1,28 @@
 
+import {useRef} from "./use-ref.js"
 import {dom} from "../../dom/dom.js"
 import {useOnce} from "./use-once.js"
 import {useMount} from "./use-mount.js"
 import {AttrSpec} from "../../dom/types.js"
-import {useHost, useRender} from "./use-cx.js"
+import {useHost, useRender, useRendered} from "./use-cx.js"
 
 export function useAttrs<A extends AttrSpec>(spec: A) {
 	const host = useHost()
 	const rerender = useRender()
-	useMount(() => dom.attrs(host).on(rerender))
-	return useOnce(() => dom.attrs(host).spec(spec))
+	const ourChanges = useRef(new Set<string>())
+
+	useMount(() => dom.attrs(host).on(records => {
+		for (const record of records) {
+			if (ourChanges.current.has(record.attributeName!)) continue
+			rerender()
+			break
+		}
+	}))
+
+	useRendered().then(() => ourChanges.current.clear())
+
+	return useOnce(() => dom.attrs(host).spec(spec, {
+		beforeSet: key => ourChanges.current.add(key),
+	}))
 }
 
