@@ -11,6 +11,7 @@ npm install lit @e280/sly @e280/strata @e280/stz
 
 - 🎭 [**#views,**](#views) reactive lit views, light-dom or shadow-dom
 - 🪝 [**#hooks,**](#hooks) react-like composable hooks
+- 💅 [**#spa,**](#spa) tiny router for hashy little single-page-apps
 - 🫛 [**#ops,**](#ops) tooling for async operations ui
 - ⏳ [**#loaders,**](#loaders) render ops with animated loading spinners
 - 🪙 [**#loot,**](#loot) drag-and-drop facilities
@@ -296,6 +297,76 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     useWake(() => rendered.then(() => {
       console.log("after first render")
     }))
+    ```
+
+
+
+<br/><br/>
+<a id="spa"></a>
+
+## 💅 spa
+> *tiny router for cozy single page apps*
+
+```ts
+import {router, norm} from "@e280/sly/spa"
+```
+
+- **match paths**
+    ```ts
+    const route = router({
+      "": () => "home", // 💁 each route can return anything
+      "settings": () => "settings",
+
+      // 🧩 params use braces
+      "user/{id}": params => `user ${params.id}`,
+
+      // 🔀 subpath with {*}
+      "user/{id}/{*}": (params, subpath) => `user ${params.id} ${subpath}`,
+    })
+    ```
+    ```ts
+    route("")
+      // "home"
+
+    route("settings")
+      // "settings"
+
+    route("user/123/profile")
+      // "user 123 profile"
+
+    route("unknown/whatever")
+      // undefined
+    ```
+  - **`norm` fn to normalize leading slashes and hash shenanigans**
+    ```ts
+    route(norm(location.hash))
+    ```
+    ```ts
+    route(norm(location.pathname))
+    ```
+- **subrouting pattern**
+    ```ts
+    const user = (params: {id: string}) => router({
+      "profile": () => `user ${params.id} profile`,
+      "invites": () => `user ${params.id} invites`,
+    })
+
+    const route = router({
+      "user/{id}/{*}": (params, subpath) => user(params)(subpath),
+    })
+    ```
+    ```ts
+    route("user/123/profile")
+      // "user 123 profile"
+    ```
+- **setup a basic hash router**
+    ```ts
+    const update = () => {
+      console.log(route(norm(location.hash)))
+    }
+
+    update()
+    addEventListener("hashchange", update)
     ```
 
 
@@ -717,4 +788,3 @@ import {dom} from "@e280/sly"
 ## 🧑‍💻 sly is by e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
-
