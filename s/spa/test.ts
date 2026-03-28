@@ -21,11 +21,18 @@ export default suite({
 		expect(route("unknown")).is(undefined)
 	}),
 
-	"parameters are passed to fn": test(async() => {
+	"params are passed to fn": test(async() => {
 		const route = router({
 			"user/{id}": p => "my-user-" + p.id,
 		})
 		expect(route("user/123")).is("my-user-123")
+	}),
+
+	"two params": test(async() => {
+		const route = router({
+			"user/{id}/{mode}": p => `my-user-${p.id}-${p.mode}`,
+		})
+		expect(route("user/123/active")).is("my-user-123-active")
 	}),
 
 	"order matters": test(async() => {
