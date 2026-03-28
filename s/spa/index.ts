@@ -1,4 +1,5 @@
 
+export * from "./fns/clean-hash.js"
 export * from "./fns/norm.js"
 export * from "./fns/router.js"
 

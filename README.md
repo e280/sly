@@ -308,7 +308,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 > *tiny router for cozy single page apps*
 
 ```ts
-import {router, norm} from "@e280/sly/spa"
+import {router, norm, cleanHash} from "@e280/sly"
 ```
 
 - **match paths**
@@ -361,10 +361,10 @@ import {router, norm} from "@e280/sly/spa"
     ```
 - **setup a basic hash router**
     ```ts
-    const update = () => {
+    function update() {
+      cleanHash()
       console.log(route(norm(location.hash)))
     }
-
     update()
     addEventListener("hashchange", update)
     ```
