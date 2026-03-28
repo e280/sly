@@ -1,5 +1,6 @@
 
-import {Science} from "@e280/science"
+import {run} from "@e280/science"
+import spa from "./spa/test.js"
 
-await Science.run({})
+await run({spa})
 
