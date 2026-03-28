@@ -1,6 +1,7 @@
 
 import {suite, test, expect} from "@e280/science"
-import {norm, router} from "./spa.js"
+import {norm} from "./fns/norm.js"
+import {router} from "./fns/router.js"
 
 export default suite({
 	"basic routing": test(async() => {
