@@ -314,7 +314,7 @@ import {router, norm, cleanHash, hashNav, hashSignal} from "@e280/sly"
 - **match paths**
     ```ts
     const route = router({
-      "": () => "home", // 💁 each route can return anything
+      "": () => "home", // 💁 routes can return anything
       "settings": () => "settings",
 
       // 🧩 params use braces
@@ -364,9 +364,9 @@ import {router, norm, cleanHash, hashNav, hashSignal} from "@e280/sly"
     const go = hashNav({
       home: () => ``,
       settings: () => `settings`,
-      user: (id: number) => `user/${id}`,
-      userProfile: (id: number) => `user/${id}/profile`,
-      userInvites: (id: number) => `user/${id}/invites`,
+      user: (id: string) => `user/${id}`,
+      userProfile: (id: string) => `user/${id}/profile`,
+      userInvites: (id: string) => `user/${id}/invites`,
     })
 
     go.settings()
