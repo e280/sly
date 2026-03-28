@@ -30,7 +30,7 @@ export type RouteFor<Path extends string> = (
 		: []
 ) => unknown
 
-export function spa<const R extends {[P in keyof R]: RouteFor<P & string>}>(routes: R) {
+export function router<const R extends {[P in keyof R]: RouteFor<P & string>}>(routes: R) {
 	type Handler = (...args: any[]) => ReturnType<R[keyof R]>
 	const compiled = Object.entries(routes).map(([pattern, route]) => {
 		const segments = pattern === "" ? [] : pattern.split("/")
@@ -98,3 +98,4 @@ export function norm(path: string): string {
 
 	return path
 }
+

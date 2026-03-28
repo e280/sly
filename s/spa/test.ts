@@ -1,72 +1,72 @@
 
 import {suite, test, expect} from "@e280/science"
-import {norm, spa} from "./spa.js"
+import {norm, router} from "./spa.js"
 
 export default suite({
 	"basic routing": test(async() => {
-		const router = spa({
+		const route = router({
 			"profile": () => "my-profile",
 			"settings": () => "my-settings",
 		})
-		expect(router("profile")).is("my-profile")
-		expect(router("settings")).is("my-settings")
+		expect(route("profile")).is("my-profile")
+		expect(route("settings")).is("my-settings")
 	}),
 
 	"return undefined on unknown routes": test(async() => {
-		const router = spa({
+		const route = router({
 			"profile": () => "my-profile",
 			"settings": () => "my-settings",
 		})
-		expect(router("unknown")).is(undefined)
+		expect(route("unknown")).is(undefined)
 	}),
 
 	"parameters are passed to fn": test(async() => {
-		const router = spa({
+		const route = router({
 			"user/{id}": p => "my-user-" + p.id,
 		})
-		expect(router("user/123")).is("my-user-123")
+		expect(route("user/123")).is("my-user-123")
 	}),
 
 	"order matters": test(async() => {
-		const router1 = spa({
+		const r1 = router({
 			"user/a": () => "alpha",
 			"user/{id}": () => "bravo",
 		})
-		expect(router1("user/a")).is("alpha")
-		expect(router1("user/123")).is("bravo")
-		const router2 = spa({
+		expect(r1("user/a")).is("alpha")
+		expect(r1("user/123")).is("bravo")
+		const r2 = router({
 			"user/{id}": () => "bravo",
 			"user/a": () => "alpha",
 		})
-		expect(router2("user/123")).is("bravo")
-		expect(router2("user/a")).is("bravo")
+		expect(r2("user/123")).is("bravo")
+		expect(r2("user/a")).is("bravo")
 	}),
 
 	"subrouting": test(async() => {
-		const subrouter = (p: {id: string}) => spa({
+		const subroute = (p: {id: string}) => router({
 			"profile": () => "my-profile-" + p.id,
 			"settings": () => "my-settings-" + p.id,
 		})
-		const router = spa({
-			"user/{id}/{*}": (p, subpath) => subrouter(p)(subpath),
+		const route = router({
+			"user/{id}/{*}": (p, subpath) => subroute(p)(subpath),
 		})
-		expect(router("user/123/profile")).is("my-profile-123")
-		expect(router("user/123/settings")).is("my-settings-123")
+		expect(route("user/123/profile")).is("my-profile-123")
+		expect(route("user/123/settings")).is("my-settings-123")
 	}),
 
 	"norm": test(async() => {
-		const router = spa({
+		const route = router({
 			"": () => "my-home",
 			"settings": () => "my-settings",
 		})
-		expect(router(norm(""))).is("my-home")
-		expect(router(norm("/"))).is("my-home")
-		expect(router(norm("#"))).is("my-home")
-		expect(router(norm("#/"))).is("my-home")
-		expect(router(norm("settings"))).is("my-settings")
-		expect(router(norm("/settings"))).is("my-settings")
-		expect(router(norm("#settings"))).is("my-settings")
-		expect(router(norm("#/settings"))).is("my-settings")
+		expect(route(norm(""))).is("my-home")
+		expect(route(norm("/"))).is("my-home")
+		expect(route(norm("#"))).is("my-home")
+		expect(route(norm("#/"))).is("my-home")
+		expect(route(norm("settings"))).is("my-settings")
+		expect(route(norm("/settings"))).is("my-settings")
+		expect(route(norm("#settings"))).is("my-settings")
+		expect(route(norm("#/settings"))).is("my-settings")
 	}),
 })
 

@@ -15,6 +15,7 @@
 		"./loader": "./x/loader/index.js",
 		"./loot": "./x/loot/index.js",
 		"./op": "./x/op/index.js",
+		"./spa": "./x/spa/index.js",
 		"./view": "./x/view/index.js"
 	},
 	"scripts": {
