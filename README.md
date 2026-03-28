@@ -337,7 +337,7 @@ import {router, norm} from "@e280/sly/spa"
     route("unknown/whatever")
       // undefined
     ```
-  - **`norm` fn to normalize leading slashes and hash shenanigans**
+- **`norm` fn to normalize leading slashes and hash shenanigans**
     ```ts
     route(norm(location.hash))
     ```
