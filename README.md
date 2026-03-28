@@ -308,7 +308,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 > *tiny router for cozy single page apps*
 
 ```ts
-import {router, norm, cleanHash, hashNav} from "@e280/sly"
+import {router, norm, cleanHash, hashNav, hashSignal} from "@e280/sly"
 ```
 
 - **match paths**
@@ -359,18 +359,7 @@ import {router, norm, cleanHash, hashNav} from "@e280/sly"
     route("user/123/profile")
       // "user 123 profile"
     ```
-- **setup hash routing**
-    ```ts
-    function update() {
-      cleanHash()
-      const content = route(norm(location.hash))
-      console.log(content)
-        // you should render this content in your app
-    }
-    update()
-    addEventListener("hashchange", update)
-    ```
-- **setup hash nav**
+- **setup hash nav and signal**
     ```ts
     const go = hashNav({
       home: () => ``,
@@ -385,6 +374,10 @@ import {router, norm, cleanHash, hashNav} from "@e280/sly"
 
     go.user("123")
       // navigates to "#/user/123"
+    ```
+    ```ts
+    const $content = hashSignal(route)
+      // signal will update whenever the hash changes
     ```
 
 
