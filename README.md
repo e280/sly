@@ -220,6 +220,10 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     ```ts
     const $product = useDerived(() => $count() * $whatever())
     ```
+- **useEffect,** run a fn whenever [strata](https://github.com/e280/strata) state changes
+    ```ts
+    useEffect(() => console.log($count))
+    ```
 - **useOnce,** run fn at initialization, and return a value
     ```ts
     const whatever = useOnce(() => {
