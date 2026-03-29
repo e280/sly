@@ -1,5 +1,5 @@
 
-name: 🚀 release to github pages
+name: 🚀 github pages deploy
 on:
   push:
     branches: ["main"]
