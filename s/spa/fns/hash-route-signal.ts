@@ -3,7 +3,7 @@ import {signal} from "@e280/strata"
 import {norm} from "./norm.js"
 import {cleanHash} from "./clean-hash.js"
 
-export function hashSignal<R>(route: (path: string) => R) {
+export function hashRouteSignal<R>(route: (path: string) => R) {
 	const $content = signal<R>(undefined!)
 
 	function update() {

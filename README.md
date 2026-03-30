@@ -312,7 +312,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 > *tiny router for cozy single page apps*
 
 ```ts
-import {router, norm, cleanHash, hashNav, hashSignal} from "@e280/sly"
+import {router, norm, cleanHash, hashNav, hashRouteSignal} from "@e280/sly"
 ```
 
 - **match paths**
@@ -380,7 +380,7 @@ import {router, norm, cleanHash, hashNav, hashSignal} from "@e280/sly"
       // navigates to "#/user/123"
     ```
     ```ts
-    const $content = hashSignal(route)
+    const $content = hashRouteSignal(route)
       // signal will update whenever the hash changes
     ```
 
