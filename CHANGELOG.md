@@ -11,6 +11,9 @@
 
 ## v0.3
 
+### v0.3.1
+- 🍏 allow `hashNav` fn params
+
 ### v0.3.0
 - 🍏🎉 all-new `view` system featuring `light` and `shadow` with new hooks system
 - 🟥 deleted legacy `view` system!
