@@ -19,10 +19,10 @@
 		"./view": "./x/view/index.js"
 	},
 	"scripts": {
-		"build": "rm -rf x && mkdir x && ln -s '$(realpath s)' x/s && ln -s '$(realpath assets)' x/assets && tsc && scute -v",
-		"start": "octo 'tsc -w' 'scute -wv' 'node --watch x/test.js' 'http-server x'",
-		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +",
-		"test": "node x/test.js"
+		"build": "rm -rf x && mkdir x && ln -s \"$(realpath s)\" x/s && ln -s \"$(realpath assets)\" x/assets && tsc && scute -v",
+		"test": "node x/test.js",
+		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -wv' 'http-server x'",
+		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
 	},
 	"peerDependencies": {
 		"lit": "^3.3.2"
