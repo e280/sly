@@ -62,6 +62,22 @@ export default suite({
 		expect(route("user/123/settings")).is("my-settings-123")
 	}),
 
+	"star gives empty string when empty": test(async() => {
+		const route = router({
+			"user/{id}/{*}": (_p, subpath) => subpath,
+		})
+		expect(route("user/123/")).is("")
+	}),
+
+	"explicit path vs star": test(async() => {
+		const route = router({
+			"user/{id}/": _p => "normal",
+			"user/{id}/{*}": _p => "subpath",
+		})
+		expect(route("user/123/")).is("normal")
+		expect(route("user/123/a")).is("subpath")
+	}),
+
 	"norm": test(async() => {
 		const route = router({
 			"": () => "my-home",
