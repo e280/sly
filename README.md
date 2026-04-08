@@ -431,7 +431,6 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
 ```
 
 ### 🫛 pods: loading/ready/error
-- a pod represents an async operation in terms of json-serializable data
 - there are three kinds of `Pod<V>`
     ```ts
     // loading pod
