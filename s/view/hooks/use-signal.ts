@@ -1,7 +1,7 @@
 
 import {signal, watch} from "@e280/strata"
 import {useOnce} from "./use-once.js"
-import {useLife} from "./use-life.js"
+import {useLifecycle} from "./use-lifecycle.js"
 
 export function useSignal<Value>(value: Value) {
 	return useOnce(() => signal(value))
@@ -20,7 +20,7 @@ export function useEffect<Value>(
 		responder?: (value: Value) => void,
 	) {
 
-	return useLife(() => {
+	return useLifecycle(() => {
 		const {result, dispose} = watch(collector, responder)
 		return [result, dispose]
 	})

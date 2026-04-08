@@ -11,6 +11,9 @@
 
 ## v0.3
 
+### v0.3.4
+- 🔶 rename `useLife` to `useLifecycle`
+
 ### v0.3.3
 - 🍏 update dependencies and improve readme spa docs
 

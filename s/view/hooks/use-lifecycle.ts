@@ -3,7 +3,7 @@ import {useRef} from "./use-ref.js"
 import {useMount} from "./use-mount.js"
 
 /** mount/unmount lifecycle, but also return a value */
-export function useLife<Value>(fn: () => [value: Value, dispose: () => void]) {
+export function useLifecycle<Value>(fn: () => [value: Value, dispose: () => void]) {
 	const ref = useRef<Value>(undefined as Value)
 
 	useMount(() => {
@@ -14,4 +14,7 @@ export function useLife<Value>(fn: () => [value: Value, dispose: () => void]) {
 
 	return ref.current
 }
+
+/** @deprecated renamed to `useLifecycle` */
+export const useLife = useLifecycle
 
