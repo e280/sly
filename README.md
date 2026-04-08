@@ -312,10 +312,13 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 > *tiny router for cozy single page apps*
 
 ```ts
-import {router, norm, cleanHash, hashNav, hashRouteSignal} from "@e280/sly"
+import {derived} from "@e280/strata"
+import {router, norm, hashNav, hashSignal} from "@e280/sly"
 ```
 
-- **match paths**
+the spa router is agnostic about whether you're routing `location.hash` or `location.pathname` or otherwise.
+
+- **router**
     ```ts
     const route = router({
       "": () => "home", // 💁 routes can return anything
@@ -328,6 +331,7 @@ import {router, norm, cleanHash, hashNav, hashRouteSignal} from "@e280/sly"
       "user/{id}/{*}": (params, subpath) => `user ${params.id} ${subpath}`,
     })
     ```
+    you get a fn that resolves the path you give it
     ```ts
     route("")
       // "home"
@@ -341,21 +345,27 @@ import {router, norm, cleanHash, hashNav, hashRouteSignal} from "@e280/sly"
     route("unknown/whatever")
       // undefined
     ```
-- **`norm` fn to normalize leading slashes and hash shenanigans**
+- **`norm` fn** chops off leading slashes and/or hash chars
     ```ts
     route(norm(location.hash))
+      // "#/settings" -> "settings"
     ```
     ```ts
     route(norm(location.pathname))
+      // "/settings" -> "settings"
     ```
 - **subrouting pattern**
     ```ts
+    // here's a subrouter
     const user = (params: {id: string}) => router({
       "profile": () => `user ${params.id} profile`,
       "invites": () => `user ${params.id} invites`,
     })
 
+    // here's the main router, where we can nest the subrouter
     const route = router({
+
+      // this {*} captures the rest of the string, we pass it to the subrouter
       "user/{id}/{*}": (params, subpath) => user(params)(subpath),
     })
     ```
@@ -363,7 +373,10 @@ import {router, norm, cleanHash, hashNav, hashRouteSignal} from "@e280/sly"
     route("user/123/profile")
       // "user 123 profile"
     ```
-- **setup hash nav and signal**
+
+now, if you want to setup `location.hash` routing, you might want these primitives.
+
+- **hashNav** fn to trigger navigations
     ```ts
     const go = hashNav({
       home: () => ``,
@@ -379,9 +392,29 @@ import {router, norm, cleanHash, hashNav, hashRouteSignal} from "@e280/sly"
     go.user("123")
       // navigates to "#/user/123"
     ```
+- **hashSignal** create a [strata](https://github.com/e280/strata) signal for the current normalized `location.hash`
     ```ts
-    const $content = hashRouteSignal(route)
-      // signal will update whenever the hash changes
+    const $hash = hashSignal()
+    ```
+    ```ts
+    $hash.value
+      // "user/123/profile"
+    ```
+    - the signal value auto-updates whenever the hash changes
+    - the value is run through the `norm` fn to chop off the leading `#/`
+    - whenever the hash changes, it runs `cleanHash` fn which aesthetically converts `e280.org/#/` to just `e280.org/` in the address bar
+- **you should setup a derived signal** that routes whenever that hash signal changes
+    ```ts
+    const $content = derived(() => route($hash()))
+      // "user 123 profile"
+    ```
+    then you can plop that content into your lit html
+    ```ts
+    html`
+      <div>
+        ${$content()}
+      </div>
+    `
     ```
 
 
