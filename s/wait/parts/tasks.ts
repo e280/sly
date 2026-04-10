@@ -1,5 +1,5 @@
 
-import {Signal, signal} from "@e280/strata"
+import {Derived, derived, signal} from "@e280/strata"
 import {Wait} from "./type.js"
 import {failstring} from "./utils/failstring.js"
 
@@ -18,6 +18,7 @@ export function waitPromise<Value, Fail extends string = string>(promise: Promis
 			return undefined
 		})
 
-	return [$wait, done] as [$wait: Signal<Wait<Value, Fail>>, done: Promise<Value | undefined>]
+	const $derived = derived(() => $wait())
+	return [$derived, done] as [$wait: Derived<Wait<Value, Fail>>, done: Promise<Value | undefined>]
 }
 

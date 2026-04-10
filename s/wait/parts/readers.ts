@@ -16,3 +16,14 @@ export function needWaitValue<Value>(task: Wait<Value>) {
 	return task[1]
 }
 
+export function getWaitFail<Fail extends string = string>(task: Wait<unknown, Fail>) {
+	return task[0] === "failed"
+		? task[1]
+		: undefined
+}
+
+export function needWaitFail<Fail extends string = string>(task: Wait<unknown, Fail>) {
+	if (task[0] !== "failed") throw new Error("wait not failed")
+	return task[1]
+}
+
