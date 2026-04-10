@@ -16,7 +16,9 @@
 		"./loot": "./x/loot/index.js",
 		"./op": "./x/op/index.js",
 		"./spa": "./x/spa/index.js",
-		"./view": "./x/view/index.js"
+		"./spinner": "./x/spinner/index.js",
+		"./view": "./x/view/index.js",
+		"./wait": "./x/wait/index.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && ln -s \"$(realpath s)\" x/s && ln -s \"$(realpath assets)\" x/assets && tsc && scute -v",
