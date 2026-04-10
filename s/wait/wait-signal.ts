@@ -14,8 +14,18 @@ export const taskPending = (): Task<unknown> => ["pending"]
 export const taskReady = <Value>(value: Value): Task<Value> => ["ready", value]
 export const taskFailed = <Fail extends string = string>(fail: Fail): Task<unknown, Fail> => ["failed", fail]
 
-export type Wait<Value, Fail extends string
-	= string> = Signal<Task<Value, Fail>>
+export function getTaskValue<Value>(task: Task<Value>) {
+	return task[0] === "ready"
+		? task[1]
+		: undefined
+}
+
+export function needTaskValue<Value>(task: Task<Value>) {
+	if (task[0] !== "ready") throw new Error("task not ready")
+	return task[1]
+}
+
+export type Wait<Value, Fail extends string = string> = Signal<Task<Value, Fail>>
 
 export function wait<Value, Fail extends string = string>(fn: () => Promise<Value>) {
 	return waitPromise<Value, Fail>(fn())
@@ -28,14 +38,14 @@ export function waitPromise<Value, Fail extends string = string>(promise: Promis
 		.then(value => $wait(["ready", value]))
 		.then(task => task[1] as Value)
 		.catch(error => {
-			$wait(["failed", failed(error) as Fail])
+			$wait(["failed", failstring(error) as Fail])
 			return undefined
 		})
 
 	return [$wait, done] as [$wait: Wait<Value, Fail>, done: Promise<Value | undefined>]
 }
 
-function failed(error: unknown) {
+function failstring(error: unknown) {
 	if (typeof error === "string") return error
 	else if (error instanceof Error) return error.message
 	else return "error"
