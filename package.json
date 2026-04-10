@@ -29,7 +29,7 @@
 	},
 	"dependencies": {
 		"@e280/strata": "^0.3.2",
-		"@e280/stz": "^0.2.30"
+		"@e280/stz": "^0.2.31"
 	},
 	"devDependencies": {
 		"@e280/hottie": "^0.1.0",
