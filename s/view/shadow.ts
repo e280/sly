@@ -72,6 +72,8 @@ function rawShadow<Props extends any[]>(
 		}
 
 		disconnected() {
+			litRender(null, this.#cx.shadow)
+			litRender(null, this.#cx.host)
 			this.#hookscope.mounts.unmountAll()
 			this.#reactivity.clear()
 		}
