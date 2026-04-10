@@ -11,6 +11,9 @@
 
 ## v0.3
 
+### v0.3.5
+- 🍏 fix bug where views under shadow views wouldn't unmount
+
 ### v0.3.4
 - 🔶 rename `useLife` to `useLifecycle`
 
