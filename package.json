@@ -21,7 +21,7 @@
 	"scripts": {
 		"build": "rm -rf x && mkdir x && ln -s \"$(realpath s)\" x/s && ln -s \"$(realpath assets)\" x/assets && tsc && scute -v",
 		"test": "node x/test.js",
-		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -wv' 'http-server x'",
+		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -wv' 'hottie x --debounce=300'",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
 	},
 	"peerDependencies": {
@@ -32,11 +32,10 @@
 		"@e280/stz": "^0.2.30"
 	},
 	"devDependencies": {
+		"@e280/hottie": "^0.1.0",
 		"@e280/octo": "^0.1.0",
 		"@e280/science": "^0.1.10",
 		"@e280/scute": "^0.3.2",
-		"http-server": "^14.1.1",
-		"npm-run-all": "^4.1.5",
 		"typescript": "^6.0.2"
 	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
