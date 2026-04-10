@@ -1,6 +1,7 @@
 
-export type Wait<Value, Fail extends string = string>
-	= ["pending"]
-	| ["done", Value]
-	| ["failed", Fail]
+import {Result} from "@e280/stz"
+
+export type Wait<Value, E = unknown> =
+	| {done: false}
+	| {done: true} & Result<Value, E>
 
