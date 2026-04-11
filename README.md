@@ -13,6 +13,8 @@ npm install lit @e280/sly @e280/strata @e280/stz
 - 🪝 [**#hooks,**](#hooks) react-like composable hooks
 - 💅 [**#spa,**](#spa) tiny router for hashy little single-page-apps
 - 🫛 [**#ops,**](#ops) tooling for async operations ui
+- ⌛ [**#wait,**](#wait) simple pending/done result state for async work
+- 🌀 [**#spinner,**](#spinner) render waits with loading, error, and success ui
 - ⏳ [**#loaders,**](#loaders) render ops with animated loading spinners
 - 🪙 [**#loot,**](#loot) drag-and-drop facilities
 - 🪄 [**#dom,**](#dom) the "it's not jquery" multitool
@@ -523,6 +525,156 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
     - error if any ops are in error, otherwise
     - loading if any ops are in loading, otherwise
     - ready if all the ops are ready
+
+
+
+<br/><br/>
+<a id="wait"></a>
+
+## ⌛ wait
+> *simple async waiting state*
+
+```ts
+import {nap} from "@e280/stz"
+import {
+  Wait,
+  wait,
+  waitResult,
+  newWait,
+  newWaitOk,
+  newWaitErr,
+  isWaitPending,
+  isWaitDone,
+  isWaitOk,
+  isWaitErr,
+  waitGetOk,
+  waitGetErr,
+  waitSelect,
+} from "@e280/sly"
+```
+
+### ⌛ waits: pending, ok, err
+- a `Wait<Value, E>` starts pending, then finishes with either a value or an error
+    ```ts
+    // pending wait
+    {done: false}
+
+    // finished successfully
+    {done: true, ok: true, value: 123}
+
+    // finished with an error
+    {done: true, ok: false, error: new Error("uh oh")}
+    ```
+- you can create these states yourself
+    ```ts
+    newWait<number>()
+      // {done: false}
+
+    newWaitOk(123)
+      // {done: true, ok: true, value: 123}
+
+    newWaitErr(new Error("uh oh"))
+      // {done: true, ok: false, error: Error("uh oh")}
+    ```
+
+### ⌛ track a promise with `wait()`
+- `wait()` gives you a reactive wait signal and a promise for the successful value
+    ```ts
+    const [$wait, done] = wait(async() => {
+      await nap(1000)
+      return 123
+    })
+    ```
+- read the current state from the signal
+    ```ts
+    $wait()
+      // {done: false}
+    ```
+- later, when it's done
+    ```ts
+    await done
+      // 123
+
+    $wait()
+      // {done: true, ok: true, value: 123}
+    ```
+- if your async fn throws, `done` resolves to `undefined` and the error lives in the wait state
+- if you already have a promise that returns a `Result`, use `waitResult(...)`
+
+### ⌛ wait helpers
+- check the state
+    ```ts
+    isWaitPending($wait())
+    isWaitDone($wait())
+    isWaitOk($wait())
+    isWaitErr($wait())
+    ```
+- get the finished value or error
+    ```ts
+    waitGetOk($wait())
+      // 123 | undefined
+
+    waitGetErr($wait())
+      // Error | undefined
+    ```
+- select based on the state
+    ```ts
+    const text = waitSelect($wait(), {
+      pending: () => "still loading...",
+      ok: value => `ready: ${value}`,
+      err: error => `ack! ${error}`,
+    })
+    ```
+
+
+
+<br/><br/>
+<a id="spinner"></a>
+
+## 🌀 spinner
+> *render waits with loading, error, and success ui*
+
+```ts
+import {html} from "lit"
+import {nap} from "@e280/stz"
+import {wait, spinner, dotsSpinner, earthSpinner, makeSpinner} from "@e280/sly"
+```
+
+### 🌀 use a built-in spinner
+- sly ships with a few ready-to-go spinners
+    ```ts
+    spinner
+    dotsSpinner
+    earthSpinner
+    ```
+
+### 🌀 render a wait with it
+- a `Spinner` takes a `Wait` plus a render fn for the successful value
+    ```ts
+    const [$user] = wait(async() => {
+      await nap(1000)
+      return {name: "chase"}
+    })
+
+    return html`
+      <h2>user</h2>
+      ${spinner($user(), user => html`
+        <div>${user.name}</div>
+      `)}
+    `
+    ```
+    - when the wait is pending, the spinner animates
+    - when the wait is done with an error, the error is displayed
+    - when the wait is done successfully, your fn is called with the value
+
+### 🌀 make your own spinner
+- pass a pending view and an error view into `makeSpinner(...)`
+    ```ts
+    const mySpinner = makeSpinner(
+      () => html`<p>loading...</p>`,
+      error => html`<p>oops: ${String(error)}</p>`,
+    )
+    ```
 
 
 
