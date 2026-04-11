@@ -1,29 +1,32 @@
 
 import {css, html} from "lit"
-import {Op} from "../../op/op.js"
+import {newWait} from "../../wait/index.js"
 import {shadow} from "../../view/shadow.js"
-import {loaders} from "../../loader/index.js"
+import {dotsSpinner, earthSpinner, spinner} from "../../spinner/index.js"
 import {cssReset, useName, useOnce, useStyles} from "../../view/index.js"
 
 export const LoadersView = shadow(() => {
 	useName("loaders")
 	useStyles(cssReset, styles)
 
-	const op = useOnce(() => Op.loading())
+	const wait = useOnce(() => newWait())
 
-	const library = useOnce(() =>
-		Object.entries(loaders.anims).map(([key, anim]) => ({
-			key,
-			loader: loaders.make(anim)
-		}))
-	)
-
-	return library.map(({key, loader}) => html`
-		<div data-anim="${key}">
-			<span>${key}</span>
-			<span>${loader(op, () => null)}</span>
+	return html`
+		<div data-anim="spinner">
+			<span>spinner</span>
+			<span>${spinner(wait, () => null)}</span>
 		</div>
-	`)
+
+		<div data-anim="dots">
+			<span>dotsSpinner</span>
+			<span>${dotsSpinner(wait, () => null)}</span>
+		</div>
+
+		<div data-anim="earth">
+			<span>earthSpinner</span>
+			<span>${earthSpinner(wait, () => null)}</span>
+		</div>
+	`
 })
 
 const styles = css`
