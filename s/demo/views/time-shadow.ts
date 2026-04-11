@@ -16,7 +16,7 @@ export class TimeShadow extends shadowElement(() => {
 	}))
 
 	return html`
-		<p>${$time()}</p>
+		<p>shadow ${$time()}</p>
 	`
 }) {}
 

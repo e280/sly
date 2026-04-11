@@ -13,7 +13,7 @@ export class TimeLight extends lightElement(() => {
 	}))
 
 	return html`
-		<p>${$time()}</p>
+		<p>light ${$time()}</p>
 	`
 }) {}
 
