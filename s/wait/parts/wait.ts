@@ -13,7 +13,6 @@ export function wait<Value>(
 export function waitResult<Value, E = unknown>(
 		input: Promise<Result<Value, E>> | (() => Promise<Result<Value, E>>),
 	) {
-
 	return waitResultPromise<Value, E>(
 		(typeof input === "function")
 			? input()
