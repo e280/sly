@@ -17,8 +17,7 @@
 		"./op": "./x/op/index.js",
 		"./spa": "./x/spa/index.js",
 		"./spinner": "./x/spinner/index.js",
-		"./view": "./x/view/index.js",
-		"./wait": "./x/wait/index.js"
+		"./view": "./x/view/index.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && ln -s \"$(realpath s)\" x/s && ln -s \"$(realpath assets)\" x/assets && tsc && scute -v",
@@ -30,8 +29,8 @@
 		"lit": "^3.3.2"
 	},
 	"dependencies": {
-		"@e280/strata": "^0.3.2",
-		"@e280/stz": "^0.2.31"
+		"@e280/strata": "^0.3.3",
+		"@e280/stz": "^0.2.32"
 	},
 	"devDependencies": {
 		"@e280/hottie": "^0.1.0",

@@ -1,23 +1,17 @@
 
 import {Result} from "@e280/stz"
 import {useOnce} from "./use-once.js"
-import {wait, waitResult} from "../../wait/index.js"
+import { wait, waitResult } from "@e280/strata"
 
 export function useWait<Value>(
 		input: Promise<Value> | (() => Promise<Value>),
 	) {
-	return useOnce(() => {
-		const [$wait] = wait<Value>(input)
-		return $wait
-	})
+	return useOnce(() => wait<Value>(input))
 }
 
 export function useWaitResult<Value, E = unknown>(
 		input: Promise<Result<Value, E>> | (() => Promise<Result<Value, E>>),
 	) {
-	return useOnce(() => {
-		const [$wait] = waitResult<Value, E>(input)
-		return $wait
-	})
+	return useOnce(() => waitResult<Value, E>(input))
 }
 

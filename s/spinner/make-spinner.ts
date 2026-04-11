@@ -1,7 +1,8 @@
 
+import {waitSelect} from "@e280/strata"
+
 import {Spinner} from "./types.js"
 import {Content} from "../view/types.js"
-import {waitSelect} from "../wait/parts/select.js"
 
 export function makeSpinner(
 		pending: () => Content,

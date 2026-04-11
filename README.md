@@ -530,27 +530,14 @@ import {Pod, podium, Op, loaders} from "@e280/sly"
 
 <br/><br/>
 <a id="wait"></a>
-
 ## ⌛ wait
 > *simple async waiting state*
 
+### ⌛ wait is built on stz `ok`
+> *see [stz#ok](https://github.com/e280/stz#ok)*
+
 ```ts
-import {nap} from "@e280/stz"
-import {
-  Wait,
-  wait,
-  waitResult,
-  newWait,
-  newWaitOk,
-  newWaitErr,
-  isWaitPending,
-  isWaitDone,
-  isWaitOk,
-  isWaitErr,
-  waitGetOk,
-  waitGetErr,
-  waitSelect,
-} from "@e280/sly"
+import {ok, err, nap} from "@e280/stz"
 ```
 
 ### ⌛ waits: pending, ok, err

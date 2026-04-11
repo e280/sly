@@ -3,8 +3,19 @@ import {makeSpinner} from "../make-spinner.js"
 import {makeAsciiAnim} from "../parts/ascii-anim.js"
 import {ErrorDisplay} from "../parts/error-display.js"
 
-export const earthSpinner = makeSpinner(
-	makeAsciiAnim(3, ["🌎", "🌏", "🌍"]),
+export const moonSpinner = makeSpinner(
+	makeAsciiAnim(10, [
+		"🌒",
+		"🌓",
+		"🌔",
+		"🌕",
+		"🌖",
+		"🌗",
+		"🌘",
+		"🌑",
+		"🌑",
+		"🌑",
+	]),
 	ErrorDisplay,
 )
 

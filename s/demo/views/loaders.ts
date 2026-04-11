@@ -1,9 +1,13 @@
 
 import {css, html} from "lit"
-import {newWait} from "../../wait/index.js"
+import {newWait} from "@e280/strata"
 import {shadow} from "../../view/shadow.js"
+import {moonSpinner} from "../../spinner/spinners/moon.js"
+import {waveSpinner} from "../../spinner/spinners/wave.js"
 import {dotsSpinner, earthSpinner, spinner} from "../../spinner/index.js"
 import {cssReset, useName, useOnce, useStyles} from "../../view/index.js"
+
+const spinners = {spinner, dotsSpinner, waveSpinner, earthSpinner, moonSpinner}
 
 export const LoadersView = shadow(() => {
 	useName("loaders")
@@ -11,22 +15,12 @@ export const LoadersView = shadow(() => {
 
 	const wait = useOnce(() => newWait())
 
-	return html`
-		<div data-anim="spinner">
-			<span>spinner</span>
+	return Object.entries(spinners).map(([key, spinner]) => html`
+		<div data-anim=spinner>
+			<span>${key}</span>
 			<span>${spinner(wait, () => null)}</span>
 		</div>
-
-		<div data-anim="dots">
-			<span>dotsSpinner</span>
-			<span>${dotsSpinner(wait, () => null)}</span>
-		</div>
-
-		<div data-anim="earth">
-			<span>earthSpinner</span>
-			<span>${earthSpinner(wait, () => null)}</span>
-		</div>
-	`
+	`)
 })
 
 const styles = css`
