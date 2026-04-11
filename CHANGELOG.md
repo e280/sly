@@ -11,6 +11,9 @@
 
 ## v0.3
 
+### v0.3.7
+- 🔶 deprecate `useOp` in favor of `useWait`
+
 ### v0.3.6
 - 🍏 add `spinner` system
 - 🔶 deprecate `loaders` in favor of new `spinner` system
