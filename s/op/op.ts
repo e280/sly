@@ -5,6 +5,7 @@ import {Signal, signal} from "@e280/strata/signals"
 import {podium} from "./podium.js"
 import {Pod, PodSelect} from "./types.js"
 
+/** @deprecated use `wait` instead */
 export class Op<V> {
 	static loading<V>() { return new this<V>() }
 	static ready<V>(value: V) { return new this<V>(["ready", value]) }

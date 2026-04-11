@@ -2,6 +2,8 @@
 export type PodLoading = [status: "loading"]
 export type PodReady<V> = [status: "ready", value: V]
 export type PodError = [status: "error", error: any]
+
+/** @deprecated use `wait` instead */
 export type Pod<V> = PodLoading | PodReady<V> | PodError
 
 export type PodSelect<V, R> = {

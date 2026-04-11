@@ -4,6 +4,7 @@ import {earth} from "./parts/anims.js"
 import {Content} from "../view/types.js"
 import {ErrorDisplay} from "./parts/error-display.js"
 
+/** @deprecated use `makeSpinner` instead */
 export function make(
 		loading: () => Content = earth,
 		error: (error: any) => Content = (error: any) => ErrorDisplay(error),

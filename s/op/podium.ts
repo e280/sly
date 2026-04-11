@@ -1,6 +1,7 @@
 
 import {Pod, PodSelect} from "./types.js"
 
+/** @deprecated use `wait` instead */
 export const podium = {
 	status: (pod: Pod<any>) => pod[0],
 
