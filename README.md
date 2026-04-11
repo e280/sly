@@ -42,7 +42,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 ```
 
 ### 🌞 light views
-> *just pretend it's like react!*
+> *lit, signals, hooks — life is joyous again*
 
 - **define a light view**
     ```ts
@@ -70,7 +70,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     and they can't have their own styles.  
 
 ### 🌚 shadow views
-> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble (which scopes local css) and also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
+> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble, which scopes local css, and also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
 
 - **define a shadow view**
     ```ts
