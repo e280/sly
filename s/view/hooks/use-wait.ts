@@ -1,7 +1,7 @@
 
 import {Result} from "@e280/stz"
+import {wait, waitResult} from "@e280/strata"
 import {useOnce} from "./use-once.js"
-import { wait, waitResult } from "@e280/strata"
 
 export function useWait<Value>(
 		input: Promise<Value> | (() => Promise<Value>),
