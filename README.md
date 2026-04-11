@@ -11,11 +11,8 @@ npm install lit @e280/sly @e280/strata @e280/stz
 
 - 🎭 [**#views,**](#views) reactive lit views, light-dom or shadow-dom
 - 🪝 [**#hooks,**](#hooks) react-like composable hooks
+- ⏳ [**#spinners,**](#spinners) display async operations with animations
 - 💅 [**#spa,**](#spa) tiny router for hashy little single-page-apps
-- 🫛 [**#ops,**](#ops) tooling for async operations ui
-- ⌛ [**#wait,**](#wait) simple pending/done result state for async work
-- 🌀 [**#spinner,**](#spinner) render waits with loading, error, and success ui
-- ⏳ [**#loaders,**](#loaders) render ops with animated loading spinners
 - 🪙 [**#loot,**](#loot) drag-and-drop facilities
 - 🪄 [**#dom,**](#dom) the "it's not jquery" multitool
 - 🧪 **https://sly.e280.org/** sly's testing page
@@ -159,7 +156,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 ## 🪝 hooks
 > *composable view state and utilities*
 
-### 👮 follow the hooks rules
+### 👮 follow the hooks rules, or you go to hooks jail
 
 just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of hooks seriously matters.
 
@@ -271,16 +268,31 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     ```ts
     useRendered().then(() => console.log("rendered"))
     ```
-- **useOp,** start loading an op based on an async fn
+- **useWait,** start loading a [strata#wait](https://github.com/e280/strata#wait) signal
     ```ts
-    const op = useOp(async() => {
-      await nap(5000)
+    const $wait = useWait(async() => {
+      await nap(2000)
       return 123
     })
     ```
-- **useOpPromise,** start loading an op based on a promise
+    - look at the current `Wait` state
+        ```ts
+        $wait()
+          // {done: true, ok: true, value: 123}
+        ```
+    - await for when the value is ready
+        ```ts
+        await $wait.ready
+          // 123
+        ```
+- **useWaitResult,** start a [strata#wait](https://github.com/e280/strata#wait), but with a formal [stz#ok](https://github.com/e280/stz#ok) ok/err result
     ```ts
-    const op = useOpPromise(doAsyncWork())
+    const $wait = useWaitResult(async() => {
+      await nap(2000)
+      return (Math.random() > 0.5)
+        ? ok(123)
+        : err("uh oh")
+    })
     ```
 
 ### 🧑‍🍳 happy hooks recipes
@@ -304,6 +316,65 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
       console.log("after first render")
     }))
     ```
+
+
+
+<br/><br/>
+<a id="spinners"></a>
+
+## ⏳️ spinners
+> *animated loading spinners*
+
+### ⏳️ stuff you'll need
+- **from [stz#ok](https://github.com/e280/stz#ok)** — ok/err, formal error handling
+    ```ts
+    import {ok, err, nap} from "@e280/stz"
+    ```
+- **from [strata#wait](https://github.com/e280/strata#wait)** — wait, async operation state
+    ```ts
+    import {wait} from "@e280/strata"
+    ```
+
+### ⏳️ ui jumpstart
+- **okay, so let's just do a loading spinner example**
+    ```ts
+    import {html} from "lit"
+    import {shadow, useWait, spinner} from "@e280/sly"
+
+    const MyView = shadow(() => {
+
+      // ⏳️ create a $wait signal
+      const $wait = useWait(async() => {
+        await nap(2000) // contrived async job
+        return 123 // return a value
+      })
+
+      // ⏳️ ui display for the changing $wait signal
+      return spinner($wait(), value => html`
+        <p>done, the value is ${value}</p>
+      `)
+    })
+    ```
+    - while the async fn is running, an animated spinner will be shown
+    - when the async fn resolves, our little `<p>` tag will render
+    - if the async fn errors out, the error message will be displayed in red
+- **stock spinners for your convenience** *(earth is my favorite)*
+    ```ts
+    import {spinner, dotsSpinner, waveSpinner, earthSpinner, moonSpinner} from "@e280/sly"
+    ```
+
+### ⏳️ make your own spinners
+- **it's easy**
+    ```ts
+    import {makeSpinner, makeAsciiAnim, ErrorDisplay} from "@e280/sly"
+
+    export const pieSpinner = makeSpinner(
+      makeAsciiAnim(10, ["◷", "◶", "◵", "◴"]),
+      ErrorDisplay,
+    )
+    ```
+    - so makeSpinner accepts two views, one for the loading state, and one for the error state
+    - feel free to make your own views
 
 
 
@@ -418,285 +489,6 @@ now, if you want to setup `location.hash` routing, you might want these primitiv
       </div>
     `
     ```
-
-
-
-<br/><br/>
-<a id="ops"></a>
-
-## 🫛 ops
-> *helpers for async operations*
-
-```ts
-import {nap} from "@e280/stz"
-import {Pod, podium, Op, loaders} from "@e280/sly"
-```
-
-### 🫛 pods: loading/ready/error
-- there are three kinds of `Pod<V>`
-    ```ts
-    // loading pod
-    ["loading"]
-
-    // ready pod contains value 123
-    ["ready", 123]
-
-    // error pod contains an error
-    ["error", new Error()]
-    ```
-
-### 🫛 podium: helps you work with pods
-- get pod status
-    ```ts
-    podium.status(["ready", 123])
-      // "ready"
-    ```
-- get pod ready value (or undefined)
-    ```ts
-    podium.value(["loading"])
-      // undefined
-
-    podium.value(["ready", 123])
-      // 123
-    ```
-- see more at [podium.ts](./s/op/podium.ts)
-
-### 🫛 ops: nice pod ergonomics
-- an `Op<V>` wraps a pod with a strata signal for reactivity
-- create an op
-    ```ts
-    new Op<number>() // loading status by default
-    ```
-    ```ts
-    Op.loading<number>()
-    ```
-    ```ts
-    Op.ready<number>(123)
-    ```
-    ```ts
-    Op.error<number>(new Error())
-    ```
-- 🔥 create an op that calls and tracks an async fn
-    ```ts
-    const op = Op.load(async() => {
-      await nap(4000)
-      return 123
-    })
-    ```
-- await for the next ready value (or thrown error)
-    ```ts
-    await op // 123
-    ```
-- get pod info
-    ```ts
-    op.pod // ["loading"]
-    op.status // "loading"
-    op.value // undefined (or value if ready)
-    ```
-    ```ts
-    op.isLoading // true
-    op.isReady // false
-    op.isError // false
-    ```
-- select executes a fn based on the status
-    ```ts
-    const result = op.select({
-      loading: () => "still loading...",
-      ready: value => `dude, it's ready! ${value}`,
-      error: err => `ack! an error!`,
-    })
-
-    result // "dude, it's ready! 123"
-    ```
-- morph returns a new pod, transforming the value if ready
-    ```ts
-    op.morph(n => n + 1)
-      // ["ready", 124]
-    ```
-- you can combine a number of ops into a single pod like this
-    ```ts
-    Op.all(Op.ready(123), Op.loading())
-      // ["loading"]
-    ```
-    ```ts
-    Op.all(Op.ready(1), Op.ready(2), Op.ready(3))
-      // ["ready", [1, 2, 3]]
-    ```
-    - error if any ops are in error, otherwise
-    - loading if any ops are in loading, otherwise
-    - ready if all the ops are ready
-
-
-
-<br/><br/>
-<a id="wait"></a>
-## ⌛ wait
-> *simple async waiting state*
-
-### ⌛ wait is built on stz `ok`
-> *see [stz#ok](https://github.com/e280/stz#ok)*
-
-```ts
-import {ok, err, nap} from "@e280/stz"
-```
-
-### ⌛ waits: pending, ok, err
-- a `Wait<Value, E>` starts pending, then finishes with either a value or an error
-    ```ts
-    // pending wait
-    {done: false}
-
-    // finished successfully
-    {done: true, ok: true, value: 123}
-
-    // finished with an error
-    {done: true, ok: false, error: new Error("uh oh")}
-    ```
-- you can create these states yourself
-    ```ts
-    newWait<number>()
-      // {done: false}
-
-    newWaitOk(123)
-      // {done: true, ok: true, value: 123}
-
-    newWaitErr(new Error("uh oh"))
-      // {done: true, ok: false, error: Error("uh oh")}
-    ```
-
-### ⌛ track a promise with `wait()`
-- `wait()` gives you a reactive wait signal and a promise for the successful value
-    ```ts
-    const [$wait, done] = wait(async() => {
-      await nap(1000)
-      return 123
-    })
-    ```
-- read the current state from the signal
-    ```ts
-    $wait()
-      // {done: false}
-    ```
-- later, when it's done
-    ```ts
-    await done
-      // 123
-
-    $wait()
-      // {done: true, ok: true, value: 123}
-    ```
-- if your async fn throws, `done` resolves to `undefined` and the error lives in the wait state
-- if you already have a promise that returns a `Result`, use `waitResult(...)`
-
-### ⌛ wait helpers
-- check the state
-    ```ts
-    isWaitPending($wait())
-    isWaitDone($wait())
-    isWaitOk($wait())
-    isWaitErr($wait())
-    ```
-- get the finished value or error
-    ```ts
-    waitGetOk($wait())
-      // 123 | undefined
-
-    waitGetErr($wait())
-      // Error | undefined
-    ```
-- select based on the state
-    ```ts
-    const text = waitSelect($wait(), {
-      pending: () => "still loading...",
-      ok: value => `ready: ${value}`,
-      err: error => `ack! ${error}`,
-    })
-    ```
-
-
-
-<br/><br/>
-<a id="spinner"></a>
-
-## 🌀 spinner
-> *render waits with loading, error, and success ui*
-
-```ts
-import {html} from "lit"
-import {nap} from "@e280/stz"
-import {wait, spinner, dotsSpinner, earthSpinner, makeSpinner} from "@e280/sly"
-```
-
-### 🌀 use a built-in spinner
-- sly ships with a few ready-to-go spinners
-    ```ts
-    spinner
-    dotsSpinner
-    earthSpinner
-    ```
-
-### 🌀 render a wait with it
-- a `Spinner` takes a `Wait` plus a render fn for the successful value
-    ```ts
-    const [$user] = wait(async() => {
-      await nap(1000)
-      return {name: "chase"}
-    })
-
-    return html`
-      <h2>user</h2>
-      ${spinner($user(), user => html`
-        <div>${user.name}</div>
-      `)}
-    `
-    ```
-    - when the wait is pending, the spinner animates
-    - when the wait is done with an error, the error is displayed
-    - when the wait is done successfully, your fn is called with the value
-
-### 🌀 make your own spinner
-- pass a pending view and an error view into `makeSpinner(...)`
-    ```ts
-    const mySpinner = makeSpinner(
-      () => html`<p>loading...</p>`,
-      error => html`<p>oops: ${String(error)}</p>`,
-    )
-    ```
-
-
-
-<br/><br/>
-<a id="loaders"></a>
-
-## ⏳ loaders
-> *animated loading spinners for ops*
-
-```ts
-import {loaders} from "@e280/sly"
-```
-
-### ⏳ make a loader, choose an anim
-- create a loader fn
-    ```ts
-    const loader = loaders.make(loaders.anims.dots)
-    ```
-    - see all the anims available on the testing page https://sly.e280.org/
-    - ngl, i made too many.. *i was having fun, okay?*
-
-### ⏳ render an op with it
-- use your loader to render an op
-    ```ts
-    return html`
-      <h2>cool stuff</h2>
-
-      ${loader(op, value => html`
-        <div>${value}</div>
-      `)}
-    `
-    ```
-    - when the op is loading, the loading spinner will animate
-    - when the op is in error, the error will be displayed
-    - when the op is ready, your fn is called and given the value
 
 
 
@@ -974,3 +766,4 @@ import {dom} from "@e280/sly"
 ## 🧑‍💻 sly is by e280
 reward us with github stars  
 build with us at https://e280.org/ but only if you're cool  
+

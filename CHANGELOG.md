@@ -11,6 +11,11 @@
 
 ## v0.3
 
+### v0.3.6
+- 🍏 add `spinner` system
+- 🔶 deprecate `loaders` in favor of new `spinner` system
+- 🔶 deprecate `op` in favor of `@e280/strata`'s `wait` system
+
 ### v0.3.5
 - 🍏 fix bug where views under shadow views wouldn't unmount
 
