@@ -12,12 +12,12 @@
 	"exports": {
 		".": "./x/index.js",
 		"./dom": "./x/dom/index.js",
-		"./loader": "./x/loader/index.js",
 		"./loot": "./x/loot/index.js",
-		"./op": "./x/op/index.js",
 		"./spa": "./x/spa/index.js",
 		"./spinner": "./x/spinner/index.js",
-		"./view": "./x/view/index.js"
+		"./view": "./x/view/index.js",
+		"./loader": "./x/deprecated/loader/index.js",
+		"./op": "./x/deprecated/op/index.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && ln -s \"$(realpath s)\" x/s && ln -s \"$(realpath assets)\" x/assets && tsc && scute -v",
