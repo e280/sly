@@ -6,6 +6,6 @@ export * from "./spinner/index.js"
 export * from "./view/index.js"
 
 // deprecated
-export * from "./loader/index.js"
-export * from "./op/index.js"
+export * from "./deprecated/loader/index.js"
+export * from "./deprecated/op/index.js"
 
