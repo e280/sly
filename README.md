@@ -7,9 +7,9 @@
 npm install lit @e280/sly @e280/strata @e280/stz
 ```
 
-#### [@e280](https://e280.org/)'s [lit-based](https://lit.dev/) web library for reactive light or shadow views
+#### [@e280](https://e280.org/)'s web library for [lit-based](https://lit.dev/) views with [strata-based](https://github.com/e280/strata) auto-reactivity
 
-- 🎭 [**#views,**](#views) reactive lit views, light-dom or shadow-dom
+- 🎭 [**#views,**](#views) light-dom or shadow-dom lit views
 - 🪝 [**#hooks,**](#hooks) react-like composable hooks
 - ⏳ [**#spinners,**](#spinners) display async operations with animations
 - 💅 [**#spa,**](#spa) tiny router for hashy little single-page-apps
@@ -60,7 +60,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **render it into the dom**
     ```ts
-    dom.render(dom(".demo"), html`
+    dom.in(".demo").render(html`
       <h1>my cool counter demo</h1>
       ${MyCounter(123)}
     `)
@@ -92,7 +92,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     ```
 - **render it into the dom**
     ```ts
-    dom.render(dom(".demo"), html`
+    dom.in(".demo").render(html`
       <h1>my cool counter demo</h1>
       ${MyShadowCounter(234)}
     `)
@@ -104,7 +104,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
         ```
 - **.with to nest children or set attrs**
     ```ts
-    dom.render(dom(".demo"), html`
+    dom.in(".demo").render(html`
       <h1>my cool counter demo</h1>
 
       ${MyShadowCounter.with({
@@ -617,14 +617,14 @@ import {dom} from "@e280/sly"
 ```
 
 ### 🪄 dom queries
-- `require` an element
+- `need` an element
     ```ts
     dom(".demo")
       // HTMLElement (or throws)
     ```
     ```ts
     // alias
-    dom.require(".demo")
+    dom.need(".demo")
       // HTMLElement (or throws)
     ```
 - `maybe` get an element
@@ -650,7 +650,7 @@ import {dom} from "@e280/sly"
     ```
 - run queries in that scope
     ```ts
-    dom.in(demoElement).require(".button")
+    dom.in(demoElement).need(".button")
     ```
     ```ts
     dom.in(demoElement).maybe(".button")

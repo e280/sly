@@ -19,7 +19,7 @@ dom.in = <E extends Queryable>(selectorOrElement: string | E, container: Queryab
 	return new Dom(container).in(selectorOrElement)
 }
 
-dom.require = queryRequire
+dom.need = queryRequire
 dom.maybe = queryMaybe
 dom.all = queryAll
 
@@ -32,4 +32,7 @@ dom.register = register
 dom.render = (container: Renderable, ...content: Content[]) => {
 	return render(content, container)
 }
+
+/** @deprecated renamed to `dom.need` */
+dom.require = queryRequire
 

@@ -6,6 +6,6 @@ import {TimeShadow} from "./views/time-shadow.js"
 
 dom.register({TimeShadow, TimeLight})
 
-dom.render(dom(".demo"), Demo())
+dom.in(".demo").render(Demo())
 console.log("🦝 sly")
 

@@ -11,6 +11,12 @@
 
 ## v0.3
 
+### v0.3.9
+- 🔶 deprecated `dom.require` in favor of `dom.need`
+
+### v0.3.8
+- 🍏 update dependencies
+
 ### v0.3.7
 - 🔶 deprecate `useOp` in favor of `useWait`
 
