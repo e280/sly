@@ -3,19 +3,21 @@
 
 # 🦝 sly
 
-```sh
-npm install lit @e280/sly @e280/strata @e280/stz
-```
+### [e280](https://e280.org/)'s view library that makes life joyous again
 
-#### [@e280](https://e280.org/)'s web library for [lit-based](https://lit.dev/) views with [strata-based](https://github.com/e280/strata) auto-reactivity
+> *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*
 
-- 🎭 [**#views,**](#views) light-dom or shadow-dom lit views
+- 🎭 [**#views,**](#views) light-dom or shadow-dom
 - 🪝 [**#hooks,**](#hooks) react-like composable hooks
 - ⏳ [**#spinners,**](#spinners) display async operations with animations
 - 💅 [**#spa,**](#spa) tiny router for hashy little single-page-apps
 - 🪙 [**#loot,**](#loot) drag-and-drop facilities
 - 🪄 [**#dom,**](#dom) the "it's not jquery" multitool
 - 🧪 **https://sly.e280.org/** sly's testing page
+
+```bash
+npm install @e280/sly @e280/strata @e280/stz lit
+```
 
 
 
@@ -30,7 +32,7 @@ npm install lit @e280/sly @e280/strata @e280/stz
 - 🪝 **hooks-based,** familiar react-style [hooks](#hooks)
 - ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes
 - 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-templates
-- 🧩 **not web components,** no dom registration needed, just vibes and good typings
+- 🧩 **not web components,** no dom registration needed, just good vibes and good typings
 
 ```ts
 import {html} from "lit"
@@ -42,7 +44,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 ```
 
 ### 🌞 light views
-> *lit, signals, hooks — life is joyous again*
+> *lit, signals, hooks — life is good*
 
 - **define a light view**
     ```ts
@@ -70,7 +72,7 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     and they can't have their own styles.  
 
 ### 🌚 shadow views
-> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble, which scopes local css, and also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
+> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble to protect its local css, and it also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
 
 - **define a shadow view**
     ```ts
