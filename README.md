@@ -2,8 +2,7 @@
 <div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
 
 # 🦝 sly
-
-### [e280](https://e280.org/)'s view library that makes life joyous again
+### [e280](https://e280.org/)'s buildercore view library.
 
 > *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*
 
