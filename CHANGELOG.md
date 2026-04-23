@@ -11,6 +11,9 @@
 
 ## v0.3
 
+### v0.3.10
+- 🍏 tweak readme
+
 ### v0.3.9
 - 🔶 deprecated `dom.require` in favor of `dom.need`
 - 🍏 improve readme
