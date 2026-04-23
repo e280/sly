@@ -2,8 +2,8 @@
 name: 🚀 github pages deploy
 on:
   push:
-    branches: ["main"]
-  workflow_dispatch:
+    tags:
+    - "v*"
 
 permissions:
   contents: read
@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v6
-    - uses: actions/configure-pages@v5
+    - uses: actions/configure-pages@v6
     - uses: actions/setup-node@v6
       with:
         node-version: "25"
@@ -31,25 +31,15 @@ jobs:
     - run: npm run build -s
     - run: npm test
 
-    - name: 🗑️ delete dev symlinks
-      run: |
-        rm x/s
-        rm x/assets
-
     - name: 🗃️ reconstitute node_modules for production
       run: npm ci --omit=dev
 
-    - name: 🍞 moving files into x
-      run: |
-        mv s x/s
-        mv assets x/assets
-
     - name: 📤 upload pages artifact
-      uses: actions/upload-pages-artifact@v4
+      uses: actions/upload-pages-artifact@v5
       with:
         path: "x"
 
     - name: 🚀 deploy to github pages
       id: deployment
-      uses: actions/deploy-pages@v4
+      uses: actions/deploy-pages@v5
 

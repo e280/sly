@@ -20,7 +20,7 @@
 		"./op": "./x/deprecated/op/index.js"
 	},
 	"scripts": {
-		"build": "rm -rf x && mkdir x && ln -s \"$(realpath s)\" x/s && ln -s \"$(realpath assets)\" x/assets && tsc && scute -v",
+		"build": "rm -rf x && mkdir x && tsc && scute -v",
 		"test": "node x/test.js",
 		"dev": "octo 'node --watch x/test.js' 'tsc -w' 'scute -wv' 'hottie x --debounce=300'",
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
