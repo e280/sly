@@ -325,15 +325,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 ## ⏳️ spinners
 > *animated loading spinners*
 
-### ⏳️ stuff you'll need
-- **from [stz#ok](https://github.com/e280/stz#ok)** — ok/err, formal error handling
-    ```ts
-    import {ok, err, nap} from "@e280/stz"
-    ```
-- **from [strata#wait](https://github.com/e280/strata#wait)** — wait, async operation state
-    ```ts
-    import {wait} from "@e280/strata"
-    ```
+sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait), which in turn integrates with [stz ok](https://github.com/e280/stz#ok), so you might want to read each of those docs.
 
 ### ⏳️ ui jumpstart
 - **okay, so let's just do a loading spinner example**
