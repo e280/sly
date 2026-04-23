@@ -1,5 +1,5 @@
 
-<div align="center"><img alt="" width="256" src="./assets/favicon.png"/></div>
+<div align="center"><img alt="" width="256" src="./s/assets/favicon.png"/></div>
 
 # 🦝 sly
 ### [e280](https://e280.org/)'s buildercore view library.
