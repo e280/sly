@@ -11,6 +11,9 @@
 
 ## v0.3
 
+### v0.3.12
+- 🍏 fix readme logo
+
 ### v0.3.11
 - 🍏 simplify build and update workflows
 
