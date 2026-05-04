@@ -15,9 +15,7 @@
 		"./loot": "./x/loot/index.js",
 		"./spa": "./x/spa/index.js",
 		"./spinner": "./x/spinner/index.js",
-		"./view": "./x/view/index.js",
-		"./loader": "./x/deprecated/loader/index.js",
-		"./op": "./x/deprecated/op/index.js"
+		"./view": "./x/view/index.js"
 	},
 	"scripts": {
 		"build": "rm -rf x && mkdir x && tsc && scute -v",

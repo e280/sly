@@ -15,6 +15,3 @@ export function useWaitFormal<Value, E = unknown>(
 	return useOnce(() => waitFormal<Value, E>(input))
 }
 
-/** @deprecated renamed to `useWaitFormal` */
-export const useWaitResult = useWaitFormal
-

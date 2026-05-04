@@ -15,6 +15,3 @@ export function useLifecycle<Value>(fn: () => [value: Value, dispose: () => void
 	return ref.current
 }
 
-/** @deprecated renamed to `useLifecycle` */
-export const useLife = useLifecycle
-

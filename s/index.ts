@@ -5,7 +5,3 @@ export * from "./spa/index.js"
 export * from "./spinner/index.js"
 export * from "./view/index.js"
 
-// deprecated
-export * from "./deprecated/loader/index.js"
-export * from "./deprecated/op/index.js"
-

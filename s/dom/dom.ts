@@ -33,6 +33,3 @@ dom.render = (container: Renderable, ...content: Content[]) => {
 	return render(content, container)
 }
 
-/** @deprecated renamed to `dom.need` */
-dom.require = queryRequire
-

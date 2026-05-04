@@ -23,6 +23,3 @@ export function useEffect<Value>(
 	})
 }
 
-/** @deprecated lazy is gone, just use `derived` instead (it's lazy) */
-export const useLazy = useDerived
-
