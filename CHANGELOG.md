@@ -9,6 +9,19 @@
 
 <br/><br/>
 
+## v0.4
+
+### v0.4.0
+- 🟥 upgrade to [@e280/strata](https://github.com/e280/strata) v0.4
+ - 🟥 this is not compatible with strata 0.3, which means 0.4 will not respond to 0.3 signals, eg, your app also needs to adopt strata 0.4 to work with sly now -- strata is now properly reflected as a peerDependency of sly
+  - 🟥 strata-oriented hooks like `useSignal` now return strata 0.4 signals, not 0.3 signals, they're different, see the [strata changelog](https://github.com/e280/strata/blob/main/CHANGELOG.md) for details
+  - 🟥 removed `useLazy` hook in favor of improved lazy `useDerived`
+  - 🟥 renamed `useWaitResult` to `useWaitFormal`
+
+
+
+<br/><br/>
+
 ## v0.3
 
 ### v0.3.12
