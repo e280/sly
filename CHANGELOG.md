@@ -17,6 +17,7 @@
   - 🟥 strata-oriented hooks like `useSignal` now return strata 0.4 signals, not 0.3 signals, they're different, see the [strata changelog](https://github.com/e280/strata/blob/main/CHANGELOG.md) for details
   - 🟥 removed `useLazy` hook in favor of improved lazy `useDerived`
   - 🟥 renamed `useWaitResult` to `useWaitFormal`
+  - 🟥 `useEffect` is now simpler and only takes one simple fn, returns nothing
 - 🟥 delete old deprecated `Op` stuff in favor of newer `wait` stuff from strata
 - 🟥 delete old deprecated `loader` stuff in favor of newer `spinner` stuff
 
