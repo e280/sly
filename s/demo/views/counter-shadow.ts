@@ -7,7 +7,7 @@ export const CounterShadow = shadow((start: number) => {
 	useCss(css`:host{display:inline-block} button{color:cyan}`)
 
 	const $count = useSignal(start)
-	const increment = () => $count.value++
+	const increment = () => $count($count() + 1)
 
 	return html`
 		<button @click="${increment}">${$count()}</button>

@@ -10,13 +10,13 @@ export class Reactivity {
 	}
 
 	observe<X>(fn: () => X, rerender: () => Promise<void>) {
-		const {seen, result} = tracker.observe(fn)
+		const {seen, value} = tracker.observe(fn)
 		this.clear()
 		for (const item of seen) {
 			const stop = tracker.subscribe(item, rerender)
 			this.#stoppers.push(stop)
 		}
-		return result
+		return value
 	}
 }
 

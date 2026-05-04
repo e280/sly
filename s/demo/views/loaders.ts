@@ -1,6 +1,6 @@
 
 import {css, html} from "lit"
-import {newWait} from "@e280/strata"
+import {makeWait} from "@e280/strata"
 import {shadow} from "../../view/shadow.js"
 import {moonSpinner} from "../../spinner/spinners/moon.js"
 import {waveSpinner} from "../../spinner/spinners/wave.js"
@@ -13,7 +13,7 @@ export const LoadersView = shadow(() => {
 	useName("loaders")
 	useStyles(cssReset, styles)
 
-	const wait = useOnce(() => newWait())
+	const wait = useOnce(() => makeWait())
 
 	return Object.entries(spinners).map(([key, spinner]) => html`
 		<div data-anim=spinner>

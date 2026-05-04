@@ -34,12 +34,12 @@ export class DragAndDrops<Draggy, Droppy> {
 		draggable: "true",
 
 		dragstart: (_: DragEvent) => {
-			this.$draggy.value = getDraggy()
+			this.$draggy(getDraggy())
 		},
 
 		dragend: (_: DragEvent) => {
-			this.$draggy.value = undefined
-			this.$droppy.value = undefined
+			this.$draggy(undefined)
+			this.$droppy(undefined)
 		},
 	})
 
@@ -50,14 +50,14 @@ export class DragAndDrops<Draggy, Droppy> {
 		dragover: (event: DragEvent) => {
 			event.preventDefault()
 			if (this.$draggy())
-				this.$droppy.value = getDroppy()
+				this.$droppy(getDroppy())
 			else
 				this.params.backchannelDrops?.dragover(event)
 		},
 
 		dragleave: (event: DragEvent) => {
 			if (outsideCurrentTarget(event))
-				this.$droppy.value = undefined
+				this.$droppy(undefined)
 			this.params.backchannelDrops?.dragleave(event)
 		},
 
@@ -73,8 +73,8 @@ export class DragAndDrops<Draggy, Droppy> {
 					this.params.backchannelDrops?.drop(event)
 			}
 			finally {
-				this.$draggy.value = undefined
-				this.$droppy.value = undefined
+				this.$draggy(undefined)
+				this.$droppy(undefined)
 			}
 		},
 	})

@@ -16,15 +16,15 @@ export const AsciiAnim = shadow(({hz, frames}: {
 	useName("loading")
 	useStyles(cssReset, style)
 
-	const frame = useSignal(0)
+	const $frame = useSignal(0)
 
 	useMount(() => cycle(async() => {
 		await nap(1000 / hz)
-		const next = frame.get() + 1
-		frame.set(next >= frames.length ? 0 : next)
+		const next = $frame() + 1
+		$frame(next >= frames.length ? 0 : next)
 	}))
 
-	return frames.at(frame.get())
+	return frames.at($frame())
 })
 
 const style = css`

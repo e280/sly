@@ -1,5 +1,5 @@
 
-import {signal, watch} from "@e280/strata"
+import {derived, effect, signal} from "@e280/strata"
 import {useOnce} from "./use-once.js"
 import {useLifecycle} from "./use-lifecycle.js"
 
@@ -8,11 +8,7 @@ export function useSignal<Value>(value: Value) {
 }
 
 export function useDerived<Value>(fn: () => Value) {
-	return useOnce(() => signal.derived(fn))
-}
-
-export function useLazy<Value>(fn: () => Value) {
-	return useOnce(() => signal.lazy(fn))
+	return useOnce(() => derived(fn))
 }
 
 export function useEffect<Value>(
@@ -21,8 +17,12 @@ export function useEffect<Value>(
 	) {
 
 	return useLifecycle(() => {
-		const {result, dispose} = watch(collector, responder)
-		return [result, dispose]
+		let value!: Value
+		const dispose = effect(() => value = collector(), responder)
+		return [value, dispose]
 	})
 }
+
+/** @deprecated lazy is gone, just use `derived` instead (it's lazy) */
+export const useLazy = useDerived
 
