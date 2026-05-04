@@ -24,7 +24,7 @@
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
 	},
 	"peerDependencies": {
-		"@e280/strata": "^0.4.0-next.2",
+		"@e280/strata": "^0.4.0-next.3",
 		"lit": "^3.3.2"
 	},
 	"dependencies": {
