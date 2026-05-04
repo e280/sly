@@ -52,10 +52,10 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 
     export const MyCounter = light((start: number) => {
       const $count = useSignal(start)
-      const increment = () => $count.value++
+      const increment = () => $count($count() + 1)
 
       return html`
-        <button @click="${increment}">${$count.value}</button>
+        <button @click="${increment}">${$count()}</button>
       `
     })
     ```
@@ -83,10 +83,10 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
       useCss(css`button { color: cyan }`)
 
       const $count = useSignal(start)
-      const increment = () => $count.value++
+      const increment = () => $count($count() + 1)
 
       return html`
-        <button @click="${increment}">${$count.value}</button>
+        <button @click="${increment}">${$count()}</button>
         <slot></slot>
       `
     })
@@ -216,7 +216,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     // write the signal
     $count(2)
     ```
-- **useDerived,** create a [strata](https://github.com/e280/strata) derived signal
+- **useDerived,** create a [strata](https://github.com/e280/strata) derived formula
     ```ts
     const $product = useDerived(() => $count() * $whatever())
     ```
@@ -286,9 +286,9 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
         await $wait.ready
           // 123
         ```
-- **useWaitResult,** start a [strata#wait](https://github.com/e280/strata#wait), but with a formal [stz#ok](https://github.com/e280/stz#ok) ok/err result
+- **useWaitFormal,** start a [strata#wait](https://github.com/e280/strata#wait), but with a formal [stz#ok](https://github.com/e280/stz#ok) ok/err result
     ```ts
-    const $wait = useWaitResult(async() => {
+    const $wait = useWaitFormal(async() => {
       await nap(2000)
       return (Math.random() > 0.5)
         ? ok(123)
@@ -306,7 +306,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 
     useMount(() => cycle(async() => {
       await nap(1000)
-      $seconds.value++
+      $seconds($seconds() + 1)
     }))
     ```
 - wake + rendered, to do something after each mount's first render
@@ -463,7 +463,7 @@ now, if you want to setup `location.hash` routing, you might want these primitiv
     const $hash = hashSignal()
     ```
     ```ts
-    $hash.value
+    $hash()
       // "user/123/profile"
     ```
     - the signal value auto-updates whenever the hash changes
