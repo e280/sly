@@ -24,11 +24,11 @@
 		"count": "find s -path '*/_archive' -prune -o -name '*.ts' -exec wc -l {} +"
 	},
 	"peerDependencies": {
-		"@e280/strata": "^0.4.0-next.3",
+		"@e280/strata": "^0.4.0-next.4",
 		"lit": "^3.3.2"
 	},
 	"dependencies": {
-		"@e280/stz": "^0.2.35"
+		"@e280/stz": "^0.2.36"
 	},
 	"devDependencies": {
 		"@e280/hottie": "^0.1.1",
