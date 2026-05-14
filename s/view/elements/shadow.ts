@@ -1,13 +1,14 @@
 
+import {microbounce} from "@e280/stz"
 import {render as litRender} from "lit"
-import {Constructor, microbounce} from "@e280/stz"
+
 import {Content} from "../types.js"
 import {ShadowCx} from "../parts/cx.js"
 import {hooks} from "../hooks/plumbing/hooks.js"
 import {Reactivity} from "../parts/reactivity.js"
 import {Hookscope} from "../hooks/plumbing/hookscope.js"
 
-export function shadowElement(view: () => Content): Constructor<HTMLElement> {
+export function shadowElement(view: () => Content): new() => HTMLElement {
 	return class extends HTMLElement {
 		#cx
 		#hookscope
