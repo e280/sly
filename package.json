@@ -37,6 +37,9 @@
 		"@e280/scute": "^0.3.3",
 		"typescript": "^6.0.3"
 	},
+	"allowScripts": {
+		"esbuild@0.28.0": true
+	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"homepage": "https://github.com/e280/sly#readme",
 	"repository": {
