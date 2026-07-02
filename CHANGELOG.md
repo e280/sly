@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.1
+- 🍏 update dependencies
+
 ### v0.4.0
 - 🟥 upgraded to [@e280/strata](https://github.com/e280/strata) v0.4
  - 🟥 this is not compatible with strata 0.3, which means 0.4 will not respond to 0.3 signals, eg, your app also needs to adopt strata 0.4 to work with sly now -- strata is now a proper peerDependency of sly
