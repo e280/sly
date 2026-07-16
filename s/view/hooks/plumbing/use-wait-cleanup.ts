@@ -1,30 +1,25 @@
 
 import {once} from "@e280/stz"
 import {isWaitOk, Waiter} from "@e280/strata"
-import {useRef} from "../use-ref.js"
-import {useOnce} from "../use-once.js"
-import {useUnmount} from "../use-unmount.js"
 
-export function useWaitCleanup<Value>(
+export function waitCleanup<Value>(
 		$wait: Waiter<Value>,
 		cleanup: (value: Value) => void,
 	) {
 
-	const abandoned = useRef(false)
-	const cleanupOnce = useOnce(() => once(cleanup))
+	let abandoned = false
+	const cleanupOnce = once(cleanup)
 
-	useOnce(() => {
-		$wait.result.then(waited => {
-			if (abandoned.current && isWaitOk(waited))
-				cleanupOnce(waited.value)
-		})
+	void $wait.result.then(waited => {
+		if (abandoned && isWaitOk(waited))
+			cleanupOnce(waited.value)
 	})
-
-	useUnmount(() => {
-		abandoned.current = true
+	
+	return function abandon() {
+		abandoned = true
 		const waited = $wait()
 		if (isWaitOk(waited))
 			cleanupOnce(waited.value)
-	})
+	}
 }
 
