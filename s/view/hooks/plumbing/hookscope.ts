@@ -1,5 +1,5 @@
 
-import {Mounts} from "../use-mount.js"
+import {Mounts} from "./mounts.js"
 import {LightCx, ShadowCx} from "../../parts/cx.js"
 
 export class Hookscope {

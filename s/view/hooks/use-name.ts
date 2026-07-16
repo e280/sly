@@ -1,5 +1,5 @@
 
-import {useHost} from "./use-cx.js"
+import {useHost} from "./use-host.js"
 import {useOnce} from "./use-once.js"
 
 /** sets the host element's "data-view" attribute */

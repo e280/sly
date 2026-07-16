@@ -2,9 +2,11 @@
 import {useRef} from "./use-ref.js"
 import {dom} from "../../dom/dom.js"
 import {useOnce} from "./use-once.js"
+import {useHost} from "./use-host.js"
 import {useMount} from "./use-mount.js"
+import {useRender} from "./use-render.js"
 import {AttrSpec} from "../../dom/types.js"
-import {useHost, useRender, useRendered} from "./use-cx.js"
+import {useRendered} from "./use-rendered.js"
 
 export function useAttrs<A extends AttrSpec>(spec: A) {
 	const host = useHost()

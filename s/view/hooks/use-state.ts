@@ -1,6 +1,6 @@
 
 import {useRef} from "./use-ref.js"
-import {useRender} from "./use-cx.js"
+import {useRender} from "./use-render.js"
 
 export function useState<Value>(value: Value) {
 	const render = useRender()
