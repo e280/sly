@@ -294,6 +294,14 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
         await $wait.ready
           // 123
         ```
+    - you can supply an optional `cleanup` fn
+        ```ts
+        const $wait = useWait(
+          fnMakesExpensiveThing,
+          thing => thing.dispose(),
+        )
+        ```
+        your cleanup fn will run when the current view is unmounted
 - **useWaitFormal,** start a [strata#wait](https://github.com/e280/strata#wait), but with a formal [stz#ok](https://github.com/e280/stz#ok) ok/err result
     ```ts
     const $wait = useWaitFormal(async() => {
