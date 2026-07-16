@@ -253,9 +253,9 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 
     whatever // 123
     ```
-- **useLifecycle,** mount/unmount lifecycle, but also return a value
+- **useMounted,** mount/unmount lifecycle, but also return a value
     ```ts
-    const whatever = useLifecycle(() => {
+    const whatever = useMounted(() => {
       console.log("mounted")
       const value = 123
       return [value, () => console.log("unmounted")]

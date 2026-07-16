@@ -1,6 +1,6 @@
 
 import {wait} from "@e280/strata"
-import {useLifecycle} from "./use-lifecycle.js"
+import {useMounted} from "./use-mounted.js"
 import {waitCleanup} from "./plumbing/use-wait-cleanup.js"
 
 export function useWait<Value>(
@@ -8,7 +8,7 @@ export function useWait<Value>(
 		cleanup: (value: Value) => void = () => {},
 	) {
 
-	return useLifecycle(() => {
+	return useMounted(() => {
 		const $wait = wait<Value>(input)
 		return [$wait, waitCleanup($wait, cleanup)]
 	})

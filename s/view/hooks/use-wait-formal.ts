@@ -1,7 +1,7 @@
 
 import {Result} from "@e280/stz"
 import {waitFormal} from "@e280/strata"
-import {useLifecycle} from "./use-lifecycle.js"
+import {useMounted} from "./use-mounted.js"
 import {waitCleanup} from "./plumbing/use-wait-cleanup.js"
 
 export function useWaitFormal<Value, E = unknown>(
@@ -10,7 +10,7 @@ export function useWaitFormal<Value, E = unknown>(
 	) {
 
 
-	return useLifecycle(() => {
+	return useMounted(() => {
 		const $wait = waitFormal<Value, E>(input)
 		return [$wait, waitCleanup($wait, cleanup)]
 	})
