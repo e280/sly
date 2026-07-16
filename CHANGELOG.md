@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.2
+- 🍏 add hook `useUnmount`
+
 ### v0.4.1
 - 🍏 update dependencies
 

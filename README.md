@@ -240,6 +240,10 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
       return () => console.log("unmounted")
     })
     ```
+- **useUnmount,** setup unmount handler
+    ```ts
+    useUnmount(() => console.log("unmounted"))
+    ```
 - **useWake,** run fn each time mounted, and return value
     ```ts
     const whatever = useWake(() => {

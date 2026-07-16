@@ -15,6 +15,7 @@ export * from "./hooks/use-once.js"
 export * from "./hooks/use-ref.js"
 export * from "./hooks/use-signal.js"
 export * from "./hooks/use-state.js"
+export * from "./hooks/use-unmount.js"
 export * from "./hooks/use-wait.js"
 export * from "./hooks/use-wake.js"
 
