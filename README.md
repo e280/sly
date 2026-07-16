@@ -273,6 +273,10 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     ```ts
     useRendered().then(() => console.log("rendered"))
     ```
+- **useCount,** get count of how many times this view has been rendered (starts at 0)
+    ```ts
+    console.log(useCount()) // 0
+    ```
 - **useWait,** start loading a [strata#wait](https://github.com/e280/strata#wait) signal
     ```ts
     const $wait = useWait(async() => {
