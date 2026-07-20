@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.3
+- 🍏 update dependencies
+
 ### v0.4.2
 - 🔶 rename `useLifecycle` to `useMounted`
 - 🔶 reworked `useWait` and `useWaitFormal` to now be based on mount/unmount lifecycles, the waiter will be setup again on each mount, and now we've added an optional `cleanup` 2nd arg, which allows you to teardown your waited thing when your view is unmounted, and it will magically remember to teardown things that finish loading after your view is unmounted
