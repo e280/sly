@@ -391,52 +391,53 @@ sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait)
 <a id="spa"></a>
 
 ## 💅 spa
-> *tiny router for cozy single page apps*
+> *toolkit for clientside single-page-application hash-routing.*
 
-```ts
-import {derived} from "@e280/strata"
-import {router, norm, hashNav, hashSignal} from "@e280/sly"
-```
-
-the spa router is agnostic about whether you're routing `location.hash` or `location.pathname` or otherwise.
-
-- **router**
+### 💅 typical spa setup.
+- **import stuff.**
     ```ts
-    const route = router({
-      "": () => "home", // 💁 routes can return anything
-      "settings": () => "settings",
-
-      // 🧩 params use braces
-      "user/{id}": params => `user ${params.id}`,
-
-      // 🔀 subpath with {*}
-      "user/{id}/{*}": (params, subpath) => `user ${params.id} ${subpath}`,
+    import {html} from "lit"
+    import {derived} from "@e280/strata"
+    import {watchHash, hashNav, router} from "@e280/sly"
+    ```
+- **make a readonly hash signal that stays synced to the current normalized url hash.**
+    ```ts
+    const $hash = watchHash()
+      // like "", or "about", or "project/123"
+    ```
+- **hashNav to setup navigation fns.**
+    ```ts
+    const navigate = hashNav({
+      home: () => ``,
+      about: () => `about`,
+      project: (id: string) => `project/${id}`,
     })
     ```
-    you get a fn that resolves the path you give it
+    then you can call those fns to navigate.
     ```ts
-    route("")
-      // "home"
-
-    route("settings")
-      // "settings"
-
-    route("user/123/profile")
-      // "user 123 profile"
-
-    route("unknown/whatever")
-      // undefined
+    navigate.project("123")
     ```
-- **`norm` fn** chops off leading slashes and/or hash chars
+- **router produces a fn that returns the content that matches the given path.**
     ```ts
-    route(norm(location.hash))
-      // "#/settings" -> "settings"
+    const route = router({
+      "": () => html`<h1>home</h1>`,
+      "about": () => html`<h1>about</h1>`,
+      "project/{id}": ({id}) => html`<h1>project ${id}</h1>`,
+    })
     ```
+- **make an auto-updating signal that updates content when hash changes.**
     ```ts
-    route(norm(location.pathname))
-      // "/settings" -> "settings"
+    const $content = derived(() => route($hash()))
     ```
-- **subrouting pattern**
+    then you can plop that onto your page somewhere.
+    ```ts
+    dom.render(dom(".content"), html`
+      <div>${$content()}</div>
+    `)
+    ```
+
+### 💅 advanced spa usage for giant brains.
+- **subrouting pattern for composable routers.**
     ```ts
     // here's a subrouter
     const user = (params: {id: string}) => router({
@@ -455,48 +456,14 @@ the spa router is agnostic about whether you're routing `location.hash` or `loca
     route("user/123/profile")
       // "user 123 profile"
     ```
-
-now, if you want to setup `location.hash` routing, you might want these primitives.
-
-- **hashNav** fn to trigger navigations
+- **`norm` to manually normalize url paths, chops off leading slashes and hash chars.**
     ```ts
-    const go = hashNav({
-      home: () => ``,
-      settings: () => `settings`,
-      user: (id: string) => `user/${id}`,
-      userProfile: (id: string) => `user/${id}/profile`,
-      userInvites: (id: string) => `user/${id}/invites`,
-    })
-
-    go.settings()
-      // navigates to "#/settings"
-
-    go.user("123")
-      // navigates to "#/user/123"
-    ```
-- **hashSignal** create a [strata](https://github.com/e280/strata) signal for the current normalized `location.hash`
-    ```ts
-    const $hash = hashSignal()
+    norm(location.hash)
+      // "#/settings" -> "settings"
     ```
     ```ts
-    $hash()
-      // "user/123/profile"
-    ```
-    - the signal value auto-updates whenever the hash changes
-    - the value is run through the `norm` fn to chop off the leading `#/`
-    - whenever the hash changes, it runs `cleanHash` fn which aesthetically converts `e280.org/#/` to just `e280.org/` in the address bar
-- **you should setup a derived signal** that routes whenever that hash signal changes
-    ```ts
-    const $content = derived(() => route($hash()))
-      // "user 123 profile"
-    ```
-    then you can plop that content into your lit html
-    ```ts
-    html`
-      <div>
-        ${$content()}
-      </div>
-    `
+    norm(location.pathname)
+      // "/settings" -> "settings"
     ```
 
 
