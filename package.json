@@ -28,17 +28,17 @@
 		"lit": "^3.3.3"
 	},
 	"dependencies": {
-		"@e280/stz": "^0.3.7"
+		"@e280/stz": "^0.3.10"
 	},
 	"devDependencies": {
-		"@e280/hottie": "^0.1.2",
-		"@e280/octo": "^0.1.3",
-		"@e280/science": "^0.1.11",
+		"@e280/hottie": "^0.1.5",
+		"@e280/octo": "^0.1.5",
+		"@e280/science": "^0.1.12",
 		"@e280/scute": "^0.5.0",
 		"typescript": "^7.0.2"
 	},
 	"allowScripts": {
-		"esbuild@0.28.1": true
+		"esbuild@0.28.2": true
 	},
 	"author": "Chase Moskal <chasemoskal@gmail.com>",
 	"homepage": "https://github.com/e280/sly#readme",

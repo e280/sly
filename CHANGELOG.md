@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.5
+- 🍏 update dependencies
+
 ### v0.4.4
 - 🔶 deprecate `hashSignal` in favor of replacement `watchHash` (which returns a derived instead of a signal).
 - 🍏 rewrite readme spa section.
