@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.6
+- 🍏 update dev dependencies
+
 ### v0.4.5
 - 🍏 update dependencies
 
