@@ -34,7 +34,7 @@
 		"@e280/hottie": "^0.1.5",
 		"@e280/octo": "^0.1.5",
 		"@e280/science": "^0.1.12",
-		"@e280/scute": "^0.5.0",
+		"@e280/scute": "^0.5.1",
 		"typescript": "^7.0.2"
 	},
 	"allowScripts": {
