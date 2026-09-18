@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.8
+- 🔶 upgrade to strata 0.5 -- if you use strata directly, you might need to adapt to its breaking changes
+
 ### v0.4.7
 - 🍏 update dependencies
 

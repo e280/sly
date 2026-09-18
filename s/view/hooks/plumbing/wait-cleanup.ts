@@ -1,9 +1,9 @@
 
 import {once} from "@e280/stz"
-import {isWaitOk, Waiter} from "@e280/strata"
+import {isWaitOk, Wait} from "@e280/strata"
 
 export function waitCleanup<Value>(
-		$wait: Waiter<Value>,
+		$wait: Wait<Value>,
 		cleanup: (value: Value) => void,
 	) {
 

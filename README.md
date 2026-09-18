@@ -284,7 +284,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
       return 123
     })
     ```
-    - look at the current `Wait` state
+    - look at the current `WaitState`
         ```ts
         $wait()
           // {done: true, ok: true, value: 123}
