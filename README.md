@@ -737,9 +737,6 @@ import {dom} from "@e280/sly"
 
 
 <br/><br/>
-<a id="e280"></a>
 
-## 🧑‍💻 sly is by e280
-reward us with github stars  
-build with us at https://e280.org/ but only if you're cool  
+🧑‍💻 *https://e280.org/*
 
