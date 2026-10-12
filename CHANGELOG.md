@@ -12,6 +12,8 @@
 ## v0.4
 
 ### v0.4.10
+- 🍏 add `register` as eventual replacement for `dom.register`
+- 🍏 add `renderIn` as eventual replacement for `dom.render`
 - 🍏 add `lightDuplex`
 - 🍏 add `shadowDuplex`
 - 🔶 rename `light` to `lightView`
