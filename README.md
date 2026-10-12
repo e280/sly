@@ -6,19 +6,16 @@
 
 [e280](https://e280.org/)'s frontend library for buildercore wizards. *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*
 
-&nbsp; &nbsp; &nbsp; ⚜ *core* ⚜  
+📦 `npm i lit @e280/sly`
+
 🎭 [**#views,**](#views) light-dom or shadow-dom.  
 🪝 [**#hooks,**](#hooks) react-like composable hooks.  
 
-&nbsp; &nbsp; &nbsp; ⚜ *extras* ⚜  
 ⏳ [**#spinners,**](#spinners) animated loading spinners.  
 💅 [**#spa,**](#spa) tiny router for hashy single-page-apps.  
 🪙 [**#loot,**](#loot) drag-and-drop facilities.  
 🪄 [**#dom,**](#dom) the handy "it's not jquery" multitool.  
 🧪 **https://sly.e280.org/** sly's silly testing page.  
-
-&nbsp; &nbsp; &nbsp; ⚜ *installation* ⚜  
-📦 `npm i lit @e280/sly`
 
 
 
@@ -35,7 +32,7 @@ sly views yoink the most premium ideas from react, preact, web components, lit, 
 - ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes.
 - 🪶 **no special compiler,** just god's honest javascript via [lit-html](https://lit.dev/) tagged-templates.
 - 🧩 **view aren't web components,** no dom registration needed, nice typings.
-- 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html (no build!)
+- 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html. *(no build!)*
 
 ### 🌚 shadow views
 > *each shadow view gets its own comfy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) blankie to protect its local css, and it also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).*
@@ -64,12 +61,10 @@ sly views yoink the most premium ideas from react, preact, web components, lit, 
       <h1>my cool counter demo</h1>
       ${MyCounter(234)}
     `)
+
+    // <h1>my cool counter demo</h1>
+    // <sly-shadow view="counter"></sly-shadow>
     ```
-    - rendered onto the page you'll get:
-        ```html
-        <h1>my cool counter demo</h1>
-        <sly-shadow view="counter"></sly-shadow>
-        ```
 - **get more control: `.with` to nest children or set attrs.**
     ```ts
     renderIn(".demo", html`
@@ -283,24 +278,20 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
       return 123
     })
     ```
-    - look at the current `WaitState`.
-        ```ts
-        $wait()
-          // {done: true, ok: true, value: 123}
-        ```
-    - await for when the value is ready.
-        ```ts
-        await $wait.ready
-          // 123
-        ```
-    - you can supply an optional `cleanup` fn.
-        ```ts
-        const $wait = useWait(
-          fnMakesExpensiveThing,
-          thing => thing.dispose(),
-        )
-        ```
-        your cleanup fn will run when the current view is unmounted.
+    ```ts
+    $wait()
+      // {done: true, ok: true, value: 123}
+    ```
+    ```ts
+    await $wait.ready
+      // 123
+    ```
+    ```ts
+    const $wait = useWait(fnMakesExpensiveThing, thing => {
+      // disposed when current view is unmounted.
+      thing.dispose()
+    })
+    ```
 - **useWaitFormal,** start a [strata#wait](https://github.com/e280/strata#wait), but with a formal [stz#ok](https://github.com/e280/stz#ok) ok/err result.
     ```ts
     const $wait = useWaitFormal(async() => {
