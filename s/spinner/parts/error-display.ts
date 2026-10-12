@@ -1,9 +1,9 @@
 
 import {css, html} from "lit"
-import {shadow} from "../../view/shadow.js"
+import {shadowView} from "../../view/shadow.js"
 import {cssReset, useName, useStyles} from "../../view/index.js"
 
-export const ErrorDisplay = shadow((error: any) => {
+export const ErrorDisplay = shadowView((error: any) => {
 	useName("error")
 	useStyles(cssReset, style)
 

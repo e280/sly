@@ -8,7 +8,7 @@ import {Reactivity} from "./parts/reactivity.js"
 import {Hookscope} from "./hooks/plumbing/hookscope.js"
 import {AsyncDirective, directive, Part} from "lit/async-directive.js"
 
-export function light<Props extends any[]>(view: View<Props>) {
+export function lightView<Props extends any[]>(view: View<Props>) {
 	return directive(class D extends AsyncDirective {
 		#props!: Props
 		#cx = new LightCx(microbounce(() => {
@@ -47,4 +47,7 @@ export function light<Props extends any[]>(view: View<Props>) {
 		}
 	}) as View<Props>
 }
+
+/** @deprecated renamed to `lightView` */
+export const light = lightView
 

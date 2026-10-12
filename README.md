@@ -2,7 +2,7 @@
 <div align="center"><img alt="" width="256" src="./s/assets/favicon.png"/></div>
 
 # 🦝 sly
-### [e280](https://e280.org/)'s buildercore view library.
+### [e280's](https://e280.org/) webdev frontend view library.
 
 > *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*
 
@@ -35,11 +35,11 @@ npm install @e280/sly @e280/strata @e280/stz lit
 
 ```ts
 import {html} from "lit"
-import {light, shadow, dom} from "@e280/sly"
+import {lightView, shadowView, dom} from "@e280/sly"
 
-export const MyLightView = light(() => html`<p>blinded by the light</p>`)
+export const MyLightView = lightView(() => html`<p>blinded by the light</p>`)
 
-export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
+export const MyShadowView = shadowView(() => html`<p>shrouded in darkness</p>`)
 ```
 
 ### 🌞 light views
@@ -48,9 +48,9 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 - **define a light view**
     ```ts
     import {html} from "lit"
-    import {light, useSignal} from "@e280/sly"
+    import {lightView, useSignal} from "@e280/sly"
 
-    export const MyCounter = light((start: number) => {
+    export const MyCounter = lightView((start: number) => {
       const $count = useSignal(start)
       const increment = () => $count($count() + 1)
 
@@ -76,9 +76,9 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
 - **define a shadow view**
     ```ts
     import {css, html} from "lit"
-    import {shadow, useName, useCss, useSignal} from "@e280/sly"
+    import {shadowView, useName, useCss, useSignal} from "@e280/sly"
 
-    export const MyShadowCounter = shadow((start: number) => {
+    export const MyShadowCounter = shadowView((start: number) => {
       useName("counter")
       useCss(css`button { color: cyan }`)
 
@@ -148,6 +148,26 @@ export const MyShadowView = shadow(() => html`<p>shrouded in darkness</p>`)
     <my-light></my-light>
     <my-shadow></my-shadow>
     ```
+- **shadowDuplex, make a hybrid shadow view-and-element**
+    ```ts
+    import {html} from "lit"
+    import {shadowDuplex} from "@e280/sly"
+
+    const [SumView, makeSumElement] = shadowDuplex(
+      (a: number, b: number) => html`<p>sum: ${a + b}</p>`
+    )
+    ```
+    ```ts
+    // view usage in any html template
+    SumView(1, 2)
+
+    // register the element to the dom
+    dom.register({SumElement: makeSumElement(1, 2)})
+    ```
+    - there is an equivalent `lightDuplex`.
+    - the params are hard-baked into the component at registration time.
+    - the common pattern here, is to pass an app context object to these duplexes.
+    - hooks like `useAttrs` can query the element's runtime attributes.
 
 
 
@@ -348,9 +368,9 @@ sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait)
 - **okay, so let's just do a loading spinner example**
     ```ts
     import {html} from "lit"
-    import {shadow, useWait, spinner} from "@e280/sly"
+    import {shadowView, useWait, spinner} from "@e280/sly"
 
-    const MyView = shadow(() => {
+    const MyView = shadowView(() => {
 
       // ⏳️ create a $wait signal
       const $wait = useWait(async() => {

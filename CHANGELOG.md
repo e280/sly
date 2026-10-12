@@ -11,6 +11,15 @@
 
 ## v0.4
 
+### v0.4.10
+- 🍏 add `lightDuplex`
+- 🍏 add `shadowDuplex`
+- 🔶 rename `light` to `lightView`
+- 🔶 rename `shadow` to `shadowView`
+
+### v0.4.9
+- 🍏 update deps
+
 ### v0.4.8
 - 🔶 upgrade to strata 0.5 -- if you use strata directly, you might need to adapt to its breaking changes
 

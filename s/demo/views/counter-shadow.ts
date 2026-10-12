@@ -1,8 +1,8 @@
 
 import {css, html} from "lit"
-import {shadow, useName, useCss, useSignal} from "../../view/index.js"
+import {shadowView, useName, useCss, useSignal} from "../../view/index.js"
 
-export const CounterShadow = shadow((start: number) => {
+export const CounterShadow = shadowView((start: number) => {
 	useName("counter-shadow")
 	useCss(css`:host{display:inline-block} button{color:cyan}`)
 

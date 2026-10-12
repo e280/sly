@@ -1,8 +1,8 @@
 
 import {html} from "lit"
-import {light, useSignal} from "../../view/index.js"
+import {lightView, useSignal} from "../../view/index.js"
 
-export const CounterLight = light((start: number) => {
+export const CounterLight = lightView((start: number) => {
 	const $count = useSignal(start)
 	const increment = () => $count($count() + 1)
 

@@ -3,9 +3,9 @@ import {css, html} from "lit"
 import {LoadersView} from "./loaders.js"
 import {CounterLight} from "./counter-light.js"
 import {CounterShadow} from "./counter-shadow.js"
-import {cssReset, shadow, useName, useStyles} from "../../view/index.js"
+import {cssReset, shadowView, useName, useStyles} from "../../view/index.js"
 
-export const Demo = shadow(() => {
+export const Demo = shadowView(() => {
 	useName("demo")
 	useStyles(cssReset, styles)
 

@@ -18,15 +18,18 @@ export function shadowSetup(): ShadowSetup {
 	return {host, shadow}
 }
 
-export function shadow<Props extends any[]>(view: View<Props>) {
+export function shadowView<Props extends any[]>(view: View<Props>) {
 	return rawShadow(shadowSetup, view)
 }
 
-shadow.setup = (setup: () => ShadowSetup) => (
+shadowView.setup = (setup: () => ShadowSetup) => (
 	<Props extends any[]>(view: View<Props>) => (
 		rawShadow(setup, view)
 	)
 )
+
+/** @deprecated renamed to `shadowView` */
+export const shadow = shadowView
 
 function rawShadow<Props extends any[]>(
 		setup: () => ShadowSetup,

@@ -1,7 +1,7 @@
 
 import {css, html} from "lit"
 import {makeWaitState} from "@e280/strata"
-import {shadow} from "../../view/shadow.js"
+import {shadowView} from "../../view/shadow.js"
 import {moonSpinner} from "../../spinner/spinners/moon.js"
 import {waveSpinner} from "../../spinner/spinners/wave.js"
 import {dotsSpinner, earthSpinner, spinner} from "../../spinner/index.js"
@@ -9,7 +9,7 @@ import {cssReset, useName, useOnce, useStyles} from "../../view/index.js"
 
 const spinners = {spinner, dotsSpinner, waveSpinner, earthSpinner, moonSpinner}
 
-export const LoadersView = shadow(() => {
+export const LoadersView = shadowView(() => {
 	useName("loaders")
 	useStyles(cssReset, styles)
 

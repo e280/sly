@@ -2,13 +2,13 @@
 import {css} from "lit"
 import {nap, cycle} from "@e280/stz"
 import {Content} from "../../view/types.js"
-import {cssReset, shadow, useMount, useName, useSignal, useStyles} from "../../view/index.js"
+import {cssReset, shadowView, useMount, useName, useSignal, useStyles} from "../../view/index.js"
 
 export function makeAsciiAnim(hz: number, frames: string[]): () => Content {
 	return () => AsciiAnim({hz, frames})
 }
 
-export const AsciiAnim = shadow(({hz, frames}: {
+export const AsciiAnim = shadowView(({hz, frames}: {
 		hz: number,
 		frames: string[],
 	}) => {
