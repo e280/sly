@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.11
+- 🍏 update deps and readme.
+
 ### v0.4.10
 - 🍏 add `register` as eventual replacement for `dom.register`
 - 🍏 add `renderIn` as eventual replacement for `dom.render`
