@@ -7,8 +7,8 @@ import {attrs} from "./attrs/attrs.js"
 import {elmer} from "./parts/elmer.js"
 import {Content} from "../view/types.js"
 import {Dom} from "./parts/dom-scope.js"
-import {register} from "./parts/register.js"
 import {Queryable, Renderable} from "./types.js"
+import {register} from "./standalone/register.js"
 import {queryAll, queryMaybe, queryRequire} from "./parts/queries.js"
 
 export function dom<E extends HTMLElement>(selector: string, container: Queryable = document) {

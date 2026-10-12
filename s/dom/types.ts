@@ -37,14 +37,3 @@ export type AttrTypes<A extends AttrSpec> = {
 
 export type Attrs = ReturnType<typeof attrs>
 
-// register
-
-export type HTMLElementClasses = {
-	[key: string]: {new(...args: any[]): HTMLElement}
-}
-
-export type RegisterOptions = {
-	soft: boolean
-	upgrade: boolean
-}
-
