@@ -2,88 +2,71 @@
 <div align="center"><img alt="" width="256" src="./s/assets/favicon.png"/></div>
 
 # 🦝 sly
-### [e280's](https://e280.org/) webdev frontend view library.
+### get in loser, we're rendering html.
 
-> *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*
+so, i've been building frontends since before some of you were born. back when php and jquery were cool.  
+*imagine that.*  
+since then, webdev has evolved a lot. i thought we'd learned some lessons.  
+but, for some reason, most of the modern ecosystem makes me retch in disgust.  
 
-- 🎭 [**#views,**](#views) light-dom or shadow-dom
-- 🪝 [**#hooks,**](#hooks) react-like composable hooks
-- ⏳ [**#spinners,**](#spinners) display async operations with animations
-- 💅 [**#spa,**](#spa) tiny router for hashy little single-page-apps
-- 🪙 [**#loot,**](#loot) drag-and-drop facilities
-- 🪄 [**#dom,**](#dom) the "it's not jquery" multitool
-- 🧪 **https://sly.e280.org/** sly's testing page
+meanwhile, i've been whittling away at sly and its companions for many years in isolation.  
+this is *my* way of doing frontend. maybe it's the way of a madman in a shack. maybe it's a manifesto.  
+anyways i hope you think it's neat.  
 
-```bash
-npm install @e280/sly @e280/strata @e280/stz lit
+&nbsp; &nbsp; &nbsp; — *chase.*
+
+
+
+<br/>
+
+### [e280's](https://e280.org/) frontend view library. built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).
+
+```sh
+npm i @e280/sly @e280/strata @e280/stz lit
 ```
+
+&nbsp; &nbsp; &nbsp; ⚜ *core* ⚜  
+🎭 [**#views,**](#views) light-dom or shadow-dom.  
+🪝 [**#hooks,**](#hooks) react-like composable hooks.  
+
+&nbsp; &nbsp; &nbsp; ⚜ *extras* ⚜  
+⏳ [**#spinners,**](#spinners) animated loading spinners.  
+💅 [**#spa,**](#spa) tiny router for hashy single-page-apps.  
+🪙 [**#loot,**](#loot) drag-and-drop facilities.  
+🪄 [**#dom,**](#dom) handy "it's not jquery" multitool.  
+🧪 **https://sly.e280.org/** sly's stupid testing page.  
 
 
 
 <br/><br/>
 <a id="views"></a>
 
-## 🎭 views
-> *reactive lit-html views*
+## 🎭 views — reactive app building blocks
+
+sly views are the everyday building blocks i use to build web apps.  
+they're nicely composable, play nice with typescript types, and enjoy the powers of shadow dom and template slots.  
 
 - 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html (no build!)
-- 🌗 **light or shadow,** render nakedly on the page, or within a cozy shadow bubble
-- 🪝 **hooks-based,** familiar react-style [hooks](#hooks)
-- ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes
-- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-templates
-- 🧩 **not web components,** no dom registration needed, just good vibes and good typings
-
-```ts
-import {html} from "lit"
-import {lightView, shadowView, dom} from "@e280/sly"
-
-export const MyLightView = lightView(() => html`<p>blinded by the light</p>`)
-
-export const MyShadowView = shadowView(() => html`<p>shrouded in darkness</p>`)
-```
-
-### 🌞 light views
-> *lit, signals, hooks — life is good*
-
-- **define a light view**
-    ```ts
-    import {html} from "lit"
-    import {lightView, useSignal} from "@e280/sly"
-
-    export const MyCounter = lightView((start: number) => {
-      const $count = useSignal(start)
-      const increment = () => $count($count() + 1)
-
-      return html`
-        <button @click="${increment}">${$count()}</button>
-      `
-    })
-    ```
-- **render it into the dom**
-    ```ts
-    dom.in(".demo").render(html`
-      <h1>my cool counter demo</h1>
-      ${MyCounter(123)}
-    `)
-    ```
-- **remember, light views are naked.**  
-    so they don't have a containing host element,  
-    and they can't have their own styles.  
+- 🌗 **light or shadow,** render html nakedly, or tucked into a cozy shadow bubble.
+- 🪝 **hooks-based,** familiar react-style [hooks](#hooks).
+- ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes.
+- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-templates.
+- 🧩 **not web components,** no dom registration needed, just good vibes and good typings.
 
 ### 🌚 shadow views
-> *each shadow view gets its own cozy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) bubble to protect its local css, and it also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots)*
+> *each shadow view gets its own comfy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) blankie to protect its local css, and it also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).*
 
-- **define a shadow view**
+- **define your shadow view.**
     ```ts
     import {css, html} from "lit"
     import {shadowView, useName, useCss, useSignal} from "@e280/sly"
 
-    export const MyShadowCounter = shadowView((start: number) => {
+    export const MyCounter = shadowView((start: number, step = 1) => {
       useName("counter")
       useCss(css`button { color: cyan }`)
 
       const $count = useSignal(start)
-      const increment = () => $count($count() + 1)
+      const increment = () => $count($count() + step)
 
       return html`
         <button @click="${increment}">${$count()}</button>
@@ -91,24 +74,33 @@ export const MyShadowView = shadowView(() => html`<p>shrouded in darkness</p>`)
       `
     })
     ```
-- **render it into the dom**
+- **try a light view too.** *(but we use these less often)*
     ```ts
-    dom.in(".demo").render(html`
-      <h1>my cool counter demo</h1>
-      ${MyShadowCounter(234)}
-    `)
+    // render naked on page with no shadow bubble, no css, no host element.
+    export const MyLightCounter = lightView(() => {
+      return html`<p>blinded by the light</p>`
+    })
     ```
-    - shadow views have a host element, rendered output looks like:
+- **render it into the dom.**
+    ```ts
+    const content = html`
+      <h1>my cool counter demo</h1>
+      ${MyCounter(234)}
+    `
+
+    dom.in(".demo").render(content)
+    ```
+    - rendered onto the page you'll get:
         ```html
         <h1>my cool counter demo</h1>
         <sly-shadow view="counter"></sly-shadow>
         ```
-- **.with to nest children or set attrs**
+- **`.with`, to nest children, or set attrs.**
     ```ts
     dom.in(".demo").render(html`
       <h1>my cool counter demo</h1>
 
-      ${MyShadowCounter.with({
+      ${MyCounter.with({
         props: [234],
         attrs: {"data-whatever": 555},
         children: html`
@@ -117,24 +109,29 @@ export const MyShadowView = shadowView(() => html`<p>shrouded in darkness</p>`)
       })}
     `)
     ```
-- **you can do custom shadow setup if needed** (default shown)
+- **fancy custom shadow settings, if you need.** (default shown)
     ```ts
     import {SlyShadow} from "@e280/sly"
 
-    const customShadow = shadow.setup(() => {
-      SlyShadow.register()
+    const customShadowView = shadow.setup(() => {
+      SlyShadow.register() // soft-registers <sly-shadow>
       const host = document.createElement("sly-shadow")
       const shadow = host.attachShadow({mode: "open"})
       return {host, shadow}
     })
 
-    const MyShadowView = customShadow(() => html`<p>shrouded in darkness</p>`)
+    const MyShadowView = customShadowView(() => {
+      return html`<p>shrouded in darkness</p>`
+    })
     ```
 
-### 🍨 web components
-> *web-native custom elements*
+### 🍨 web components — custom elements
 
-- **they use hooks like the views, but they don't take props**
+okay, so we do these too.  
+web components are a great way to give html authors some cool widgets to play with.  
+they're not as great as the primary building blocks for typescript app devs.  
+
+- **they use hooks like views, but they don't take props.**
     ```ts
     import {html} from "lit"
     import {lightElement, shadowElement} from "@e280/sly"
@@ -148,7 +145,8 @@ export const MyShadowView = shadowView(() => html`<p>shrouded in darkness</p>`)
     <my-light></my-light>
     <my-shadow></my-shadow>
     ```
-- **shadowDuplex, make a hybrid shadow view-and-element**
+- **shadowDuplex, make a view and an element at the same time.**  
+    this is great where as a library author, i want to supply a widget as both a sly view, and also standard web component.  
     ```ts
     import {html} from "lit"
     import {shadowDuplex} from "@e280/sly"
@@ -160,48 +158,48 @@ export const MyShadowView = shadowView(() => html`<p>shrouded in darkness</p>`)
     ```ts
     // view usage in any html template
     SumView(1, 2)
-
+    ```
+    ```ts
     // register the element to the dom
     dom.register({SumElement: makeSumElement(1, 2)})
     ```
-    - there is an equivalent `lightDuplex`.
     - the params are hard-baked into the component at registration time.
     - the common pattern here, is to pass an app context object to these duplexes.
     - hooks like `useAttrs` can query the element's runtime attributes.
+    - there also a matching `lightDuplex`.
 
 
 
 <br/><br/>
 <a id="hooks"></a>
 
-## 🪝 hooks
-> *composable view state and utilities*
+## 🪝 hooks — give your views the spark of life
 
 ### 👮 follow the hooks rules, or you go to hooks jail
 
-just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of hooks seriously matters.
+just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), the execution order of hooks *seriously matters.*
 
 you must not call these hooks under if-conditionals, or for-loops, or inside callback functions, or after a conditional return statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
 
 ### 🌚 shadow-only hooks
-- **useName,** set the "view" attribute value
+- **useName,** set the "view" attribute value.
     ```ts
     useName("squarepants")
       // <sly-shadow view="squarepants">
     ```
-- **useCss,** attach stylesheets (use lit's `css`!) to the shadow root
+- **useCss,** attach stylesheets (use lit's `css`!) to the shadow root.
     ```ts
     useCss(css1, css2, css3)
     ```
-- **useHost,** get the host element
+- **useHost,** get the host element.
     ```ts
     const host = useHost()
     ```
-- **useShadow,** get the shadow root
+- **useShadow,** get the shadow root.
     ```ts
     const shadow = useShadow()
     ```
-- **useAttrs,** access host element attributes (and rerender on attr changes)
+- **useAttrs,** access host element attributes (and rerender on attr changes).
     ```ts
     const attrs = useAttrs({
       name: String,
@@ -213,20 +211,20 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     ```
 
 ### 🌞 universal hooks
-- **useState,** react-like hook to create some reactive state (we prefer signals)
+- **useState,** react-like hook to create some reactive state (we prefer signals).
     ```ts
     const [count, setCount] = useState(0)
 
     const increment = () => setCount(n => n + 1)
     ```
-- **useRef,** react-like hook to make a non-reactive box for a value
+- **useRef,** react-like hook to make a non-reactive box for a value.
     ```ts
     const ref = useRef(0)
 
     ref.current // 0
     ref.current = 1 // does not trigger rerender
     ```
-- **useSignal,** create a [strata](https://github.com/e280/strata) signal
+- **useSignal,** create a [strata](https://github.com/e280/strata) signal.
     ```ts
     const $count = useSignal(1)
 
@@ -236,15 +234,15 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     // write the signal
     $count(2)
     ```
-- **useDerived,** create a [strata](https://github.com/e280/strata) derived formula
+- **useDerived,** create a [strata](https://github.com/e280/strata) derived formula.
     ```ts
     const $product = useDerived(() => $count() * $whatever())
     ```
-- **useEffect,** run a fn whenever [strata](https://github.com/e280/strata) state changes
+- **useEffect,** run a fn whenever [strata](https://github.com/e280/strata) state changes.
     ```ts
-    useEffect(() => console.log($count))
+    useEffect(() => console.log($count()))
     ```
-- **useOnce,** run fn at initialization, and return a value
+- **useOnce,** run fn at initialization, and return a value.
     ```ts
     const whatever = useOnce(() => {
       console.log("happens one time")
@@ -253,18 +251,18 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 
     whatever // 123
     ```
-- **useMount,** setup mount/unmount lifecycle
+- **useMount,** setup mount/unmount lifecycle.
     ```ts
     useMount(() => {
       console.log("mounted")
       return () => console.log("unmounted")
     })
     ```
-- **useUnmount,** setup unmount handler
+- **useUnmount,** setup unmount handler.
     ```ts
     useUnmount(() => console.log("unmounted"))
     ```
-- **useWake,** run fn each time mounted, and return value
+- **useWake,** run fn each time mounted, and return value.
     ```ts
     const whatever = useWake(() => {
       console.log("mounted")
@@ -273,7 +271,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 
     whatever // 123
     ```
-- **useMounted,** mount/unmount lifecycle, but also return a value
+- **useMounted,** mount/unmount lifecycle, but also return a value.
     ```ts
     const whatever = useMounted(() => {
       console.log("mounted")
@@ -283,46 +281,46 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 
     whatever // 123
     ```
-- **useRender,** returns a fn to rerender the view (debounced)
+- **useRender,** returns a fn to rerender the view (debounced).
     ```ts
     const render = useRender()
 
     render().then(() => console.log("render done"))
     ```
-- **useRendered,** get a promise that resolves *after* the next render
+- **useRendered,** get a promise that resolves *after* the next render.
     ```ts
     useRendered().then(() => console.log("rendered"))
     ```
-- **useCount,** get count of how many times this view has been rendered (starts at 0)
+- **useCount,** get count of how many times this view has been rendered (starts at 0).
     ```ts
     console.log(useCount()) // 0
     ```
-- **useWait,** start loading a [strata#wait](https://github.com/e280/strata#wait) signal
+- **useWait,** start loading a [strata#wait](https://github.com/e280/strata#wait) signal.
     ```ts
     const $wait = useWait(async() => {
       await nap(2000)
       return 123
     })
     ```
-    - look at the current `WaitState`
+    - look at the current `WaitState`.
         ```ts
         $wait()
           // {done: true, ok: true, value: 123}
         ```
-    - await for when the value is ready
+    - await for when the value is ready.
         ```ts
         await $wait.ready
           // 123
         ```
-    - you can supply an optional `cleanup` fn
+    - you can supply an optional `cleanup` fn.
         ```ts
         const $wait = useWait(
           fnMakesExpensiveThing,
           thing => thing.dispose(),
         )
         ```
-        your cleanup fn will run when the current view is unmounted
-- **useWaitFormal,** start a [strata#wait](https://github.com/e280/strata#wait), but with a formal [stz#ok](https://github.com/e280/stz#ok) ok/err result
+        your cleanup fn will run when the current view is unmounted.
+- **useWaitFormal,** start a [strata#wait](https://github.com/e280/strata#wait), but with a formal [stz#ok](https://github.com/e280/stz#ok) ok/err result.
     ```ts
     const $wait = useWaitFormal(async() => {
       await nap(2000)
@@ -333,7 +331,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
     ```
 
 ### 🧑‍🍳 happy hooks recipes
-- make a ticker, mount, cycle, and nap
+- make a ticker, mount, cycle, and nap.
     ```ts
     import {cycle, nap} from "@e280/stz"
     ```
@@ -345,7 +343,7 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
       $seconds($seconds() + 1)
     }))
     ```
-- wake + rendered, to do something after each mount's first render
+- wake + rendered, to do something after each mount's first render.
     ```ts
     const rendered = useRendered()
 
@@ -359,13 +357,12 @@ you must not call these hooks under if-conditionals, or for-loops, or inside cal
 <br/><br/>
 <a id="spinners"></a>
 
-## ⏳️ spinners
-> *animated loading spinners*
+## ⏳️ spinners — animated loading spinners
 
 sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait), which in turn integrates with [stz ok](https://github.com/e280/stz#ok), so you might want to read each of those docs.
 
 ### ⏳️ ui jumpstart
-- **okay, so let's just do a loading spinner example**
+- **okay, so let's just do a loading spinner example.**
     ```ts
     import {html} from "lit"
     import {shadowView, useWait, spinner} from "@e280/sly"
@@ -384,10 +381,10 @@ sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait)
       `)
     })
     ```
-    - while the async fn is running, an animated spinner will be shown
-    - when the async fn resolves, our little `<p>` tag will render
-    - if the async fn errors out, the error message will be displayed in red
-- **stock spinners for your convenience** *(earth is my favorite)*
+    - while the async fn is running, an animated spinner will be shown.
+    - when the async fn resolves, our little `<p>` tag will render.
+    - if the async fn errors out, the error message will be displayed in red.
+- **stock spinners for your convenience** *(earth is my favorite)*.
     ```ts
     import {spinner, dotsSpinner, waveSpinner, earthSpinner, moonSpinner} from "@e280/sly"
     ```
@@ -402,16 +399,15 @@ sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait)
       ErrorDisplay,
     )
     ```
-    - so makeSpinner accepts two views, one for the loading state, and one for the error state
-    - feel free to make your own views
+    - so makeSpinner accepts two views, one for the loading state, and one for the error state.
+    - feel free to make your own views.
 
 
 
 <br/><br/>
 <a id="spa"></a>
 
-## 💅 spa
-> *toolkit for clientside single-page-application hash-routing.*
+## 💅 spa — single-page-app clientside hash-routing
 
 ### 💅 typical spa setup.
 - **import stuff.**
@@ -491,8 +487,7 @@ sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait)
 <br/><br/>
 <a id="loot"></a>
 
-## 🪙 loot
-> *drag-and-drop facilities*  
+## 🪙 loot — drag-and-drop facilities
 
 ```ts
 import {loot, view, dom} from "@e280/sly"
@@ -500,8 +495,8 @@ import {ev} from "@e280/stz"
 ```
 
 ### 🪙 `loot.Drops`
-> *accept the user dropping stuff like files onto the page*
-- **setup drops**
+> *accept the user dropping stuff like files onto the page.*
+- **setup drops.**
     ```ts
     const drops = new loot.Drops({
       predicate: loot.hasFiles,
@@ -512,7 +507,7 @@ import {ev} from "@e280/stz"
     })
     ```
 - **attach event listeners to your dropzone,** one of these ways:
-  - **view example**
+  - **view example.**
       ```ts
       light(() => html`
         <div
@@ -524,7 +519,7 @@ import {ev} from "@e280/stz"
         </div>
       `)
       ```
-  - **vanilla-js whole-page example**
+  - **vanilla-js whole-page example.**
       ```ts
       // attach listeners to the body
       ev(document.body, {
@@ -541,7 +536,7 @@ import {ev} from "@e280/stz"
       // sync the data-indicator attribute
       drops.$indicator.on(bool => attrs["data-indicator"] = bool)
       ```
-- **flashy css indicator for the dropzone,** so the user knows your app is eager to accept the drop
+- **flashy css indicator for the dropzone,** so the user knows your app is eager to accept the drop.
     ```css
     [data-indicator] {
       border: 0.5em dashed cyan;
@@ -549,8 +544,8 @@ import {ev} from "@e280/stz"
     ```
 
 ### 🪙 `loot.DragAndDrops`
-> *setup drag-and-drops between items within your page*
-- **declare types for your draggy and droppy things**
+> *setup drag-and-drops between items within your page.*
+- **declare types for your draggy and droppy things.**
     ```ts
     // money that can be picked up and dragged
     type Money = {value: number}
@@ -560,7 +555,7 @@ import {ev} from "@e280/stz"
     type Bag = {id: number}
       // dnd will call this a "droppy"
     ```
-- **make your dnd**
+- **make your dnd.**
     ```ts
     const dnd = new loot.DragAndDrops<Money, Bag>({
       acceptDrop: (event, money, bag) => {
@@ -568,7 +563,7 @@ import {ev} from "@e280/stz"
       },
     })
     ```
-- **attach dragzone listeners** (there can be many dragzones...)
+- **attach dragzone listeners** (there can be many dragzones...).
     ```ts
     light(() => {
       const money = useOnce((): Money => ({value: 280}))
@@ -584,7 +579,7 @@ import {ev} from "@e280/stz"
       `
     })
     ```
-- **attach dropzone listeners** (there can be many dropzones...)
+- **attach dropzone listeners** (there can be many dropzones...).
     ```ts
     light(() => {
       const bag = useOnce((): Bag => ({id: 1}))
@@ -605,23 +600,22 @@ import {ev} from "@e280/stz"
     ```
 
 ### 🪙 loot helpers
-- **`loot.hasFiles(event)`** — return true if `DragEvent` contains any files (useful in `predicate`)
-- **`loot.files(event)`** — returns an array of files in a drop's `DragEvent` (useful in `acceptDrop`)
+- **`loot.hasFiles(event)`** — return true if `DragEvent` contains any files (useful in `predicate`).
+- **`loot.files(event)`** — returns an array of files in a drop's `DragEvent` (useful in `acceptDrop`).
 
 
 
 <br/><br/>
 <a id="dom"></a>
 
-## 🪄 dom
-> *the "it's not jquery!" multitool*
+## 🪄 dom — the "it's not jquery" multitool
 
 ```ts
 import {dom} from "@e280/sly"
 ```
 
 ### 🪄 dom queries
-- `need` an element
+- `need` an element.
     ```ts
     dom(".demo")
       // HTMLElement (or throws)
@@ -631,19 +625,19 @@ import {dom} from "@e280/sly"
     dom.need(".demo")
       // HTMLElement (or throws)
     ```
-- `maybe` get an element
+- `maybe` get an element.
     ```ts
     dom.maybe(".demo")
       // HTMLElement | undefined
     ```
-- `all` matching elements in an array
+- `all` matching elements in an array.
     ```ts
     dom.all(".demo ul li")
       // HTMLElement[]
     ```
 
 ### 🪄 dom.in scope
-- make a scope
+- make a scope.
     ```ts
     dom.in(".demo") // selector
       // Dom instance
@@ -652,7 +646,7 @@ import {dom} from "@e280/sly"
     dom.in(demoElement) // element
       // Dom instance
     ```
-- run queries in that scope
+- run queries in that scope.
     ```ts
     dom.in(demoElement).need(".button")
     ```
@@ -663,27 +657,27 @@ import {dom} from "@e280/sly"
     dom.in(demoElement).all("ol li")
     ```
 
-### 🪄 dom utilities
-- `dom.register` web components
+### 🪄 dom utilities.
+- `dom.register` web components.
     ```ts
     dom.register({MyComponent, AnotherCoolComponent})
       // <my-component>
       // <another-cool-component>
     ```
-    - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`)
-- `dom.render` content into an element
+    - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`).
+- `dom.render` content into an element.
     ```ts
     dom.render(element, html`<p>hello world</p>`)
     ```
     ```ts
     dom.in(".demo").render(html`<p>hello world</p>`)
     ```
-- `dom.el` little element builder
+- `dom.el` little element builder.
     ```ts
     const div = dom.el("div", {"data-whatever": 123, "data-active": true})
       // <div data-whatever="123" data-active></div>
     ```
-- `dom.elmer` make an element with a fluent chain
+- `dom.elmer` make an element with a fluent chain.
     ```ts
     const div = dom.elmer("div")
       .attr("data-whatever", 123)
@@ -692,7 +686,7 @@ import {dom} from "@e280/sly"
       .done()
         // HTMLElement
     ```
-- `dom.mk` make an element with a lit template (returns the first)
+- `dom.mk` make an element with a lit template (returns the first).
     ```ts
     const div = dom.mk(html`
       <div data-whatever="123" data-active>
@@ -700,7 +694,7 @@ import {dom} from "@e280/sly"
       </div>
     `) // HTMLElement
     ```
-- `dom.events` <a id="dom.events"></a> to attach event listeners
+- `dom.events` <a id="dom.events"></a> to attach event listeners.
     ```ts
     const detach = dom.events(element, {
       keydown: (e: KeyboardEvent) => console.log("keydown", e.code),
@@ -717,7 +711,7 @@ import {dom} from "@e280/sly"
     // unattach those event listeners when you're done
     detach()
     ```
-- `dom.attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper
+- `dom.attrs` <a id="dom.attrs"></a> to setup a type-happy html attribute helper.
     ```ts
     const attrs = dom.attrs(element).spec({
       name: String,
@@ -746,7 +740,7 @@ import {dom} from "@e280/sly"
     attrs.name = undefined // removes the attr
     attrs.count = undefined // removes the attr
     ```
-    or if you wanna be more loosey-goosey, skip the spec
+    or if you wanna be more loosey-goosey, skip the spec:
     ```ts
     const {attrs} = dom.in(".demo")
     attrs.strings.name = "pimsley"
