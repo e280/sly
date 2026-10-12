@@ -2,30 +2,12 @@
 <div align="center"><img alt="" width="256" src="./s/assets/favicon.png"/></div>
 
 # 🦝 sly
-### get in loser, we're rendering html.
+### get in loser, we're building apps
 
-so, i've been building frontends since before some of you were born. back when php and jquery were cool.  
-*imagine that.*  
-since then, webdev has evolved a lot. i thought we'd learned some lessons.  
-but, for some reason, most of the modern ecosystem makes me retch in disgust.  
-
-meanwhile, i've been whittling away at sly and its companions for many years in isolation.  
-this is *my* way of doing frontend. maybe it's the way of a madman in a shack. maybe it's a manifesto.  
-anyways i hope you think it's neat.  
-
-&nbsp; &nbsp; &nbsp; — *chase.*
-
-
-
-<br/>
-
-### [e280's](https://e280.org/) frontend view library. built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).
-
-```sh
-npm i @e280/sly @e280/strata @e280/stz lit
-```
+[e280](https://e280.org/)'s frontend library for buildercore wizards. *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*  
 
 &nbsp; &nbsp; &nbsp; ⚜ *core* ⚜  
+📦 `npm i lit @e280/sly` ← quick, install it *now!*  
 🎭 [**#views,**](#views) light-dom or shadow-dom.  
 🪝 [**#hooks,**](#hooks) react-like composable hooks.  
 
@@ -34,7 +16,7 @@ npm i @e280/sly @e280/strata @e280/stz lit
 💅 [**#spa,**](#spa) tiny router for hashy single-page-apps.  
 🪙 [**#loot,**](#loot) drag-and-drop facilities.  
 🪄 [**#dom,**](#dom) handy "it's not jquery" multitool.  
-🧪 **https://sly.e280.org/** sly's stupid testing page.  
+🧪 **https://sly.e280.org/** sly's silly testing page.  
 
 
 
@@ -43,7 +25,7 @@ npm i @e280/sly @e280/strata @e280/stz lit
 
 ## 🎭 views — reactive app building blocks
 
-sly views are the everyday building blocks i use to build web apps.  
+sly views are the everyday building blocks we use to build web apps.  
 they're nicely composable, play nice with typescript types, and enjoy the powers of shadow dom and template slots.  
 
 - 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html (no build!)
@@ -51,7 +33,7 @@ they're nicely composable, play nice with typescript types, and enjoy the powers
 - 🪝 **hooks-based,** familiar react-style [hooks](#hooks).
 - ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes.
 - 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-templates.
-- 🧩 **not web components,** no dom registration needed, just good vibes and good typings.
+- 🧩 **view are not web components,** no dom registration needed, good typings.
 
 ### 🌚 shadow views
 > *each shadow view gets its own comfy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) blankie to protect its local css, and it also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).*
@@ -59,7 +41,7 @@ they're nicely composable, play nice with typescript types, and enjoy the powers
 - **define your shadow view.**
     ```ts
     import {css, html} from "lit"
-    import {shadowView, useName, useCss, useSignal} from "@e280/sly"
+    import {shadowView, useName, useCss, useSignal, renderIn} from "@e280/sly"
 
     export const MyCounter = shadowView((start: number, step = 1) => {
       useName("counter")
@@ -74,30 +56,21 @@ they're nicely composable, play nice with typescript types, and enjoy the powers
       `
     })
     ```
-- **try a light view too.** *(but we use these less often)*
+- **render it on your page.**
     ```ts
-    // render naked on page with no shadow bubble, no css, no host element.
-    export const MyLightCounter = lightView(() => {
-      return html`<p>blinded by the light</p>`
-    })
-    ```
-- **render it into the dom.**
-    ```ts
-    const content = html`
+    renderIn(".demo", html`
       <h1>my cool counter demo</h1>
       ${MyCounter(234)}
-    `
-
-    dom.in(".demo").render(content)
+    `)
     ```
     - rendered onto the page you'll get:
         ```html
         <h1>my cool counter demo</h1>
         <sly-shadow view="counter"></sly-shadow>
         ```
-- **`.with`, to nest children, or set attrs.**
+- **get more control: `.with` to nest children or set attrs.**
     ```ts
-    dom.in(".demo").render(html`
+    renderIn(".demo", html`
       <h1>my cool counter demo</h1>
 
       ${MyCounter.with({
@@ -124,32 +97,38 @@ they're nicely composable, play nice with typescript types, and enjoy the powers
       return html`<p>shrouded in darkness</p>`
     })
     ```
+- **there are light views too.**
+    ```ts
+    // render naked on page with no shadow bubble, no css, no host element.
+    export const MyLightCounter = lightView(() => {
+      return html`<p>blinded by the light</p>`
+    })
+    ```
 
 ### 🍨 web components — custom elements
 
-okay, so we do these too.  
 web components are a great way to give html authors some cool widgets to play with.  
 they're not as great as the primary building blocks for typescript app devs.  
 
 - **they use hooks like views, but they don't take props.**
     ```ts
     import {html} from "lit"
-    import {lightElement, shadowElement} from "@e280/sly"
+    import {lightElement, shadowElement, register} from "@e280/sly"
 
     const MyLight = lightElement(() => html`hello`)
     const MyShadow = shadowElement(() => html`hello`)
 
-    dom.register({MyLight, MyShadow})
+    register({MyLight, MyShadow})
     ```
     ```html
     <my-light></my-light>
     <my-shadow></my-shadow>
     ```
 - **shadowDuplex, make a view and an element at the same time.**  
-    this is great where as a library author, i want to supply a widget as both a sly view, and also standard web component.  
+    this is great where as a library author, we want to supply a widget as both a sly view, and also standard web component.  
     ```ts
     import {html} from "lit"
-    import {shadowDuplex} from "@e280/sly"
+    import {shadowDuplex, register} from "@e280/sly"
 
     const [SumView, makeSumElement] = shadowDuplex(
       (a: number, b: number) => html`<p>sum: ${a + b}</p>`
@@ -161,7 +140,7 @@ they're not as great as the primary building blocks for typescript app devs.
     ```
     ```ts
     // register the element to the dom
-    dom.register({SumElement: makeSumElement(1, 2)})
+    register({SumElement: makeSumElement(1, 2)})
     ```
     - the params are hard-baked into the component at registration time.
     - the common pattern here, is to pass an app context object to these duplexes.
@@ -441,15 +420,11 @@ sly's spinners integrate with [strata wait](https://github.com/e280/strata#wait)
       "project/{id}": ({id}) => html`<h1>project ${id}</h1>`,
     })
     ```
-- **make an auto-updating signal that updates content when hash changes.**
+- **render the hash's route onto your page.**
     ```ts
-    const $content = derived(() => route($hash()))
-    ```
-    then you can plop that onto your page somewhere.
-    ```ts
-    dom.render(dom(".content"), html`
-      <div>${$content()}</div>
-    `)
+    const App = lightView(() => route($hash()))
+
+    renderIn(".content", App())
     ```
 
 ### 💅 advanced spa usage for giant brains.
@@ -611,8 +586,23 @@ import {ev} from "@e280/stz"
 ## 🪄 dom — the "it's not jquery" multitool
 
 ```ts
-import {dom} from "@e280/sly"
+import {dom, register, renderIn} from "@e280/sly"
 ```
+
+### 🪄 dom has some standalone fns that have broken free.
+- `register` web components, automatically dashifying the names (`MyComponent` becomes `<my-component>`).
+    ```ts
+    register({MyComponent, AnotherCoolComponent})
+      // <my-component>
+      // <another-cool-component>
+    ```
+- `renderIn` content into an element.
+    ```ts
+    renderIn(".demo", html`<p>hello world</p>`)
+    ```
+    ```ts
+    renderIn(element, html`<p>hello world</p>`)
+    ```
 
 ### 🪄 dom queries
 - `need` an element.
@@ -658,20 +648,6 @@ import {dom} from "@e280/sly"
     ```
 
 ### 🪄 dom utilities.
-- `dom.register` web components.
-    ```ts
-    dom.register({MyComponent, AnotherCoolComponent})
-      // <my-component>
-      // <another-cool-component>
-    ```
-    - `dom.register` automatically dashes the tag names (`MyComponent` becomes `<my-component>`).
-- `dom.render` content into an element.
-    ```ts
-    dom.render(element, html`<p>hello world</p>`)
-    ```
-    ```ts
-    dom.in(".demo").render(html`<p>hello world</p>`)
-    ```
 - `dom.el` little element builder.
     ```ts
     const div = dom.el("div", {"data-whatever": 123, "data-active": true})
@@ -751,6 +727,11 @@ import {dom} from "@e280/sly"
 
 
 <br/><br/>
+
+> i've been whittling away at sly and friends for many years in isolation.  
+this is my way of doing frontend. maybe it's the way of a madman in a shack. maybe it's a manifesto.  
+anyways i hope you think it's neat.  
+> &nbsp; &nbsp; — *chase.*  
 
 🧑‍💻 *https://e280.org/*
 
