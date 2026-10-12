@@ -2,12 +2,11 @@
 <div align="center"><img alt="" width="256" src="./s/assets/favicon.png"/></div>
 
 # 🦝 sly
-### get in loser, we're building apps
+### get in loser, we're doing shadow views now.
 
-[e280](https://e280.org/)'s frontend library for buildercore wizards. *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*  
+[e280](https://e280.org/)'s frontend library for buildercore wizards. *built on [lit](https://lit.dev/). powered by [strata](https://github.com/e280/strata).*
 
 &nbsp; &nbsp; &nbsp; ⚜ *core* ⚜  
-📦 `npm i lit @e280/sly` ← quick, install it *now!*  
 🎭 [**#views,**](#views) light-dom or shadow-dom.  
 🪝 [**#hooks,**](#hooks) react-like composable hooks.  
 
@@ -15,25 +14,28 @@
 ⏳ [**#spinners,**](#spinners) animated loading spinners.  
 💅 [**#spa,**](#spa) tiny router for hashy single-page-apps.  
 🪙 [**#loot,**](#loot) drag-and-drop facilities.  
-🪄 [**#dom,**](#dom) handy "it's not jquery" multitool.  
+🪄 [**#dom,**](#dom) the handy "it's not jquery" multitool.  
 🧪 **https://sly.e280.org/** sly's silly testing page.  
+
+&nbsp; &nbsp; &nbsp; ⚜ *installation* ⚜  
+📦 `npm i lit @e280/sly`
 
 
 
 <br/><br/>
 <a id="views"></a>
 
-## 🎭 views — reactive app building blocks
+## 🎭 views — web ui building blocks
 
-sly views are the everyday building blocks we use to build web apps.  
-they're nicely composable, play nice with typescript types, and enjoy the powers of shadow dom and template slots.  
+you didn't know you wanted these in your life. *but you do.*  
+sly views yoink the most premium ideas from react, preact, web components, lit, haunted, and more.  
 
-- 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html (no build!)
 - 🌗 **light or shadow,** render html nakedly, or tucked into a cozy shadow bubble.
 - 🪝 **hooks-based,** familiar react-style [hooks](#hooks).
 - ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes.
-- 🪶 **no compile step,** just god's honest javascript via [lit](https://lit.dev/)-html tagged-templates.
-- 🧩 **view are not web components,** no dom registration needed, good typings.
+- 🪶 **no special compiler,** just god's honest javascript via [lit-html](https://lit.dev/) tagged-templates.
+- 🧩 **view aren't web components,** no dom registration needed, nice typings.
+- 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html (no build!)
 
 ### 🌚 shadow views
 > *each shadow view gets its own comfy [shadow-dom](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM) blankie to protect its local css, and it also supports [slotting](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_templates_and_slots).*
