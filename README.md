@@ -477,7 +477,7 @@ import {ev} from "@e280/stz"
 - **attach event listeners to your dropzone,** one of these ways:
   - **view example.**
       ```ts
-      light(() => html`
+      lightView(() => html`
         <div
           ?data-indicator="${drops.$indicator()}"
           @dragover="${drops.dragover}"
@@ -533,7 +533,7 @@ import {ev} from "@e280/stz"
     ```
 - **attach dragzone listeners** (there can be many dragzones...).
     ```ts
-    light(() => {
+    lightView(() => {
       const money = useOnce((): Money => ({value: 280}))
       const dragzone = useOnce(() => dnd.dragzone(() => money))
 
@@ -549,7 +549,7 @@ import {ev} from "@e280/stz"
     ```
 - **attach dropzone listeners** (there can be many dropzones...).
     ```ts
-    light(() => {
+    lightView(() => {
       const bag = useOnce((): Bag => ({id: 1}))
       const dropzone = useOnce(() => dnd.dropzone(() => bag))
       const indicator = !!(dnd.dragging && dnd.hovering === bag)
