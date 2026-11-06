@@ -8,13 +8,13 @@
 
 📦 `npm i lit @e280/sly`
 
-🎭 [**#views,**](#views) light-dom or shadow-dom.  
-🪝 [**#hooks,**](#hooks) react-like composable hooks.  
+🎭 [**#views.**](#views) light-dom or shadow-dom.  
+🪝 [**#hooks.**](#hooks) react-like composable hooks.  
 
-⏳ [**#spinners,**](#spinners) animated loading spinners.  
-💅 [**#spa,**](#spa) tiny router for hashy single-page-apps.  
-🪙 [**#loot,**](#loot) drag-and-drop facilities.  
-🪄 [**#dom,**](#dom) the handy "it's not jquery" multitool.  
+⏳ [**#spinners.**](#spinners) animated loading spinners.  
+💅 [**#spa.**](#spa) tiny router for hashy single-page-apps.  
+🪙 [**#loot.**](#loot) drag-and-drop facilities.  
+🪄 [**#dom.**](#dom) the handy "it's not jquery" multitool.  
 🧪 **https://sly.e280.org/** sly's silly testing page.  
 
 
@@ -27,11 +27,11 @@
 you didn't know you wanted these in your life. *but you do.*  
 sly views yoink the most premium ideas from react, preact, web components, lit, haunted, and more.  
 
-- 🌗 **light or shadow,** render html nakedly, or tucked into a cozy shadow bubble.
-- 🪝 **hooks-based,** familiar react-style [hooks](#hooks).
-- ⚡ **auto-reactive,** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes.
-- 🪶 **no special compiler,** just god's honest javascript via [lit-html](https://lit.dev/) tagged-templates.
-- 🧩 **view aren't web components,** no dom registration needed, nice typings.
+- 🌗 **light or shadow.** render html nakedly, or tucked into a cozy shadow bubble.
+- 🪝 **hooks-based.** familiar react-style [hooks](#hooks).
+- ⚡ **auto-reactive.** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes.
+- 🪶 **no special compiler.** just god's honest javascript via [lit-html](https://lit.dev/) tagged-templates.
+- 🧩 **views aren't web components.** no dom registration needed, nice typings.
 - 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html. *(no build!)*
 
 ### 🌚 shadow views
