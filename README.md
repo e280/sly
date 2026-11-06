@@ -27,11 +27,11 @@
 you didn't know you wanted these in your life. *but you do.*  
 sly views yoink the most premium ideas from react, preact, web components, lit, haunted, and more.  
 
-- 🌗 **light or shadow.** render html nakedly, or tucked into a cozy shadow bubble.
+- 🧩 **views aren't web components.** no dom registration needed, nice typings.
+- 🌗 **light or shadow.** render html/css nakedly, or tucked into a cozy shadow bubble.
 - 🪝 **hooks-based.** familiar react-style [hooks](#hooks).
 - ⚡ **auto-reactive.** views magically rerender on [strata](https://github.com/e280/strata)-compatible state changes.
-- 🪶 **no special compiler.** just god's honest javascript via [lit-html](https://lit.dev/) tagged-templates.
-- 🧩 **views aren't web components.** no dom registration needed, nice typings.
+- 🪶 **no compiler.** just god's honest javascript via [lit-html](https://lit.dev/) tagged-templates.
 - 🔮 [**see codepen demo,**](https://codepen.io/editor/ChaseMoskal/pen/019cd681-722b-7f51-a961-bc16e3d524a9) plain html. *(no build!)*
 
 ### 🌚 shadow views
