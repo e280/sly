@@ -11,6 +11,15 @@
 
 ## v0.4
 
+### v0.4.13
+- 🍏 update deps.
+- 🍏 improve readme formatting, typos, and examples.
+- 🍏 fix editorconfig.
+
+### v0.4.12
+- 🍏 update deps.
+- 🍏 fix readme loot examples.
+
 ### v0.4.11
 - 🍏 update deps and readme.
 
