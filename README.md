@@ -44,7 +44,7 @@ sly views yoink the most premium ideas from react, preact, web components, lit, 
 
     export const MyCounter = shadowView((start: number, step = 1) => {
       useName("counter")
-      useCss(css`button { color: cyan }`)
+      useCss(css`button { color: cyan; }`)
 
       const $count = useSignal(start)
       const increment = () => $count($count() + step)
@@ -61,11 +61,13 @@ sly views yoink the most premium ideas from react, preact, web components, lit, 
       <h1>my cool counter demo</h1>
       ${MyCounter(234)}
     `)
-
-    // <h1>my cool counter demo</h1>
-    // <sly-shadow view="counter"></sly-shadow>
     ```
-- **get more control: `.with` to nest children or set attrs.**
+    - that will render html like this onto your page:
+        ```html
+        <h1>my cool counter demo</h1>
+        <sly-shadow view="counter"></sly-shadow>
+        ```
+- **`.with` gives you more control, to nest children or set attrs.**
     ```ts
     renderIn(".demo", html`
       <h1>my cool counter demo</h1>
@@ -127,16 +129,19 @@ they're not as great as the primary building blocks for typescript app devs.
     import {html} from "lit"
     import {shadowDuplex, register} from "@e280/sly"
 
-    const [SumView, makeSumElement] = shadowDuplex(
-      (a: number, b: number) => html`<p>sum: ${a + b}</p>`
-    )
+    const [SumView, makeSumElement] = shadowDuplex((a: number, b: number) => {
+      useCss(css`p { color: lime; }`)
+
+      return html`<p>sum: ${a + b}</p>`
+    })
     ```
     ```ts
-    // view usage in any html template
+    // view usage in any html template.
     SumView(1, 2)
     ```
     ```ts
-    // register the element to the dom
+    // register the element to the dom,
+    // then use html: <sum-element></sum-element>
     register({SumElement: makeSumElement(1, 2)})
     ```
     - the params are hard-baked into the component at registration time.
