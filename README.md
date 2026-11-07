@@ -130,19 +130,20 @@ they're not as great as the primary building blocks for typescript app devs.
     import {shadowDuplex, register} from "@e280/sly"
 
     const [SumView, makeSumElement] = shadowDuplex((a: number, b: number) => {
+      useName("sum")
       useCss(css`p { color: lime; }`)
-
       return html`<p>sum: ${a + b}</p>`
     })
     ```
     ```ts
     // view usage in any html template.
     SumView(1, 2)
+      // <sly-view view="sum">#shadow <p>sum: 3</p></sly-view>
     ```
     ```ts
     // register the element to the dom,
-    // then use html: <sum-element></sum-element>
     register({SumElement: makeSumElement(1, 2)})
+      // now you can use <sum-element></sum-element>
     ```
     - the params are hard-baked into the component at registration time.
     - the common pattern here, is to pass an app context object to these duplexes.
@@ -163,7 +164,7 @@ just like [react hooks](https://react.dev/warnings/invalid-hook-call-warning), t
 you must not call these hooks under if-conditionals, or for-loops, or inside callback functions, or after a conditional return statement, or anything like that.. *otherwise, heed my warning: weird bad stuff will happen..*
 
 ### 🌚 shadow-only hooks
-- **useName,** set the "view" attribute value.
+- **useName,** set the "view" attribute.
     ```ts
     useName("squarepants")
       // <sly-shadow view="squarepants">
