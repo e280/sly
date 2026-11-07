@@ -11,6 +11,9 @@
 
 ## v0.4
 
+### v0.4.14
+- 🍏 `useName` is now harmless for lightViews, which means it can be used in `shadowDuplex`.
+
 ### v0.4.13
 - 🍏 update deps.
 - 🍏 improve readme formatting, typos, and examples.
